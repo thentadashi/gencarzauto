@@ -1,4 +1,7 @@
+
+
 <?php
+
 
 require_once("../../include/initialize.php");
 
@@ -9,46 +12,54 @@ $autonumber = new Autonumber();
 $res = $autonumber->set_autonumber('ordernumber');
 
 $customerName = $data['customerName'];
+$customerID = $data['customerID'];
 $products = $data['products'];
 
 // Insert order details
 $order = new Order();
 foreach ($products as $product) {
-    $order->PROID = $product['id'];                   // Replace 'id' with the actual property name in the 'products' array
-    $order->ORDEREDQTY = $product['quantity'];         // Replace 'quantity' with the actual property name in the 'products' array
-    $order->ORDEREDPRICE = $product['rate'];              // Replace 'rate' with the actual property name in the 'products' array
-    $order->ORDEREDNUM = $res;                              // Use the generated order number
+    $productId = (int) $product['proid'];  // Clean and convert to integer
+    $quantity = cleanNumber($product['quantity']);  // Clean and convert to integer
+    $rate = cleanNumber($product['rate']);
+
+    $order->PROID = $productId;                   // Replace 'id' with the actual property name in the 'products' array
+    $order->ORDEREDQTY = $quantity;       // Replace 'quantity' with the actual property name in the 'products' array
+    $order->ORDEREDPRICE = $rate;              // Replace 'rate' with the actual property name in the 'products' array
+    $order->ORDEREDNUM = $res->AUTO;                              // Use the generated order number
     $order->create();
 
     // Deduct the ordered quantity from the product quantity
     $productObj = new Product();
-    $productObj->qtydeduct($product['id'], $product['quantity']);  // Replace 'id' and 'quantity' with the actual property names in the 'products' array
+    $productObj->qtydeduct($product['proid'], $product['quantity']);  // Replace 'id' and 'quantity' with the actual property names in the 'products' array
 }
 
 // Insert order summary
 $summary = new Summary();
-$summary->ORDEREDDATE = date('Y-m-d');  // Replace with the actual order date
-$summary->CUSTOMERID = $customer->CUSTID;  // Use the inserted customer ID
-$summary->ORDEREDNUM = $res;  // Use the generated order number
-$summary->DELFEE = " ";  // Set the delivery fee
+$summary->ORDEREDDATE = date('Y-m-d H:i:s');  // Replace with the actual order date
+$summary->CUSTOMERID = (int) $customerID;  // Use the inserted customer ID
+$summary->ORDEREDNUM = $res->AUTO;  // Use the generated order number
+$summary->DELFEE = 0;  // Set the delivery fee
 $summary->PAYMENTMETHOD = $product['paymentMethod'];  // Replace 'paymentMethod' with the actual property name in the 'products' array
-$summary->PAYMENT = $product['paidAmount'];  // Replace 'paidAmount' with the actual property name in the 'products' array
-$summary->ORDEREDSTATS = " ";  // Set the order status
-$summary->CLAIMEDDATE = " ";  // Set the claimed date
-$summary->ORDEREDREMARKS = " ";  // Set the order remarks
+$summary->PAYMENT = cleanNumber($product['gtotal']);  // Replace 'paidAmount' with the actual property name in the 'products' array
+$summary->ORDEREDSTATS = "PAID";  // Set the order status
+$summary->CLAIMEDDATE = "";  // Set the claimed date
+$summary->ORDEREDREMARKS = "PAID";  // Set the order remarks
 $summary->HVIEW = 0;  // Set the HVIEW value
 $summary->create();
 
 $autonumber = New Autonumber();
 $autonumber->auto_update('ordernumber');
 
-// Clear session variables
-unset($_SESSION['gcCart']);
-unset($_SESSION['orderdetails']);
-
-echo "<script>alert('Order created successfully!');</script>";
-redirect(web_root."index.php?q=profile");
+function cleanNumber($number) {
+    $number = str_replace(' ', '', $number);
+    $number = str_replace('.', '', $number);
+    $number = preg_replace('/[^A-Za-z0-9\-]/', '', $number);
+    
+    if (strlen($number) > 2 && substr($number, -2) === '00') {
+        $number = substr($number, 0, -2);
+    }
+    
+    return $number;
+}
 
 ?>
-git config --global user.email "thentadashi@gmail.com"
-  git config --global user.name "Toshtosh<3"

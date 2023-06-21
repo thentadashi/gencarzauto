@@ -77,10 +77,16 @@ if ($cur === false) {
             echo '<td>
                     <a href="#" style="color:#6c7293" title="View list Of ordered" data-target="#myModal" data-toggle="modal" class="orders" data-id="'.$result->ORDEREDNUM.'">'.$result->ORDEREDNUM .'</a> 
                   </td>';
+            if($result->CUSTOMERID != 1){
 
             echo '<td>
                     <a href="index.php?view=customerdetails&customerid='.$result->CUSTOMERID.'" style="color:#6c7293" title="View customer information">'. $result->FNAME.' '. $result->LNAME.'</a>
                   </td>';
+            }else{
+              echo '<td>
+              <p href="" style="color:#111" title="View customer information">'. $result->FNAME.' '. $result->LNAME.'</p>
+            </td>';
+            }
 
             echo '<td>
                     '. date_format(date_create($result->ORDEREDDATE),"M/d/Y h:i:s").'
@@ -129,7 +135,13 @@ if ($cur === false) {
                       <a href="controller.php?action=edit&id='.$result->ORDEREDNUM.'&customerid='.$result->CUSTOMERID.'&actions=req" class="btn btn-success">Cancel</a>
                       <a href="controller.php?action=edit&id='.$result->ORDEREDNUM.'&customerid='.$result->CUSTOMERID.'&actions=con" class="btn btn-success">Continue Order</a>
                     </td>';
-            } else {
+            } 
+            elseif ($result->ORDEREDSTATS == 'PAID') {
+              echo '<td>
+                        <a href="#" class="btn btn-success" disabled>Walk-in-customer</a>
+                    </td>';
+            }else {
+            
               echo '<td>
                       <a href="#" class="btn btn-danger" disabled>Cancelled</a>
                     </td>';

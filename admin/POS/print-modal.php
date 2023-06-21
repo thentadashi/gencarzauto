@@ -64,7 +64,7 @@
             <p class="text-center" style="font-size:17px;">Order Details</p>
             <div class="row">
                 <div class="col-lg-7">
-                    <p style="font-size:14px;margin-top:-15px;">Order number: <?php echo $res->AUTO; ?></p>
+                    <p style="font-size:14px;margin-top:-15px;" id="orderNum"></p>
                     <p style="font-size:14px;margin-top:-15px;" id="customerName"></p>
                     <p style="font-size: 14px;margin-top:-15px" id="paymentMethod"></p>
                 </div>
@@ -151,10 +151,12 @@
 
       // Access the customer name and product details
       const customerName = data.customerName || '';
+      const orderNum = data.orderNum || '';
       const products = data.products || [];
 
       // Set the customer name in the modal
       document.getElementById('customerName').textContent = `Customer: ${customerName}`;
+      document.getElementById('orderNum').textContent = `Order: ${orderNum}`;
 
       // Populate the product details in the modal
       const tableBody = document.querySelector('table tbody');
@@ -250,6 +252,15 @@
 
     // Attach the print button click event handler
     document.getElementById('printButton').addEventListener('click', handlePrintButtonClick);
+
+    // Function to close the whole page
+    function closePage() {
+      window.open('', '_self').close();
+    }
+
+    // Attach the closePage function to the close button click event
+    document.querySelector('#myModal .close').addEventListener('click', closePage);
+
   </script>
 </body>
 </html>

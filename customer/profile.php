@@ -138,8 +138,11 @@
 
                                             <?php 
 
-
-                                                                echo $result->ORDEREDREMARKS;
+                                                                if($result->ORDEREDSTATS=="PAID"){
+                                                                    echo "Walk-In";
+                                                                }else{
+                                                                    echo $result->ORDEREDSTATS;
+                                                                }
 
 
                                             ?>
@@ -155,8 +158,8 @@
 
                                             <?php 
 
-
-                                                                echo $result->ORDEREDSTATS;
+                                                                    echo $result->ORDEREDSTATS;
+                                                                
 
 
                                             ?>

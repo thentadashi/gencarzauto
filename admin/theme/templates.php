@@ -184,6 +184,10 @@ $singleuser = $user->single_user($_SESSION['USERID']);
                          <li>
                             <a href="<?php echo web_root; ?>admin/Dashboard/index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li> 
+                        <li>
+                            <a href="<?php echo web_root; ?>admin/POS/index.php" ><i class="fa  fa-file-text fa-fw"></i> POS </a>
+                          
+                        </li>
                       
                         <li>
                              <a href="<?php echo web_root; ?>admin/products/index.php" ><i class="fa fa-bar-chart fa-fw"></i> Products </a>
@@ -226,10 +230,6 @@ $singleuser = $user->single_user($_SESSION['USERID']);
                         </li>
                          <li>
                             <a href="<?php echo web_root; ?>admin/report/index.php" ><i class="fa  fa-file-text fa-fw"></i> Report </a>
-                          
-                        </li>
-                        <li>
-                            <a href="<?php echo web_root; ?>admin/POS/index.php" ><i class="fa  fa-file-text fa-fw"></i> POS </a>
                           
                         </li>
                  <?php }  ?>

@@ -45,11 +45,6 @@
 
 
 }
-
-
-.border-left-primary {
-  border-left: 0.25rem solid #D9602B; !important;
-}
 .h-100 {
   height: 100% !important;
 }
@@ -356,7 +351,7 @@ h1, h2, h3, h4, h5, h6 {
                   </div>
                   <div class="h1 font-weight-bold text-gray-800" style="font-size: 4rem;">₱
                       <?php 
-                                $query = "SELECT SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered'";
+                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered'";
                                 $mydb->setQuery($query);
                                 $cur = $mydb->loadResultList();
                                 foreach ($cur as $result) {
@@ -367,7 +362,7 @@ h1, h2, h3, h4, h5, h6 {
                   </div>
                   <div class="h1 mb-0 text-gray-800" style="font-size: 2rem; margin-top:10px;margin-left:20px;">₱
                       <?php 
-                                $query = "SELECT SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled'";
+                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled'";
                                 $mydb->setQuery($query);
                                 $cur = $mydb->loadResultList();
                                 foreach ($cur as $result) {
@@ -400,7 +395,7 @@ h1, h2, h3, h4, h5, h6 {
                   </div>
                   <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
                       <?php 
-                                $query = "SELECT SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW())";
+                                $query = "SELECT SUM(DELFEE) +  SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW())";
                                 $mydb->setQuery($query);
                                 $cur = $mydb->loadResultList();
                                 foreach ($cur as $result) {
@@ -427,7 +422,7 @@ h1, h2, h3, h4, h5, h6 {
                   </div>
                   <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
                       <?php 
-                                $query = "SELECT SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 7 DAY";
+                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 7 DAY";
                                 $mydb->setQuery($query);
                                 $cur = $mydb->loadResultList();
                                 foreach ($cur as $result) {
@@ -454,7 +449,7 @@ h1, h2, h3, h4, h5, h6 {
                   </div>
                   <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
                       <?php 
-                                $query = "SELECT SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
+                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
                                 $mydb->setQuery($query);
                                 $cur = $mydb->loadResultList();
                                 foreach ($cur as $result) {
@@ -481,7 +476,7 @@ h1, h2, h3, h4, h5, h6 {
                   </div>
                   <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
                       <?php 
-                            $query = "SELECT SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 year";
+                            $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 year";
                                 $mydb->setQuery($query);
                                 $cur = $mydb->loadResultList();
                                 foreach ($cur as $result) {
@@ -808,100 +803,92 @@ h1, h2, h3, h4, h5, h6 {
                   </div>
 
 
-          <div class="row">
-                     <div>
-                          <span><h4  style="padding-left:40px;padding-top:15px;padding-bottom:15px;color:#D9602B;"><strong>Top 5 Products of all time</strong></h4></span>
+                  <div class="row">
+    <div>
+        <span><h4 style="padding-left:40px;padding-top:15px;padding-bottom:15px;color:#D9602B;"><strong>Top Products of all time</strong></h4></span>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card border-left-primary shadow h-100 py-0">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="table-responsive" style="overflow-x: auto;max-height:300px;">
+                                <table width="100%" class="table table-striped">
+                                    <thead>
+                                        <tr class="text-m text-primary mb-1 h6">
+                                            <th width="5%">Image</th>
+                                            <th width="10%">Product Code</th>
+                                            <th width="15%">Name</th>
+                                            <th width="15%">Category</th>
+                                            <th width="10%">Price</th>
+                                            <th width="10%">Total Ordered</th>
+                                            <th width="10%">Available Quantity</th>
+                                            <th width="10%">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $query = "SELECT tblorder.PROID, SUM(ORDEREDQTY) AS TotalQuantity, PRODESC AS Description, IMAGES AS IMAGES, PROQTY AS Available_Quantity, ALERT AS ALERT, OWNERNAME as Name, PROSTATS as Status, ORIGINALPRICE as Price
+                                            FROM tblorder JOIN tblproduct on tblproduct.PROID = tblorder.PROID
+                                            GROUP BY tblorder.PROID 
+                                            ORDER BY SUM(ORDEREDQTY) DESC
+                                            LIMIT 10"; // Limit the result to 10 rows
+                                        $mydb->setQuery($query);
+                                        $cur = $mydb->loadResultList();
+                                        foreach ($cur as $result) {?>
+                                            <tr class="text-s text-primary mb-1" style="font-size: 12px;">
+                                                <td>
+                                                    <img class="img-circlep" src="/nc/admin/products/<?php echo $result->IMAGES;?>" alt="image" />
+                                                </td>
+                                                <td>
+                                                    <?php echo $result->PROID;?>
+                                                </td>
+                                                <td class="text-primary2">
+                                                    <?php echo $result->Name;?>
+                                                </td>
+                                                <td>
+                                                    <?php $query = "SELECT * FROM `tblproduct` WHERE PROID =$result->PROID ;";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList(); 
+                                                    foreach ($cur as $result3) {?>
+                                                        <?php $query = "SELECT * FROM `tblcategory` WHERE CATEGID = $result3->CATEGID ;";
+                                                        $mydb->setQuery($query);
+                                                        $cur = $mydb->loadResultList(); 
+                                                        foreach ($cur as $result4) {
+                                                            echo $result4->CATEGORIES;
+                                                        }?>
+                                                    <?php } ?>
+                                                </td>
+                                                <td>₱ <?php echo $result->Price;?> </td>
+                                                <td><?php echo $result->TotalQuantity;?></td>
+                                                <td><?php echo $result->Available_Quantity;?></td>
+                                                <td>
+                                                    <?php
+                                                    if ($result->Available_Quantity != 0) {
+                                                        if ($result->Available_Quantity <= $result->ALERT) {
+                                                            echo '<div class="btn btn-warning">Stock is low</div>';
+                                                        } else {
+                                                            echo '<div title="Available" class="btn" style="background-color:green;color:#f2f2f2;">'.$result->Status;'</div>';
+                                                        }
+                                                    } else {
+                                                        echo '<div title="Out of Stock" class="btn btn-danger">Out of stock</div>';
+                                                    }?>
+                                                </td>
+                                            </tr>
+                                        <?php }?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-            <div class="col-lg-12">
-            <div class="col-lg-12">
-              <div class="card">
-                     <div class="card border-left-primary shadow h-100 py-0">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                    <div class="table-responsive">
-                      <table width="100%"  class="table table-striped">
-                        <thead>
-                        <tr class="text-m text-primary  mb-1 h6" >
-                            <th width="5%">Image</th>
-                            <th width="10%"> Product Code </th>
-                            <th width="15%"> Name</th>
-                            <th width="15%"> Category</th>
-                            <th width="10%"> Price  </th>
-                            <th width="10%">Total Ordered</th>
-                            <th width="10%">  Available Quantity </th>
-                            <th width="10%"> Status </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                                  <?php $query = "SELECT tblorder.PROID, SUM(ORDEREDQTY) AS TotalQuantity ,PRODESC AS Description , IMAGES AS IMAGES, PROQTY AS Available_Quantity , ALERT AS ALERT , OWNERNAME as Name, PROSTATS as Status, ORIGINALPRICE as Price
-                                      FROM tblorder JOIN tblproduct on tblproduct.PROID = tblorder.PROID
-                                      GROUP BY tblorder.PROID 
-                                      ORDER BY SUM(ORDEREDQTY) DESC
-                                      LIMIT 5";
-                                  $mydb->setQuery($query);
-                                    $cur = $mydb->loadResultList();
-                                  foreach ($cur as $result) {?>
-                          <tr class="text-s text-primary mb-1" style="font-size: 12px;">
-
-                            <td>
-                              <img class="img-circlep"src="/nc/admin/products/<?php echo $result->IMAGES;?>" alt="image" />
-                            </td>
-                            <td> 
-                              <?php echo $result->PROID;?>
-                            </td>
-                            <td class="text-primary2"> 
-                              <?php echo $result->Name;?>
-                            </td>
-                            <td> 
-                                  <?php $query = "SELECT * FROM `tblproduct` WHERE PROID =$result->PROID ;";
-                                  $mydb->setQuery($query);
-                                    $cur = $mydb->loadResultList(); 
-                                    foreach ($cur as $result3) {?>
-
-                                             <?php $query = "SELECT * FROM `tblcategory` WHERE CATEGID = $result3->CATEGID ;";
-                                                   $mydb->setQuery($query);
-                                                   $cur = $mydb->loadResultList(); 
-                                                   foreach ($cur as $result4) {
-                                                    echo $result4->CATEGORIES;
-                                                   }?>
-
-
-                                     <?php } ?>
-                            </td>
-                            <td>₱ <?php echo $result->Price;?>  </td>
-                            <td> <?php echo $result->TotalQuantity;?>  </td>
-                            <td> <?php echo $result->Available_Quantity;?>  </td>
-
-                            <td>
-                             
-                              <?php if($result->Available_Quantity!=0)
-                                            {
-                                              if($result->Available_Quantity <= $result->ALERT)
-                                                {
-                                                  echo'<div class="badge btn btn-warning">Stock is low</div>';
-                                                } 
-                                                else{
-                                                  echo'<div title="Available" class="btn" style="background-color:green;color:#f2f2f2;">'.$result->Status;'</div>';
-                                                  }
-                                            }else{
-                                                  echo'<div title="Available" class="btn btn-danger">Out of stock</div>';
-                                              }
-                                    ?>
-                
-                            </td>
-
-                          </tr>                          <?php }?>
-
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-              </div>
                 </div>
-              </div>
-              </div> 
-            </div>                                         
+            </div>
         </div>
+    </div>
+</div>
+
+
 
 
                 

@@ -4,6 +4,9 @@ require_once("../../include/initialize.php");
 	 if (!isset($_SESSION['USERID'])){
       redirect(web_root."admin/index.php");
      }
+
+     $autonumber = new Autonumber();
+      $res = $autonumber->set_autonumber('ordernumber');
 ?>
 
 
@@ -70,6 +73,7 @@ require_once("../../include/initialize.php");
           <select id="customer-list" class="form-select hidden" size="2" style="color:#111; position: relative; z-index: 1;">
           </select>
           <input type="hidden" id="customerID" name="customerID"/>
+          <input type="hidden" id="orderNum" name="orderNum" value="<?php echo $res->AUTO;?>"/>
         </div>
         <div id="order-list-container">
           <table class="table" id="order-list">
@@ -636,6 +640,7 @@ printModalPrintBtn.addEventListener('click', function() {
   // Get the necessary data for printing
   const customerName = document.getElementById('name').value;
   const customerID = document.getElementById('customerID').value;
+  const orderNum = document.getElementById('orderNum').value;
   const orderRows = document.querySelectorAll('#order-list tbody tr');
   const products = [];
   let totalQuantity = 0; // Corrected declaration and initialization
@@ -692,6 +697,7 @@ printModalPrintBtn.addEventListener('click', function() {
   console.log(customerName);
   console.log(customerID);
   const data = {
+    orderNum: orderNum,
     customerName: customerName,
     customerID:customerID,
     products: products

@@ -27,22 +27,18 @@ require_once ("../../include/initialize.php");
 // }
 
 if(isset($_POST['close'])){
-	unset($_SESSION['serv_id']);
+	unset($_SESSION['sched_id']);
 }
 
-if (isset($_POST['serv_id'])){
-	$_SESSION['serv_id'] = $_POST['serv_id'];
+if (isset($_POST['sched_id'])){
+	$_SESSION['sched_id'] = $_POST['sched_id'];
 }
 
-
-$query = "SELECT * FROM `tblschedule` s
-          JOIN `tblcustomer` c ON s.`CUSTOMERID` = c.`CUSTOMERID`
-          JOIN `services` srv ON s.`serv_name` = srv.`serv_name`
-          WHERE s.`sched_id` = ".$_SESSION['serv_id'];
-
-		$mydb->setQuery($query);
-		$cur = $mydb->loadSingleResult();
-
+		$query = "SELECT * FROM `tblschedule` s ,`tblcustomer` c 
+		WHERE   s.`CUSTOMERID`=c.`CUSTOMERID` and s.`sched_id`=".$_SESSION['sched_id'];
+			$mydb->setQuery($query);
+			$cur = $mydb->loadSingleResult();
+			
 
 ?>
 
@@ -50,22 +46,23 @@ $query = "SELECT * FROM `tblschedule` s
     <div class="modal-content">
       <div class="modal-header">
         <button class="close" id="btncloses" data-dismiss="modal" type="button">×</button>
-        <h2>Schedule Number: <?php echo $_SESSION['serv_id']; ?></h2>
+        <h2>Schedule Number: <?php echo $_SESSION['sched_id']; ?></h2>
       </div>
       <div class="modal-body">
         <div class="row" style="margin: 2%">
-          <div class="col-md-6">Name: <?php echo $cur->cus_name;?></div>
+          <div class="col-md-6">Name: <?php echo $cur->FNAME.' '.$cur->LNAME;?></div>
           <div class="col-md-6">Address: <?php echo $cur->CUSHOMENUM . ' ' . $cur->STREETADD . ' ' . $cur->BRGYADD . ' ' . $cur->CITYADD . ' ' . $cur->PROVINCE . ' ' . $cur->COUNTRY; ?></div>
         </div>
 
         <table id="table" class="table" width="100%">
 			<thead>
 				<tr>
-					<th width="10%"><font size="3">PRODUCT Image</font></th>
-					<th width="10%"><font size="3">Product Name</th>
+					<th width="10%"><font size="3">Service Image</font></th>
+					<th width="10%"><font size="3">Service Name</th>
+					<th width="15%"><font size="3">Car type</th>
 					<th width="15%"><font size="3">Estimated Price</th>
 					<th width="15%"><font size="3">Time taken</th>
-					<th width="10"><font size="3">Date</th> 
+					<th width="10%"><font size="3">Date</th> 
 					<th width="10%"><font size="3">Mechanic</th> 
 					<th width="10%"><font size="3">Status</th>
 					<!-- <th></th>  -->
@@ -74,18 +71,63 @@ $query = "SELECT * FROM `tblschedule` s
 				<tbody>
 					<?php
 						$query = "SELECT * FROM `tblschedule` s
-						JOIN `tblcustomer` c ON s.`CUSTOMERID` = c.`CUSTOMERID`
-						JOIN `services` srv ON s.`serv_name` = srv.`serv_name`
-						WHERE s.`sched_id` = ".$_SESSION['serv_id'];
+						INNER JOIN `tblcustomer` c ON s.`CUSTOMERID` = c.`CUSTOMERID`
+						INNER JOIN `tblschedorder` o ON s.`sched_id` = o.`sched_id`
+						INNER JOIN `services` srv ON o.`serv_id` = srv.`serv_id`
+						WHERE s.`sched_id` = ".$_SESSION['sched_id'];
 						$mydb->setQuery($query);
 						$cur = $mydb->loadResultList();
 						foreach ($cur as $result) {
+
+							$timeRange = $result->time; // Assuming $result->date contains the time range in the format "hh:mm - hh:mm"
+
+							// Split the time range into start and end times
+							$times = explode(" - ", $timeRange);
+							$startTime = $times[0];
+							$endTime = $times[1];
+							
+							// Convert the start time to AM/PM format
+							$startTimeParts = explode(":", $startTime);
+							$startHour = intval($startTimeParts[0]);
+							$startMinute = intval($startTimeParts[1]);
+							$startPeriod = ($startHour < 12) ? "AM" : "PM";
+							$startHour = ($startHour > 12) ? ($startHour - 12) : $startHour;
+							$startTimeAMPM = $startHour . ":" . sprintf("%02d", $startMinute) . " " . $startPeriod;
+							
+							// Convert the end time to AM/PM format
+							$endTimeParts = explode(":", $endTime);
+							$endHour = intval($endTimeParts[0]);
+							$endMinute = intval($endTimeParts[1]);
+							$endPeriod = ($endHour < 12) ? "AM" : "PM";
+							$endHour = ($endHour > 12) ? ($endHour - 12) : $endHour;
+							$endTimeAMPM = $endHour . ":" . sprintf("%02d", $endMinute) . " " . $endPeriod;
+							
+							// Concatenate the formatted start and end times
+							$formattedTimeRange = $startTimeAMPM . " - " . $endTimeAMPM;
+
+
+
+
+							$type = $result->ctype;
+
+							if($type == 'ctype_a'){
+								$cartype = "Car Type A";
+							}elseif ($type == 'ctype_b') {
+								$cartype = "Car Type B";
+							}
+							elseif ($type == 'ctype_c') {
+								$cartype = "Car Type C";
+							}
+							
+
+							
 						echo '<tr>';  
 						echo '<td><img src="'.web_root.'admin/services/'. $result->images.'" width="60px" height="60px" title="'.$result->serv_name.'"/></td>';
 						echo '<td><font size="3">'. $result->serv_name.'</font></td>';
-						echo '<td> <font size="3">&#8369 '.number_format($result->serv_price,2).'</font> </td>';
-						echo '<td align="center" ><font size="3">'. $result->time.'</font></td>';
-						echo '<td align="center" ><font size="3">'. $result->date.'</font></td>';
+						echo '<td><font size="3">'. $cartype.'</font></td>';
+						echo '<td> <font size="3">&#8369 '.number_format($result->price,2).'</font> </td>';
+						echo '<td align="center" ><font size="3">'.$formattedTimeRange.'</font></td>';
+						echo '<td align="center" ><font size="3">'.$result->date.'</font></td>';
 						echo '<td align="center" ><font size="3">'. $result->mech_name.'</font></td>';
 						?>
 						<?php
@@ -97,8 +139,7 @@ $query = "SELECT * FROM `tblschedule` s
 		<?php 
 		$query = "SELECT * FROM `tblschedule` s
 		JOIN `tblcustomer` c ON s.`CUSTOMERID` = c.`CUSTOMERID`
-		JOIN `services` srv ON s.`serv_name` = srv.`serv_name`
-		WHERE s.`sched_id` = ".$_SESSION['serv_id'];
+		WHERE s.`sched_id` = ".$_SESSION['sched_id'];
 		$mydb->setQuery($query);
 		$cur = $mydb->loadSingleResult();
 

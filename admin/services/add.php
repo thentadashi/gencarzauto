@@ -23,7 +23,7 @@
 
                       <div class="col-md-8">
                             <input class="form-control input" id="serv_name" name="serv_name" placeholder=
-                            "Service name" type="text" value="">
+                            "Service name" type="text" value="" required>
                       </div>
                     </div>
                   </div>  
@@ -35,18 +35,50 @@
 
                       <div class="col-md-8">
                              <input class="form-control input" id="serv_price" name="serv_price" placeholder=
-                            "Service Price" type="number" value="">
+                            "Service Price" type="number" value="" required>
                       </div>
                     </div>
                   </div> 
+                  <div class="form-group">
+                      <div class="col-md-8">
+                        <label class="col-md-3 control-label" for=
+                        "ctype_a" style="font-size:15px;">Type A vehicles price</label>
 
+                        <div class="col-md-8">
+                              <p style="font-size: 10px;color:red;">Sedan / Hatchback / Coupe / Convertible </p>
+                              <input class="form-control  " id="ctype_a" name="ctype_a"  type="number" placeholder="" required>
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="form-group">
+                      <div class="col-md-8">
+                        <label class="col-md-3 control-label" for=
+                        "ctype_b" style="font-size:15px;">Type B vehicles price</label>
+
+                        <div class="col-md-8">
+                              <p style="font-size: 10px;color:red;">SUV / MiniSuv / Crossover </p>
+                              <input class="form-control  " id="ctype_b" name="ctype_b"  type="number" placeholder="" required>
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="form-group">
+                      <div class="col-md-8">
+                        <label class="col-md-3 control-label" for=
+                        "ctype_c" style="font-size:15px;">Type C vehicles price</label>
+
+                        <div class="col-md-8">
+                        <p style="font-size: 10px;color:red;">Pick-up Truck / MPV / Truck </p>
+                              <input class="form-control  " id="ctype_c" name="ctype_c"  type="number" placeholder="" required>
+                        </div>
+                      </div>
+                    </div> 
                  <div class="form-group">
                     <div class="col-md-8">
                       <label class="col-md-3 control-label" for=
-                      "description"  style="font-size:15px;">Description:</label>
+                      "description"  style="font-size:15px;" >Description:</label>
 
                       <div class="col-md-8"> 
-                      <textarea class="form-control input" id="description" name="description" cols="1" rows="3" ></textarea>
+                      <textarea class="form-control input" id="description" name="description" cols="1" rows="3" required></textarea>
                       </div>
                     </div>
                   </div>
@@ -69,7 +101,7 @@
                             background-color:#D9602B;
                             font-size:15px;
                           ">
-                          <input type="file" name="image" value="" id="image" style="display:none;"/>
+                          <input type="file" name="image" value="" id="image" style="display:none;" required/>
                           Upload Image
                         </label>
                       </div>

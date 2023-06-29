@@ -64,6 +64,72 @@ if ($cur === false) {
 }
 ?>
 
+<?php
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Pending'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $order2 = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $order2 = '<span> (' . $res . ')</span>';
+    }
+}
+?>
+
+<?php
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Pending' and USERID=".$_SESSION['USERID'];
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $order3 = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $order3 = '<span> (' . $res . ')</span>';
+    }
+}
+?>
+
+<?php
+$query = "SELECT * FROM tblsummary WHERE PAYMENTMETHOD = 'Cash'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $onlineOrder = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $onlineOrder = '<span> (' . $res . ')</span>';
+    }
+}
+?>
+
       
 <body style="background-color:#191c24;">
  
@@ -178,40 +244,52 @@ $singleuser = $user->single_user($_SESSION['USERID']);
 
  
                     <!-- /.dropdown-user -->
-                    <ul class="nav" id="side-menu" style="padding-top: 10px;">
+                    <ul class="nav" id="side-menu" style="padding-top: 10px;font-size:18px;">
                       
                     <?php if ($_SESSION['U_ROLE'] == 'Administrator' || $_SESSION['U_ROLE'] == 'Encoder' || $_SESSION['U_ROLE'] == 'Staff') { ?>
                          <li>
                             <a href="<?php echo web_root; ?>admin/Dashboard/index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li> 
+                        <p style="color: #ffab00;font-size:12px;margin-left:30px;"><i>Shop Sales Menu</i></p>
                         <li>
                             <a href="<?php echo web_root; ?>admin/POS/index.php" ><i class="fa  fa-file-text fa-fw"></i> POS </a>
                           
                         </li>
-                      
+                        <li>
+                             <a href="<?php echo web_root; ?>admin/orders/index.php"  ><i class="fa fa-shopping-cart fa-fw"></i> Online Orders <?php echo $order; ?></a>
+                        </li>
+
+                        <li>
+                             <a href="<?php echo web_root; ?>admin/orders/index.php?view=Walk-in"  ><i class="fa fa-shopping-cart fa-fw"></i> Walk-in Orders <?php echo $onlineOrder; ?></a>
+                        </li>
+                        <p style="color: #ffab00;font-size:12px;margin-left:30px;"><i>Items and Products</i></p>
                         <li>
                              <a href="<?php echo web_root; ?>admin/products/index.php" ><i class="fa fa-bar-chart fa-fw"></i> Products </a>
-           
                         </li>
-                        <li>
-                             <a href="<?php echo web_root; ?>admin/services/index.php" ><i class="fa fa-wrench fa-fw"></i> Services </a>
-           
-                        </li>
-                        <li>
-                             <a href="<?php echo web_root; ?>admin/orders/index.php"  ><i class="fa fa-shopping-cart fa-fw"></i>  Orders <?php echo $order; ?></a>
-                  </li>
                            
                          <li>
                              <a href="<?php echo web_root; ?>admin/category/index.php" ><i class="fa fa-list fa-fw"></i>  Categories </a>
+                         </li>
+                         <p style="color: #ffab00;font-size:12px;margin-left:30px;"><i>Services and Booking</i></p>
+                         <li>
+                             <a href="<?php echo web_root; ?>admin/services/index.php" ><i class="fa fa-wrench fa-fw"></i> Services </a>
+           
+                        </li>
                     <?php }else{?>
+                        <p style="color: #ffab00;font-size:12px;margin-left:30px;"><i>Services and Booking</i></p>
                         <li>
-                             <a href="<?php echo web_root; ?>admin/service_schedule/index.php" ><i class="fa fa-calendar fa-fw"></i>  Booked Schedules </a>
+                             <a href="<?php echo web_root; ?>admin/service_schedule/index.php" ><i class="fa fa-calendar fa-fw"></i>  Booked Schedules <?php echo $order3; ?></a>
             
                         </li>
                     <?php }; ?>
                         <?php if ($_SESSION['U_ROLE']=='Administrator') {
                             # code...
                         ?>
+                        <li>
+                             <a href="<?php echo web_root; ?>admin/service_schedule/index.php" ><i class="fa fa-calendar fa-fw"></i>  Booked Schedules <?php echo $order2; ?></a>
+            
+                        </li>
+                        <p style="color: #ffab00;font-size:12px;margin-left:30px;"><i>Settings</i></p>
                          <li>
                              <a href="<?php echo web_root; ?>admin/settings/index.php" ><i class="fa fa-gear fa-fw"></i>  Product Settings </a>
             
@@ -220,14 +298,11 @@ $singleuser = $user->single_user($_SESSION['USERID']);
                              <a href="<?php echo web_root; ?>admin/autonumber/index.php" ><i class="fa fa-sort-asc fa-fw"></i>  Autonumber </a>
             
                         </li>
-                        <li>
-                             <a href="<?php echo web_root; ?>admin/service_schedule/index.php" ><i class="fa fa-calendar fa-fw"></i>  Booked Schedules </a>
-            
-                        </li>
                           <li>
                             <a href="<?php echo web_root; ?>admin/user/index.php" ><i class="fa fa-user fa-fw"></i> Users </a>
                           
                         </li>
+                        <p style="color: #ffab00;font-size:12px;margin-left:30px;"><i>Report</i></p>
                          <li>
                             <a href="<?php echo web_root; ?>admin/report/index.php" ><i class="fa  fa-file-text fa-fw"></i> Report </a>
                           
@@ -291,9 +366,52 @@ $singleuser = $user->single_user($_SESSION['USERID']);
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
+
+                                  <!-- Modal for entering quantity -->
+<div class="modal fade" id="quantityModal" tabindex="-1" role="dialog" aria-labelledby="quantityModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="quantityModalLabel">Enter Quantity</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="quantityInput">Quantity to set:</label>
+          <input type="number" class="form-control" id="quantityInput" placeholder="Enter quantity" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="setQuantityBtn">Set Quantity</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for performing addition/subtraction -->
+<div class="modal fade" id="calculationModal" tabindex="-1" role="dialog" aria-labelledby="calculationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="calculationModalLabel">Increase / Decrease</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="calculationInput">Enter qty to Increase / Decrease:</label>
+          <input type="number" class="form-control" id="calculationInput" placeholder="Enter a value" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="additionBtn">Add</button>
+        <button type="button" class="btn btn-primary" id="subtractionBtn">Subtract</button>
+      </div>
+    </div>
+  </div>
+</div>
   
 
-  <div id="page-wrapper" style="background-color: #;">
+  <div id="page-wrapper">
                
             <div class="row" >
       
@@ -466,7 +584,65 @@ $('#date_picker').datetimepicker({
 
 
 </script>  
-  
+<script>
+  $(document).ready(function() {
+  var quantityInput = $('#PROQTY');
+
+  // Increase quantity button click event
+  $('#increaseQty').click(function() {
+    quantityInput.val(parseInt(quantityInput.val()) + 1);
+  });
+
+  // Decrease quantity button click event
+  $('#decreaseQty').click(function() {
+    var currentQuantity = parseInt(quantityInput.val());
+    if (currentQuantity > 0) {
+      quantityInput.val(currentQuantity - 1);
+    }
+  });
+
+  // Show quantity modal
+  $('#PROQTY').click(function() {
+    $('#quantityModal').modal('show');
+  });
+
+  // Set quantity button click event
+  $('#setQuantityBtn').click(function() {
+    var enteredQuantity = parseInt($('#quantityInput').val());
+    if (!isNaN(enteredQuantity)) {
+      quantityInput.val(enteredQuantity);
+    }
+    $('#quantityModal').modal('hide');
+  });
+
+  // Show calculation modal
+  $('#additionBtn, #subtractionBtn').click(function() {
+    $('#calculationModal').modal('show');
+  });
+
+  // Addition button click event
+  $('#additionBtn').click(function() {
+    var inputValue = parseInt($('#calculationInput').val());
+    if (!isNaN(inputValue)) {
+      quantityInput.val(parseInt(quantityInput.val()) + inputValue);
+    }
+    $('#calculationModal').modal('hide');
+  });
+
+  // Subtraction button click event
+  $('#subtractionBtn').click(function() {
+    var inputValue = parseInt($('#calculationInput').val());
+    if (!isNaN(inputValue)) {
+      var currentQuantity = parseInt(quantityInput.val());
+      if (currentQuantity >= inputValue) {
+        quantityInput.val(currentQuantity - inputValue);
+      }
+    }
+    $('#calculationModal').modal('hide');
+  });
+});
+
+ </script>
   
 </body> 
       <footer><p  style="text-align: center;font-weight: bold;">Copyright &copy; Bachelor of Science Information Technology</p></footer>

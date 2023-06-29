@@ -32,6 +32,10 @@ switch ($action) {
 		docancel();
 		break;
 
+	case 'cancelBooking' :
+		docancelBooking();
+		break;
+
  
 
 	case 'processorder' :
@@ -220,43 +224,6 @@ function doInsert(){
 		}
 	}
 
-
-	function process_sched(){
-		if(isset($_POST['btnorder'])){
-
-		$mechanicValue = $_POST['mechanic'];
-		$mechanicData = explode('|', $mechanicValue);
-		$mechanicUserId = $mechanicData[0];
-		$mechanicName = $mechanicData[1];
-		
-		$autonumber = New Autonumber();
-		$res = $autonumber->set_autonumber('sched_id');
-
-
-		$Schedule = new Schedules();
-		$Schedule->sched_id 			= $res->AUTO;
-		$Schedule->serv_name 			= $_POST['serv_name'];
-		$Schedule->serv_id 				= $_POST['serv_id'];
-		$Schedule->USERID 				= $mechanicUserId;
-		$Schedule->CUSTOMERID 			= $_POST['CUSTOMERID'];
-		$Schedule->cus_name 			= $_POST['name'];
-		$Schedule->cus_email 			= $_POST['email'];
-		$Schedule->cus_phone 			= $_POST['phone'];
-		$Schedule->cus_address 			= $_POST['address'];
-		$Schedule->date 				= $_POST['scheduleDate'];
-		$Schedule->time 				= $_POST['scheduleTime'];
-		$Schedule->mech_name 			= $mechanicName;
-		$Schedule->remarks 				= "Pending";
-		$Schedule->status 				= "Active";
-		$Schedule->create();
-
-		$autonumber = New Autonumber();
-		$autonumber->auto_update('sched_id');
-
-		echo "<script> alert('Your Schedule has been successfully created! It will redirect to your Booking details.'); </script>";
-		redirect(web_root."index.php?q=orderdetails");
-		}
-	}
 
 	function doDelete(){
 
@@ -462,7 +429,7 @@ function doInsert(){
 				$OLDPASS= sha1($_POST['OLDPASS']);
 				$NEWPASS = sha1($_POST['NEWPASS']);
 				$CONFIRMPASS = sha1($_POST['CONFIRMPASS']);
-				$customer->CUSPASS			= sha1($_POST['OLDPASS']);	
+				$customer->CUSPASS	= sha1($_POST['OLDPASS']);	
 
 				$con = mysqli_connect('localhost', 'root', '', 'nc_db');
 				$check_pass = "SELECT * FROM `tblcustomer` WHERE `CUSPASS`='$OLDPASS'";
@@ -526,10 +493,6 @@ function doInsert(){
 				}
 			
 
-			// $order = new Order();
-			// $order->STATS = $status;
-			// $order->pupdate($_GET['id']);
-
 			$summary = new Summary();
 			$summary->ORDEREDSTATS = $_GET['req'];
 			$summary->ORDEREDREMARKS = "Cancellation Initiated";
@@ -576,5 +539,70 @@ function doInsert(){
 			redirect("../index.php?q=profile");
 		
 	}
+
+
+
+	function docancelBooking(){
+		global $mydb;
+
+			switch ($_GET['reason']) {
+				case 'reason1':
+				  $remarks = "change of mind or no longer wish to proceed with the order.";
+				  break;
+				case 'reason2':
+				  $remarks = "found a better deal or price for the same services elsewhere and wants to cancel the current order.";
+				  break;
+				case 'reason3':
+				  $remarks = "experienced significant delays in the delivery process, causing inconvenience or no longer needing the product.";
+				  break;
+				default:
+				  $remarks = $_GET['reason'];
+				  break;
+			  }	
+
+			$schedule = new Schedules();
+			$schedule->remarks = $_GET['req'];
+			$schedule->rms = "Cancellation Initiated";
+			$schedule->message = $remarks;
+			$schedule->update($_GET['id']);
+
+
+			$customer = New customer;
+			$res = $customer->single_customer($_GET['customerid']); 
+
+			$query = "SELECT * FROM `tblschedule` s ,`tblcustomer` c 
+			WHERE   s.`CUSTOMERID`=c.`CUSTOMERID` and sched_id=".$_GET['id'];
+			$mydb->setQuery($query);
+			$cur = $mydb->loadSingleResult();
+
+
+			$sql = "INSERT INTO `messageout` (`Id`, `MessageTo`, `MessageFrom`, `MessageText`) VALUES (Null, '".$res->PHONE."', 'Gencarz Unlimited', '".$remarks." The estimated price is ".number_format($cur->price,2)."')";
+			$mydb->setQuery($sql);
+			$mydb->executeQuery();
+										//Customer Register
+										$mail = new PHPMailer(true);
+										$mail->isSMTP();
+										$mail->Host = 'smtp.gmail.com';
+										$mail->SMTPAuth = true;
+										$mail->Username = 'gencarzauto@gmail.com';
+										// $mail->Password = 'ifaxxwnzovfvnaoj';
+										$mail->Password = 'jxvcrupbbowpessn';
+										$mail->SMTPSecure = 'ssl';
+										$mail->Port = 465;
+										$mail->setFrom('gencarzauto@gmail.com');
+										$mail->addAddress($res->EMAILADD);
+										$mail->isHTML(true);
+										$mail->Subject = "Gencarz Order Status";
+										$mail->Body = "[Gencarz Unlimited]
+										".$remarks."
+										the Estimated Price is ".number_format($cur->price,2)." 
+										Email: ".$res->EMAILADD." 
+										Thankyou sir/ma'am   ".$res->FNAME." feel free to book a service again next time!";
+										$mail->send();
+
+			message("Booking Service has been ".$schedule->remarks."!", "danger");
+			redirect("../index.php?q=profile");
+	
+}
  
 ?>

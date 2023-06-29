@@ -13,10 +13,6 @@
 							# code...
 					$status	= 'Confirmed';
 			}
-			elseif($_POST['actions']=='not') {
-							# code...
-					$status	= 'Unverified';
-			}
 			elseif($_POST['actions']=='ship') {
 							# code...
 					$status	= 'Shipped';	
@@ -148,6 +144,10 @@
 			elseif($cur->ORDEREDSTATS=='Pending'){
 					echo "<h5>Your order is on process. Please check your profile for notification of confirmation.</h5>";
 			}
+
+			elseif($cur->ORDEREDSTATS=='PAID'){
+				echo "<h5>Thanks for your walk-in order!</h5>";
+		}
 
 			elseif($cur->ORDEREDSTATS=='Shipped'){
 					echo "<h5>Your order is on the way, The Delivery Period is 2-7 days Please prepare exact ammount of money and check your profile for notification of confirmation.</h5>";
@@ -306,7 +306,7 @@
 </div><!-- /.modal-dialog -->
  </div>
   <script>
-function tablePrint(){ 
+	function tablePrint(){ 
  // document.all.divButtons.style.visibility = 'hidden';  
     var display_setting="toolbar=no,location=no,directories=no,menubar=no,table=no,";  
     display_setting+="scrollbars=no,width=500, height=500, left=100, top=25";  

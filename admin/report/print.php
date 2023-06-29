@@ -44,15 +44,17 @@ require_once("../../include/initialize.php");
             <?php
                         $date_pickerfrom = isset($_GET['date_pickerfrom']) ? $_GET['date_pickerfrom'] : '';
                         $date_pickerto = isset($_GET['date_pickerto']) ? $_GET['date_pickerto'] : '';
-            if($_GET['date_pickerto']==''){
+                        $status = isset($_GET['status']) ? $_GET['status'] : '';
 
-                $query="SELECT *
+                        if($_GET['date_pickerto']==''){
+
+                        $query="SELECT *
 						FROM tblproduct P
 						INNER JOIN tblpromopro PR ON P.PROID = PR.PROID
 						INNER JOIN tblorder O ON PR.PROID = O.PROID
 						INNER JOIN tblsummary S ON O.ORDEREDNUM = S.ORDEREDNUM
 						INNER JOIN tblcustomer C ON S.CUSTOMERID = C.CUSTOMERID
-						WHERE S.ORDEREDSTATS = 'Delivered'";
+						WHERE S.ORDEREDSTATS = '$status'";
                         $totalQty = 0;
                         $totalAmount = 0;
                         
@@ -87,7 +89,7 @@ require_once("../../include/initialize.php");
             INNER JOIN tblorder O ON PR.PROID = O.PROID
             INNER JOIN tblsummary S ON O.ORDEREDNUM = S.ORDEREDNUM
             INNER JOIN tblcustomer C ON S.CUSTOMERID = C.CUSTOMERID
-            WHERE S.ORDEREDSTATS = 'Delivered'
+            WHERE S.ORDEREDSTATS = '$status'
             AND DATE(S.ORDEREDDATE) >= '$date_pickerfrom'
             AND DATE(S.ORDEREDDATE) <= '$date_pickerto'";
 

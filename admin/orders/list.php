@@ -27,22 +27,122 @@ if ($cur === false) {
         $Requested = '<span> (' . $res . ')</span>';
     }
 }
+
+$query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Pending'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Pending = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Pending = '<span> (' . $res . ')</span>';
+    }
+}
+
+$query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Confirmed'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Confirmed = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Confirmed = '<span> (' . $res . ')</span>';
+    }
+}
+
+$query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Cancelled'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Cancelled = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Cancelled = '<span> (' . $res . ')</span>';
+    }
+}
+
+$query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Delivered'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Delivered = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Delivered = '<span> (' . $res . ')</span>';
+    }
+}
+
+$query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Shipped'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Shipped = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Shipped = '<span> (' . $res . ')</span>';
+    }
+}
 ?>
 
 
   <div class="row" width="100%">
     <div class="col-lg-2">
-      <h3 class="page-header"><b>List of Orders</b></h3>
+      <h3 class="page-header"><b>List of Orders Online</b></h3>
     </div>
     <div class="col-lg-10" style="margin-top:60px">
       <div>
         <button id="btnAllOrders" class="btn"><strong>All Orders</strong></button>
-        <button id="btnPendingOrders" class="btn"><strong>Pending Orders</strong></button>
-		    <button id="btnConfirmOrders" class="btn"><strong>Confirmed Orders</strong></button>
-		    <button id="btnShippedOrders" class="btn"><strong>Shipped Orders</strong></button>
-        <button id="btnDeliveredOrders" class="btn"><strong>Delivered Orders</strong></button>
-        <button id="btnCancelledOrders" class="btn"><strong>Cancelled Orders</strong></button>
-        <button id="btnreqOrders" class="btn"><strong>Request <?php echo $Requested;?></strong></button>
+        <button id="btnPendingOrders" class="btn"><strong>Pending<?php echo $Pending;?></strong></button>
+		    <button id="btnConfirmOrders" class="btn"><strong>Confirmed<?php echo $Confirmed;?></strong></button>
+		    <button id="btnShippedOrders" class="btn"><strong>Need to ship <?php echo $Shipped;?></strong></button>
+        <button id="btnDeliveredOrders" class="btn"><strong>Delivered<?php echo $Delivered;?></strong></button>
+        <button id="btnCancelledOrders" class="btn"><strong>Cancelled<?php echo $Cancelled;?></strong></button>
+        <button id="btnreqOrders" class="btn"><strong>Requested <?php echo $Requested;?></strong></button>
       </div>
     </div>
   </div>
@@ -65,11 +165,11 @@ if ($cur === false) {
         <tbody>
           <?php
           $query = "SELECT * FROM `tblsummary` s,`tblcustomer` c 
-                    WHERE s.`CUSTOMERID`=c.`CUSTOMERID` ORDER BY `ORDEREDNUM` DESC ";
+                    WHERE s.`CUSTOMERID`=c.`CUSTOMERID` AND PAYMENTMETHOD !='Cash' ORDER BY `ORDEREDNUM` DESC ";
           $mydb->setQuery($query);
           $cur = $mydb->loadResultList();
           foreach ($cur as $result) {
-            echo '<tr class="order-row" data-status="' . $result->ORDEREDSTATS . '">';
+            echo '<tr class="order-row" data-status="'. $result->ORDEREDSTATS .'">';
 
             echo '<td width="3%" align="center">
                     </td>';
@@ -112,7 +212,6 @@ if ($cur === false) {
             if ($result->ORDEREDSTATS == 'Pending') {
               echo '<td width="18%">
                       <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal" data-link="controller.php?action=edit&id='.$result->ORDEREDNUM.'&customerid='.$result->CUSTOMERID.'&actions=cancel">Cancel</a>
-                      <a href="controller.php?action=edit&id='.$result->ORDEREDNUM.'&customerid='.$result->CUSTOMERID.'&actions=not" class="btn btn-danger">Disapproved</a>
                       <a href="controller.php?action=edit&id='.$result->ORDEREDNUM.'&customerid='.$result->CUSTOMERID.'&actions=confirm" class="btn btn-primary">Confirm</a>
                     </td>';
             } elseif ($result->ORDEREDSTATS == 'Confirmed') {
@@ -221,9 +320,10 @@ if ($cur === false) {
 
 		// Initialize DataTable with page length
 		var table = $('#example').DataTable({
-			"pageLength": 10, // Set the number of rows to display per page
+			"pageLength": 100, // Set the number of rows to display per page
 			// Other configuration options...
 		});
+    $('#example').wrap('<div style="max-height: 550px; overflow-y: auto;"></div>');
 	  
       $("#btnPendingOrders").click(function() {
         $(".order-row").hide(); // Hide all order rows

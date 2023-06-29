@@ -109,16 +109,29 @@
 
                     <div class="form-group">
                       <div class="col-md-8">
-                        <label class="col-md-3 control-label" for=
-                        "PROQTY" style="font-size:15px;">Quantity:</label>
-
-                        <div class="col-md-8">
-                          <input class="form-control input-sm" id="PROQTY" name="PROQTY" placeholder=
-                              "Quantity" type="number" value="<?php echo $singleproduct->PROQTY; ?>">
+                        <label class="col-md-3 control-label" for="PROQTY" style="font-size: 15px;">Quantity:</label>
+                        <div class="col-md-5">
+                          <div class="input-group">
+                            <input class="form-control input-sm" id="PROQTY" name="PROQTY" placeholder="Quantity" type="number" value="<?php echo $singleproduct->PROQTY; ?>" disabled>
+                          </div>
                         </div>
-                        
+                        <div class="col-md-3">
+                          <div class="input-group">
+                            <div style="margin-left: -50px;">
+                              <span class="input-group-btn">
+                                  <button class="btn btn-primary btn-sm" id="changeQuantityBtn" type="button" data-toggle="modal" data-target="#quantityModal">Set quantity</button>
+                                </span>
+                            </div>
+                            <span class="input-group-btn">
+                              <button class="btn btn-primary btn-sm" id="performCalculationBtn" type="button" data-toggle="modal" data-target="#calculationModal">Increse/Decrease</button>
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
+
+<!-- Rest of the code remains the same -->
+
 
                   <div class="form-group">
                     <div class="col-md-8">
@@ -154,7 +167,18 @@
   
               </div>
  
+
+
+
+
+
+
+
+
+
+
   
       
 <!--/.fluid-container--> 
  </form>
+

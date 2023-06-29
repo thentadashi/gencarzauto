@@ -25,8 +25,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -34,6 +34,11 @@
     <style>
       .fa-angle-right:hover{color:#D9602B;}
       .fa-angle-left:hover{color:#D9602B;}
+      
+      .error-message {
+        color: red;
+      }
+
 
     </style>
  
@@ -62,8 +67,8 @@ if (isset($_SESSION['gcCart'])){
           <div class="col-sm-6 ">
             <div class="contactinfo">
               <ul class="nav nav-pills">
-                <li><a href="#" style="color:#fffff;"><i class="fa fa-phone"></i> +63 917 332 6808 </a></li>
-                <li><a href="#" style="color:#fffff;"><i class="fa fa-envelope"></i> gencarz@gmail.com</a></li>
+                <li><a href="#" style="color:#ffffff;"><i class="fa fa-phone"></i> +63 917 332 6808 </a></li>
+                <li><a href="#" style="color:#ffffff;"><i class="fa fa-envelope"></i> gencarz@gmail.com</a></li>
               </ul>
             </div>
           </div>
@@ -296,6 +301,8 @@ if (isset($_SESSION['gcCart'])){
 
  <!-- modalorder -->
  <div class="modal fade" id="myOrdered">
+ </div>
+ <div class="modal fade" id="mySched">
  </div>
 
 

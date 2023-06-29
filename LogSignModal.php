@@ -32,10 +32,10 @@
                                 <div class="form-group">
                                   <div class="col-md-10">
                                     <label class="col-md-4 control-label" for=
-                                    "U_USERNAME">Username:</label>
+                                    "U_USERNAME">Email:</label>
                                     
                                     <div class="col-md-8">
-                                       <input   id="U_USERNAME" name="U_USERNAME" placeholder="Username" type="text" class="form-control input-sm" > 
+                                       <input   id="U_USERNAME" name="U_USERNAME" placeholder="Email" type="text" class="form-control input-sm" > 
                              
                                     </div>
                                   </div>

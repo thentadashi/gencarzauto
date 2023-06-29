@@ -27,7 +27,7 @@ require_once(LIB_PATH.DS."summary.php");
 require_once(LIB_PATH.DS."settings.php");
 require_once(LIB_PATH.DS."services.php");
 require_once(LIB_PATH.DS."service_schedule.php");
-
+require_once(LIB_PATH.DS."schedule_Order.php");
 
 $errors = array();
 

@@ -70,6 +70,7 @@ require_once("../../include/initialize.php");
         <div style="margin-bottom:20px;">
           <h6>Customer Details</h6>
           <input type="text" class="form-control quantity-input" id="name" name="name" placeholder="Input Customer Name" required/>
+          <small id="nameError" class="text-danger"></small>
           <select id="customer-list" class="form-select hidden" size="2" style="color:#111; position: relative; z-index: 1;">
           </select>
           <input type="hidden" id="customerID" name="customerID"/>
@@ -732,15 +733,20 @@ document.addEventListener('DOMContentLoaded', function() {
   // Get the input element for the customer name
   const nameInput = document.getElementById('name');
 
+  // Get the error message element
+  const nameError = document.getElementById('nameError');
+
   // Get the pay button element
   const payButton = document.getElementById('print-btn');
 
   // Function to handle input event on the name input element
   function handleNameInput() {
-    // Disable the pay button if the input name is not set
+    // Check if the input name is not set
     if (!nameInput.value) {
+      nameError.textContent = 'Please enter a name.';
       payButton.disabled = true;
     } else {
+      nameError.textContent = '';
       payButton.disabled = false;
     }
   }

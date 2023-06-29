@@ -9,8 +9,12 @@ $view = (isset($_GET['view']) && $_GET['view'] != '') ? $_GET['view'] : '';
  $title="Orders";
  $header=$view; 
 switch ($view) {
-	case 'list' :
+	case 'Online' :
 		$content    = 'list.php';		
+		break;
+	
+	case 'Walk-in' :
+		$content    = 'list2.php';		
 		break;
 
 	case 'addtocart' :

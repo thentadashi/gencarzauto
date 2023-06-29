@@ -49,7 +49,7 @@ $(document).on("click", ".sched", function() {
     type: "POST",
     url: "sched_details.php",
     dataType: "text",
-    data: { serv_id: servId },
+    data: { sched_id: servId },
     success: function(data) {
       $("#myModal2").html(data);
       $("#myModal2").modal("show");

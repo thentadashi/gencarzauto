@@ -27,8 +27,8 @@
                 <div class="panel">
                     <div class="panel-body">
                         <a data-target="#myModal" data-toggle="modal" href="">
-                            <img class="img-hover" src="<?php echo web_root. "customer/".$res->CUSPHOTO; ?>"
-                            style="width:60%; height:60%;text-align:center; border-radius: 150px" title=
+                            <img class="img-hover" height="150px" width="150px" src="<?php echo web_root. "customer/".$res->CUSPHOTO; ?>"
+                            style="text-align:center; border-radius: 150px; margin-left:80px;" title=
                             "profile image">
                         </a>
                     </div>
@@ -98,7 +98,7 @@
                                     <table cellspacing="0" class="table table-striped table-bordered table-hover" id="example" style="font-size:12px">
                                         <thead>
                                             <tr>
-                                                <th>Order Number</th>
+                                                <th>#</th>
                                                 <th>Order ID</th>
                                                 <th>Date Oredered</th>
                                                 <th>TotalPrice</th>
@@ -118,15 +118,15 @@
                                             foreach ($cur as $result) {
                                         ?>
                                         <tr>
-                                            <td width="5%"></td>
+                                            <td></td>
                                             <!--   <td width="10%"  class="orderid   "  data-target="#myOrdered" data-toggle="modal" data-id="<?php echo  $result->ORDEREDNUM; ?>">
                             <a href="#"  title="View list Of ordered products"  class="orderid   "  data-target="#myOrdered" data-toggle="modal" data-id="<?php echo  $result->ORDEREDNUM; ?>"><i class="fa fa-info-circle fa-fw"></i> view orders</a> 
                          </td> -->
                                             <!-- <td> <a href="#" class="get-id"  data-target="#myModal" data-toggle="modal" data-id="<?php echo  $result->ORDERNUMBER; ?>"><?php echo  $result->ORDERNUMBER; ?></a>
                                </td> -->
-                                            <td>
-                                            <a href="#"  title="View list Of ordered products"  class="orderid   "  data-target="#myOrdered" data-toggle="modal" data-id="<?php echo  $result->ORDEREDNUM; ?>"><i class="fa fa-info-circle fa-fw"></i><?php echo  $result->ORDEREDNUM; ?></a></td>
-                                            <td>
+                                            <td width="10%">
+                                            <a href="#"  title="View list Of ordered products"  class="orderid   "  data-target="#myOrdered" data-toggle="modal" data-id="<?php echo  $result->ORDEREDNUM; ?>"><?php echo  $result->ORDEREDNUM; ?> <i class="fa fa-info-circle fa-fw"></i></a></td>
+                                            <td width="20%">
                                             <?php echo date_format(date_create($result->ORDEREDDATE),"M/d/Y h:i:s") ; ?></td>
                                             <td>&#8369
                                             <?php echo  number_format($result->PAYMENT); ?></td>
@@ -185,7 +185,7 @@
                                 </table>
                                 
                             </form> 
-<div id="cancelModal" class="modal" tabindex="-1" role="dialog">
+<div id="cancelModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

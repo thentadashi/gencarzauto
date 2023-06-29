@@ -14,7 +14,7 @@ class Schedules {
 	function single_service($id=""){
 			global $mydb;
 			$mydb->setQuery("SELECT * FROM ".self::$tblname." 
-				Where serv_id= '{$id}' LIMIT 1");
+				Where sched_id= '{$id}' LIMIT 1");
 			$cur = $mydb->loadSingleResult();
 			return $cur;
 	}
@@ -99,7 +99,7 @@ class Schedules {
 		  }
 		  $sql = "UPDATE ".self::$tblname." SET ";
 		  $sql .= join(", ", $attribute_pairs);
-		  $sql .= " WHERE serv_id=". $id;
+		  $sql .= " WHERE sched_id=". $id;
 		$mydb->setQuery($sql);
 		   if(!$mydb->executeQuery()) return false; 	
 		  
@@ -108,7 +108,7 @@ class Schedules {
 	public function delete($id=0) {
 		global $mydb;
 		  $sql = "DELETE FROM ".self::$tblname;
-		  $sql .= " WHERE serv_id=". $id;
+		  $sql .= " WHERE sched_id=". $id;
 		  $sql .= " LIMIT 1 ";
 		  $mydb->setQuery($sql);
 		  
@@ -119,7 +119,7 @@ class Schedules {
     
     public function getImageFileName($serviceId) {
         global $mydb;
-        $mydb->setQuery("SELECT image_file_name FROM ".self::$tblname." WHERE serv_id = {$serviceId}");
+        $mydb->setQuery("SELECT image_file_name FROM ".self::$tblname." WHERE sched_id = {$serviceId}");
         $result = $mydb->loadResultList();
         
         if (!empty($result)) {

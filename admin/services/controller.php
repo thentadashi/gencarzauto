@@ -77,6 +77,9 @@ function doInsert(){
   				 	 	$services->serv_id 		= $res->AUTO; 
 						$services->serv_name 	= $_POST['serv_name']; 
 						$services->serv_price 	= $_POST['serv_price'];
+						$services->ctype_a 		= $_POST['ctype_a'];
+						$services->ctype_b 		= $_POST['ctype_b'];
+						$services->ctype_c 		= $_POST['ctype_c'];
 						$services->images		= $location; 
 						$services->description 	= $_POST['description'];
 						$services->create();
@@ -131,6 +134,9 @@ function doInsert(){
 						$services->serv_name 	= $_POST['serv_name']; 
 						$services->serv_price 	= $_POST['serv_price'];
 						$services->description 	= $_POST['description'];
+						$services->ctype_a 		= $_POST['ctype_a'];
+						$services->ctype_b 		= $_POST['ctype_b'];
+						$services->ctype_c 		= $_POST['ctype_c'];
 						$services->update($_POST['serv_id']);
   
 

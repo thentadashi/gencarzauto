@@ -8,7 +8,7 @@
   ?>
 
 <?php
-$query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Requested'";
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Requested'";
 $mydb->setQuery($query);
 $cur = $mydb->executeQuery();
 
@@ -22,9 +22,109 @@ if ($cur === false) {
     $res = isset($rowscount) ? $rowscount : 0;
 
     if ($res > 0) {
-        $order = '<span style="color:red;">(' . $res . ')</span>';
+        $Requested = '<span style="color:red;">(' . $res . ')</span>';
     } else {
-        $order = '<span> (' . $res . ')</span>';
+        $Requested = '<span> (' . $res . ')</span>';
+    }
+}
+
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Ongoing'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Ongoing = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Ongoing = '<span> (' . $res . ')</span>';
+    }
+}
+
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Done'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Done = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Done = '<span> (' . $res . ')</span>';
+    }
+}
+
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Cancelled'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Cancelled = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Cancelled = '<span> (' . $res . ')</span>';
+    }
+}
+
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Pending'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Pending = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Pending = '<span> (' . $res . ')</span>';
+    }
+}
+
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Confirmed'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $Confirmed = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $Confirmed = '<span> (' . $res . ')</span>';
     }
 }
 ?>
@@ -36,13 +136,13 @@ if ($cur === false) {
     </div>
     <div class="col-lg-9" style="margin-top:60px">
       <div>
-        <button id="btnAllSched" class="btn"><strong>All Sched.</strong></button>
-        <button id="btnPendingSched" class="btn"><strong>Pending Sched.</strong></button>
-		    <button id="btnConfirmSched" class="btn"><strong>Confirmed Sched.</strong></button>
-		    <!-- <button id="btnShippedOrders" class="btn"><strong>Shipped Orders</strong></button>
-        <button id="btnDeliveredOrders" class="btn"><strong>Delivered Orders</strong></button> -->
-        <button id="btnCancelledSched" class="btn"><strong>Cancelled Sched.</strong></button>
-        <button id="btnreqSched" class="btn"><strong>Request <?php echo $order;?></strong></button>
+        <button id="btnAllSched" class="btn"><strong>All</strong></button>
+        <button id="btnPendingSched" class="btn"><strong>Pending <?php echo $Pending;?></strong></button>
+		    <button id="btnConfirmSched" class="btn"><strong>Confirmed <?php echo $Confirmed;?></strong></button>
+		    <button id="btnOngoing" class="btn"><strong>Ongoing <?php echo $Ongoing;?></strong></button>
+        <button id="btnDoneSched" class="btn"><strong>Completed <?php echo $Done;?></strong></button> 
+        <button id="btnCancelledSched" class="btn"><strong>Cancelled <?php echo $Cancelled;?></strong></button>
+        <button id="btnreqSched" class="btn"><strong>Requested <?php echo $Requested;?></strong></button>
       </div>
     </div>
   </div>
@@ -54,9 +154,9 @@ if ($cur === false) {
           <tr>
             <th width="1%">#</th>
             <th width="5%">Sched #</th>
-            <th width="15%">Type</th>
             <th width="15%">Customer</th>
-            <th width="15%">DateOrdered</th>
+            <th width="15%">time</th>
+            <th width="15%">Date</th>
             <th width="15%">Est. Price</th>
             <th width="15%">Mechanic</th>
             <th width="15%">Status</th>
@@ -67,33 +167,61 @@ if ($cur === false) {
           <?php
           $query = "SELECT * FROM `tblschedule` s
           INNER JOIN `tblcustomer` c ON s.`CUSTOMERID` = c.`CUSTOMERID`
-          INNER JOIN `services` srv ON s.`serv_name` = srv.`serv_name`
           ORDER BY `sched_id` DESC";
           $mydb->setQuery($query);
           $cur = $mydb->loadResultList();
           foreach ($cur as $result) {
+
+            $timeRange = $result->time; // Assuming $result->date contains the time range in the format "hh:mm - hh:mm"
+
+                                                // Split the time range into start and end times
+            $times = explode(" - ", $timeRange);
+            $startTime = $times[0];
+            $endTime = $times[1];
+                                                
+                                                // Convert the start time to AM/PM format
+            $startTimeParts = explode(":", $startTime);
+            $startHour = intval($startTimeParts[0]);
+            $startMinute = intval($startTimeParts[1]);
+            $startPeriod = ($startHour < 12) ? "AM" : "PM";
+            $startHour = ($startHour > 12) ? ($startHour - 12) : $startHour;
+            $startTimeAMPM = $startHour . ":" . sprintf("%02d", $startMinute) . " " . $startPeriod;
+                                                
+                                                // Convert the end time to AM/PM format
+            $endTimeParts = explode(":", $endTime);
+            $endHour = intval($endTimeParts[0]);
+            $endMinute = intval($endTimeParts[1]);
+            $endPeriod = ($endHour < 12) ? "AM" : "PM";
+            $endHour = ($endHour > 12) ? ($endHour - 12) : $endHour;
+            $endTimeAMPM = $endHour . ":" . sprintf("%02d", $endMinute) . " " . $endPeriod;
+                                                
+                                                // Concatenate the formatted start and end times
+            $formattedTimeRange = $startTimeAMPM . " - " . $endTimeAMPM;
+
+            
             echo '<tr class="order-row" data-status="' . $result->remarks . '">';
 
             echo '<td width="3%" align="center">
                     </td>';
 
             echo '<td>
-            <a href="#" style="color:#6c7293" title="View list Of ordered" data-target="#myModal2" data-toggle="modal" class="sched" data-id="'.$result->sched_id.'">'.$result->sched_id .'</a>
+            <a href="#" style="color:#6c7293" title="View list Of ordered" data-target="#myModal2" data-toggle="modal" class="sched" data-id="'.$result->sched_id.'">'.$result->sched_id.'</a>
                   </td>';
+
             echo '<td>
-                  '.$result->serv_name.'
+                    <a href="index.php?view=customerdetails&customerid='.$result->CUSTOMERID.'" style="color:#6c7293" title="View customer information">'.$result->FNAME.' '.$result->LNAME.'</a>
+                  </td>';
+
+            echo '<td>
+                  '.$formattedTimeRange.'
                 </td>';
 
             echo '<td>
-                    <a href="index.php?view=customerdetails&customerid='.$result->CUSTOMERID.'" style="color:#6c7293" title="View customer information">'. $result->cus_name.'</a>
+                    '. date_format(date_create($result->date),"M/d/Y").'
                   </td>';
 
             echo '<td>
-                    '. date_format(date_create($result->date),"M/d/Y").' '. $result->time.'
-                  </td>';
-
-            echo '<td>
-                    &#8369;'.number_format($result->serv_price, 2).'
+                    &#8369;'.number_format($result->price, 2).'
                   </td>';
 
             echo '<td>
@@ -101,7 +229,7 @@ if ($cur === false) {
                   </td>';
 
                   if ($result->remarks == 'Requested') { echo '<td>
-                    <a href="#" style="color:#6c7293" data-toggle="modal" data-target="#mee" data-message="'.$result->cusmessage.'">'.$result->remarks.'</a>
+                    <a href="#" style="color:#6c7293" data-toggle="modal" data-target="#mee" data-message="'.$result->message.'">'.$result->remarks.'</a>
                   </a>
                 </td>';}else{
                   echo '<td>
@@ -221,7 +349,7 @@ if ($cur === false) {
 
 		// Initialize DataTable with page length
 		var table = $('#example').DataTable({
-			"pageLength": 100, // Set the number of rows to display per page
+			"pageLength": 10, // Set the number of rows to display per page
 			// Other configuration options...
 		});
 	  
@@ -235,14 +363,9 @@ if ($cur === false) {
         $(".order-row[data-status='Confirmed']").show(); // Show order rows with status 'Pending'
       });
 
-	  $("#btnShippedSched").click(function() {
+      $("#btnDoneSched").click(function() {
         $(".order-row").hide(); // Hide all order rows
-        $(".order-row[data-status='Shipped']").show(); // Show order rows with status 'Pending'
-      });
-
-      $("#btnDeliveredSched").click(function() {
-        $(".order-row").hide(); // Hide all order rows
-        $(".order-row[data-status='Delivered']").show(); // Show order rows with status 'Delivered'
+        $(".order-row[data-status='Done']").show(); // Show order rows with status 'Delivered'
       });
 
       $("#btnCancelledSched").click(function() {

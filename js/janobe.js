@@ -388,6 +388,8 @@ $(document).on("click", ".PHOTO", function () {
 });
 
 
+
+
 // end viewing.................................
 
 

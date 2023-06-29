@@ -36,10 +36,43 @@
                     <div class="form-group">
                       <div class="col-md-8">
                         <label class="col-md-3 control-label" for=
-                        "price" style="font-size:15px;">Price</label>
+                        "price" style="font-size:15px;">Estimated Price</label>
 
                         <div class="col-md-8">
                               <input class="form-control  " id="serv_price" name="serv_price"  type="number" value="<?php echo $singleproduct->serv_price; ?>">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-8">
+                        <label class="col-md-3 control-label" for=
+                        "ctype_a" style="font-size:15px;">Type A vehicles price</label>
+
+                        <div class="col-md-8">
+                              <p style="font-size: 10px;color:red;">Sedan / Hatchback / Coupe / Convertible </p>
+                              <input class="form-control  " id="ctype_a" name="ctype_a"  type="number" value="<?php echo $singleproduct->ctype_a; ?>">
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="form-group">
+                      <div class="col-md-8">
+                        <label class="col-md-3 control-label" for=
+                        "ctype_b" style="font-size:15px;">Type B vehicles price</label>
+
+                        <div class="col-md-8">
+                              <p style="font-size: 10px;color:red;">SUV / MiniSuv / Crossover </p>
+                              <input class="form-control  " id="ctype_b" name="ctype_b"  type="number" value="<?php echo $singleproduct->ctype_b; ?>">
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="form-group">
+                      <div class="col-md-8">
+                        <label class="col-md-3 control-label" for=
+                        "ctype_c" style="font-size:15px;">Type C vehicles price</label>
+
+                        <div class="col-md-8">
+                        <p style="font-size: 10px;color:red;">Pick-up Truck / MPV / Truck </p>
+                              <input class="form-control  " id="ctype_c" name="ctype_c"  type="number" value="<?php echo $singleproduct->ctype_c; ?>">
                         </div>
                       </div>
                     </div> 

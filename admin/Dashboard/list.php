@@ -333,7 +333,7 @@ h1, h2, h3, h4, h5, h6 {
 
     
 <?php
-					$con = mysqli_connect("localhost","root","","nc_db");
+					$con = mysqli_connect("localhost","root","","genc3181_1");
 
 ?>				  
 <div class="row" >

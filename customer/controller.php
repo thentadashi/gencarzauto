@@ -118,7 +118,7 @@ function doInsert(){
 						$customer->CUSPHOTO			= $CUSPHOTO = 'customer_image/avatar.png';
 						$customer->TERMS 			= 1;
 
-						$con = mysqli_connect('localhost', 'root', '', 'nc_db');
+						$con = mysqli_connect('localhost', 'root', '', 'genc3181_1');
 						$email_check = "SELECT * FROM tblcustomer WHERE EMAILADD = '$email'";
 						$res = mysqli_query($con, $email_check);
 						$fetch = mysqli_fetch_assoc($res);
@@ -431,7 +431,7 @@ function doInsert(){
 				$CONFIRMPASS = sha1($_POST['CONFIRMPASS']);
 				$customer->CUSPASS	= sha1($_POST['OLDPASS']);	
 
-				$con = mysqli_connect('localhost', 'root', '', 'nc_db');
+				$con = mysqli_connect('localhost', 'root', '', 'genc3181_1');
 				$check_pass = "SELECT * FROM `tblcustomer` WHERE `CUSPASS`='$OLDPASS'";
 				$res = mysqli_query($con, $check_pass);
 				$fetch = mysqli_fetch_assoc($res);

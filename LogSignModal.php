@@ -61,7 +61,7 @@
                                     <div class="col-md-8">
                                     <button type="submit" id="modalLogin" name="modalLogin" class="btn btn-pup"><span class="glyphicon glyphicon-log-in "></span>   Login</button> 
                                      <button class="btn btn-default" data-dismiss="modal" type="button">Close</button> 
-                                     <div  style="margin-top: 10px;" class="g-recaptcha"  data-sitekey="6LcpK0seAAAAAM9IMegi_-i2Sn-J2nEuC3NSe6pJ"></div>
+                                     <div  style="margin-top: 10px;" class="g-recaptcha"  data-sitekey="6LdjbuImAAAAAOHxQ6yFDG6IwISk_apDzOFoMkv3"></div>
                                      <a href="index.php?q=recoverpassword" style="margin-top: 20px;">Forgot Password</a>
                                     </div>
                                   </div>
@@ -279,8 +279,8 @@
                                            <label class="col-md-1" for="image"></label>
                                           <div class="col-md-12" style="margin-left: 0px">
                                         <p>  <input type="checkbox" id="conditionterms" name="conditionterms" value="checkbox" style="cursor: pointer;" />
-                                           <small>I Agree with the <a class="toggle-modal"  style="cursor: pointer;"onclick=" OpenPopupCenter('terms.php','Terms And Codition','600','600')"  ><b>TERMS AND CONDITION</b></a> of itman urdaneta city.</small>
-                              <div  style="margin-left: 0px;" class="g-recaptcha"  data-sitekey="6LcpK0seAAAAAM9IMegi_-i2Sn-J2nEuC3NSe6pJ"></div>
+                                           <small>I Agree with the <a class="toggle-modal"  style="cursor: pointer;"onclick=" OpenPopupCenter('terms.php','Terms And Codition','600','600')"  ><b>TERMS AND CONDITION</b></a> of Gencarzauto.</small>
+                              <div  style="margin-left: 0px;" class="g-recaptcha"  data-sitekey="6LdjbuImAAAAAOHxQ6yFDG6IwISk_apDzOFoMkv3"></div>
                                            
                                           </div>
                                         </div>

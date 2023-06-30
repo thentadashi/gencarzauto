@@ -351,7 +351,7 @@ h1, h2, h3, h4, h5, h6 {
                   </div>
                   <div class="h1 font-weight-bold text-gray-800" style="font-size: 4rem;">₱
                       <?php 
-                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered'";
+                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered' or ORDEREDSTATS = 'PAID'";
                                 $mydb->setQuery($query);
                                 $cur = $mydb->loadResultList();
                                 foreach ($cur as $result) {

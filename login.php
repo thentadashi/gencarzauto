@@ -36,8 +36,8 @@ if(isset($_POST['sidebarLogin'])){
 
 }
 
-$captchaSiteKey = '6LcpK0seAAAAAM9IMegi_-i2Sn-J2nEuC3NSe6pJ';
-$captchaSecretKey = '6LcpK0seAAAAAEUgyRPN8j-T2gD774qLRN4G1nzv';
+$captchaSiteKey = '6LdjbuImAAAAAOHxQ6yFDG6IwISk_apDzOFoMkv3';
+$captchaSecretKey = '6LdjbuImAAAAAI55l5AWyWb8ZNlbuXibh51UazGP';
 
 function curlRequest($url)
 {
@@ -85,7 +85,7 @@ function curlRequest($url)
 
                             if ($cusres==true){
 
-                        $conn = mysqli_connect('localhost', 'root', '', 'genc3181_1');
+                        $conn = mysqli_connect('localhost','genc3181_root','rootroot');
                         $email = mysqli_real_escape_string($conn, $_POST['U_USERNAME']);
                         $check_email = "SELECT * FROM tblcustomer WHERE EMAILADD = '$email'";
                         $res = mysqli_query($conn, $check_email);

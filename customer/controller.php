@@ -85,8 +85,8 @@ function doInsert(){
 	global $mydb;
 	if(isset($_POST['submit'],$_POST['g-recaptcha-response'])){
 
-		$captchaSiteKey = '6LcpK0seAAAAAM9IMegi_-i2Sn-J2nEuC3NSe6pJ';
-		$captchaSecretKey = '6LcpK0seAAAAAEUgyRPN8j-T2gD774qLRN4G1nzv';
+		$captchaSiteKey = '6LdjbuImAAAAAOHxQ6yFDG6IwISk_apDzOFoMkv3';
+		$captchaSecretKey = '6LdjbuImAAAAAI55l5AWyWb8ZNlbuXibh51UazGP';
 
 		$createGoogleUrl = 'https://www.google.com/recaptcha/api/siteverify?secret='.$captchaSecretKey.'&response='.$_POST['g-recaptcha-response'];
 		$verifyRecaptcha = curlRequest($createGoogleUrl);
@@ -118,7 +118,7 @@ function doInsert(){
 						$customer->CUSPHOTO			= $CUSPHOTO = 'customer_image/avatar.png';
 						$customer->TERMS 			= 1;
 
-						$con = mysqli_connect('localhost', 'root', '', 'genc3181_1');
+						$con = mysqli_connect('localhost','genc3181_root','rootroot');
 						$email_check = "SELECT * FROM tblcustomer WHERE EMAILADD = '$email'";
 						$res = mysqli_query($con, $email_check);
 						$fetch = mysqli_fetch_assoc($res);
@@ -431,7 +431,7 @@ function doInsert(){
 				$CONFIRMPASS = sha1($_POST['CONFIRMPASS']);
 				$customer->CUSPASS	= sha1($_POST['OLDPASS']);	
 
-				$con = mysqli_connect('localhost', 'root', '', 'genc3181_1');
+				$con = mysqli_connect('localhost','genc3181_root','rootroot');
 				$check_pass = "SELECT * FROM `tblcustomer` WHERE `CUSPASS`='$OLDPASS'";
 				$res = mysqli_query($con, $check_pass);
 				$fetch = mysqli_fetch_assoc($res);

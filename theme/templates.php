@@ -98,63 +98,58 @@ if (isset($_SESSION['gcCart'])){
             </div> 
           </div>
           <div class="col-md-8 clearfix">
-            <div class="shop-menu clearfix pull-right">
-              <ul class="nav navbar-nav">   
-                            <?php  
-                                    if (isset($_SESSION['CUSID'] )) {
-                                         $customer = New Customer();
-                                          $res = $customer->single_customer($_SESSION['CUSID']);
+  <div class="shop-menu clearfix pull-right">
+    <ul class="nav navbar-nav">
+      <?php  
+        if (isset($_SESSION['CUSID'])) {
+          $customer = new Customer();
+          $res = $customer->single_customer($_SESSION['CUSID']);
+      ?>  
+          <?php if ($res->status === 'verified') { ?> 
+            <li><a href="<?php echo web_root; ?>index.php?q=cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+          <?php } else { ?>
+            <li><a href="<?php echo web_root; ?>index.php?q=verify"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+          <?php } ?>
 
+          <?php if ($res->status === 'verified') {
+            echo '<li><a href="index.php?q=profile"><i class="fa fa-user"></i>' . $res->CUSUNAME . '</a></li>';
+          } else {
+            echo '<li><a href="index.php?q=verify"><i class="fa fa-user"></i> Verify Email</a></li>';
+          } ?>  
 
-                  ?>  
-                                      <?php if($res->status === 'verified'){?> 
-                                        <li><a href="<?php echo web_root;?>index.php?q=cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                                      <?php   }else{?><li><a href="<?php echo web_root;?>index.php?q=verify"><i class="fa fa-shopping-cart"></i> Cart</a></li><?php }?>
-
-                  <?php if($res->status === 'verified'){echo '<li>'.'<a href="index.php?q=profile">'.'<i class="fa fa-user">'.'</i>'.$res->CUSUNAME.'</a>'.'</li>';}else{echo '<li><a href="index.php?q=verify">'.'<i class="fa fa-user">'.'</i>'.' Verify Email</a></li>';} ?>  
-
-
-                   <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" >
-                        Menu <img style="opacity:.6;" src="images/shop/log.svg" alt="" /> 
-                            
-                    </a>
-                    <ul class="dropdown-menu dropdown-acnt">
-
-                        <div class="panel-body">
-                          <div class="row" style="width: 300px">
-                          <div class="col-md-12">                            
-                            <a data-target="#myModal" data-toggle="modal" href=
-                            ""><img class="img-hover" src="<?php echo web_root. "customer/".$res->CUSPHOTO; ?>"
-                            style="width:30%; height:30%;text-align:center; border-radius: 150px;" title=
-                            "profile image"></a>
-                          </div>
-                          <div class="col-md-12" style="margin-top: 15px;position: absolute;margin-left: 90px;
-">                       
-                                                <?php if($res->status === 'verified'){echo '<li>'.'<a href="index.php?q=profile">'.'<i class="fa fa-user">'.'</i>'.$res->EMAILADD.'</a>'.'</li>';}else{echo '<li><a href="index.php?q=verify">'.'<i class="fa fa-user">'.'</i>'.' Verify Email</a></li>';} ?>  
-                          </div>
-                        </div>
-                        </div>
-
-                      <div class="divtxt">
-                        <li>
-                      <li><a title="Edit" href="index.php?q=profile"  >Edit My Profile</a>
-                                    
-                        </li>
-                          </li>
-                           <li><a href="<?php echo web_root; ?>logout.php" style="color: red"><i class="fa fa-sign-out fa-fw" style="color: red"></i> Log Out</a>
-                        </li> 
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              Menu <img style="opacity:.6;" src="images/shop/log.svg" alt="" />
+            </a>
+            <ul class="dropdown-menu dropdown-acnt">
+              <div class="panel-body">
+                <div class="row" style="width: 300px">
+                  <div class="col-md-12">                            
+                    <a data-target="#myModal" data-toggle="modal" href=""><img class="img-hover" src="<?php echo web_root . "customer/" . $res->CUSPHOTO; ?>" style="width:30%; height:30%;text-align:center; border-radius: 150px;" title="profile image"></a>
                   </div>
-                          <?php }else{
-                                      echo'<li><a href="<?php echo web_root;?>index.php?q=cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>';
-                echo'<li><a data-target="#smyModal" data-toggle="modal"  href=""><i class="fa fa-lock"></i> Login</a></li>';
-                    }?>
+                  <div class="col-md-12" style="margin-top: 15px;position: absolute;margin-left: 90px;">                       
+                    <?php if ($res->status === 'verified') {
+                      echo '<li><a href="index.php?q=profile"><i class="fa fa-user"></i>' . $res->EMAILADD . '</a></li>';
+                    } else {
+                      echo '<li><a href="index.php?q=verify"><i class="fa fa-user"></i> Verify Email</a></li>';
+                    } ?>  
+                  </div>
+                </div>
+              </div>
+              <div class="divtxt">
+                <li><a title="Edit" href="index.php?q=profile">Edit My Profile</a></li>
+                <li><a href="<?php echo web_root; ?>logout.php" style="color: red"><i class="fa fa-sign-out fa-fw" style="color: red"></i> Log Out</a></li> 
+              </div>
+            </ul>
+          </li>
+      <?php } else {
+        echo '<li><a href="' . web_root . 'index.php?q=cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>';
+        echo '<li><a data-target="#smyModal" data-toggle="modal" href=""><i class="fa fa-lock"></i> Login</a></li>';
+      } ?>
+    </ul>
+  </div>
+</div>
 
-
-
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
     </div><!--/header-middle-->

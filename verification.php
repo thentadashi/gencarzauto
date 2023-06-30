@@ -4,7 +4,7 @@
 
     //if user click verification code submit button
     if(isset($_POST['check'])){
-        $con = mysqli_connect('localhost','genc3181_root','rootroot');
+        $con = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
         $otp_code = mysqli_real_escape_string($con, $_POST['otp']);
         $legit_code = "SELECT code FROM tblcustomer WHERE code = '$otp_code';";
         $code_res = mysqli_query($con, $legit_code);

@@ -333,7 +333,8 @@ h1, h2, h3, h4, h5, h6 {
 
     
 <?php
-					$con = mysqli_connect("localhost","root","","genc3181_1");
+					
+          $con = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
 
 ?>				  
 <div class="row" >

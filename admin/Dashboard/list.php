@@ -977,7 +977,7 @@ h1, h2, h3, h4, h5, h6 {
                                   foreach ($cur as $result) {?>
                           <tr class="text-s text-primary mb-1" style="font-size: 12px;">
                             <td>
-                              <img class="img-circle"src="/nc/customer/<?php echo $result->Image;?>" alt="image" /></td>
+                              <img class="img-circle"src="/customer/<?php echo $result->Image;?>" alt="image" /></td>
                               <td><span class="pl-2"><?php echo $result->Email;?> </span>
                             </td>
                             <td> <?php echo $result->CUSTOMERID;?> </td>
@@ -1045,7 +1045,7 @@ h1, h2, h3, h4, h5, h6 {
                                         foreach ($cur as $result) {?>
                                             <tr class="text-s text-primary mb-1" style="font-size: 12px;">
                                                 <td>
-                                                    <img class="img-circlep" src="/nc/admin/products/<?php echo $result->IMAGES;?>" alt="image" />
+                                                    <img class="img-circlep" src="/admin/products/<?php echo $result->IMAGES;?>" alt="image" />
                                                 </td>
                                                 <td>
                                                     <?php echo $result->PROID;?>

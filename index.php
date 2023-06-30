@@ -109,7 +109,7 @@ switch ($view) {
 		break;
 	case 'services' :
 			$title="services";	
-			$content ='Services.php';	
+			$content ='services.php';	
 		break;
 	case 'recoverpassword' :
         $title="Recover Password";	

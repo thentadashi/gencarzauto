@@ -86,7 +86,6 @@ function curlRequest($url)
                             if ($cusres==true){
 
                         $conn = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
-                        $conn = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
                         $email = mysqli_real_escape_string($conn, $_POST['U_USERNAME']);
                         $check_email = "SELECT * FROM tblcustomer WHERE EMAILADD = '$email'";
                         $res = mysqli_query($conn, $check_email);

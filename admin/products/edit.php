@@ -112,7 +112,7 @@
                         <label class="col-md-3 control-label" for="PROQTY" style="font-size: 15px;">Quantity:</label>
                         <div class="col-md-5">
                           <div class="input-group">
-                            <input class="form-control input-sm" id="PROQTY" name="PROQTY" placeholder="Quantity" type="number" value="<?php echo $singleproduct->PROQTY; ?>" disabled>
+                            <input class="form-control input-sm" id="PROQTY" name="PROQTY" placeholder="Quantity" type="number" value="<?php echo $singleproduct->PROQTY; ?>" readonly>
                           </div>
                         </div>
                         <div class="col-md-3">

@@ -6,6 +6,7 @@ require_once("../../include/initialize.php");
 <html>
 <head>
     <title>Print Data</title>
+    <meta charset="UTF-8">
     <style>
         body {
             font-family: Calibri, Arial, sans-serif;

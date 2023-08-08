@@ -121,13 +121,15 @@
                                           <div class="col-md-5" style="padding-right: 0;">
                                              <input class="form-control input-sm" id="FNAME" name="FNAME" placeholder=
                                                 "First Name" type="text" value="">
+
+                                                <input id="province" name="province" type="hidden" value="015500000">
                                           </div>
                                           <div class="col-md-3" style="padding-right: 0;padding-left: 1;">
                                              <input class="form-control input-sm" id="MNAME" name="MNAME" placeholder=
                                                 "Middle Name" type="text" value="">
                                           </div>
 
-                                          <div class="col-md-4" style="">
+                                          <div class="col-md-4">
                                              <input class="form-control input-sm" id="LNAME" name="LNAME" placeholder=
                                                 "Last Name" type="text" value="">
                                           </div>
@@ -147,31 +149,28 @@
                                                     "Street" type="text" value="">
                                               </div>
 
-                                              <div class="col-md-5" style="padding-left: 1px;">
-                                                 <input class="form-control input-sm" id="BRGYADD" name="BRGYADD" placeholder=
-                                                    "Barangay" type="text" value="">
+                                              <div class="col-md-5"style="padding-left: 1px;">
+                                                 <input class="form-control input-sm" id="ZIPCODE" name="ZIPCODE" placeholder=
+                                                    "Zip code" type="text" value="">
                                               </div>
+                                              <input type="hidden" name="SELECTED_LOCATION" id="SELECTED_LOCATION">
+                                              <input type="hidden" name="SELECTED_BARANGAY" id="SELECTED_BARANGAY">
+
                                             </div>
                                       </div>
                                       <div class="form-group">
                                             <div class="col-md-12">                                      
                                               <div class="col-md-7">
-                                                            <select name="CITYADD" class="form-control input-sm">
-                                                              <option value="">Municipal</option>
-                                                                  <?php 
-                                                                    $query = "SELECT * FROM `tblsetting` ";
-                                                                    $mydb->setQuery($query);
-                                                                    $cur = $mydb->loadResultList();
-
-                                                                  foreach ($cur as $result) { 
-                                                                    echo'<option value="'.$result->PLACE.'">'.$result->PLACE.'</option>';
-                                                                  } 
-                                                                  ?>
-                                                            </select>  
+                                                  <label for="municipality">Municipality:</label>
+                                                  <select id="location" class="form-control" name="CITYADD">
+                                                      <option value="">Select Municipality</option>
+                                                  </select>
                                               </div>
-                                              <div class="col-md-5"style="padding-left: 1px;">
-                                                 <input class="form-control input-sm" id="ZIPCODE" name="ZIPCODE" placeholder=
-                                                    "Zip code" type="text" value="">
+                                              <div class="col-md-5" style="padding-left: 1px;">
+                                                  <label for="barangay">Barangay:</label>
+                                                  <select id="barangay" class="form-control" name="BRGYADD">
+                                                      <option value="">Select Barangay</option>
+                                                  </select>
                                               </div>
                                             </div>
                                       </div>
@@ -331,3 +330,77 @@
             var targetWin = window.open(pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
         } 
     </script>
+
+
+<script>
+    const provinceDropdown = document.getElementById('province');
+    const locationDropdown = document.getElementById('location');
+    const barangayDropdown = document.getElementById('barangay');
+
+    // Function to populate Municipality/City dropdown based on selected Province
+    function populateLocations(selectedProvince) {
+        locationDropdown.innerHTML = '<option value="">Select Municipality/City</option>'; // Reset the dropdown
+
+        // Make an AJAX request to the API to fetch cities and municipalities for the selected Province
+        fetch(`https://psgc.gitlab.io/api/provinces/${selectedProvince}/cities-municipalities/`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(location => {
+                    // Filter cities and municipalities based on their properties
+                    if (location.isCity || location.isMunicipality) {
+                        const option = document.createElement('option');
+                        option.value = location.code;
+                        option.textContent = location.name;
+                        locationDropdown.appendChild(option);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching cities and municipalities:', error));
+    }
+
+    // Function to populate Barangay dropdown based on selected Municipality or City
+    function populateBarangays(selectedLocation) {
+        barangayDropdown.innerHTML = '<option value="">Select Barangay</option>'; // Reset the dropdown
+
+        // Make an AJAX request to the API to fetch barangays for the selected Municipality or City
+        fetch(`https://psgc.gitlab.io/api/municipalities/${selectedLocation}/barangays/`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(barangay => {
+                    const option = document.createElement('option');
+                    option.value = barangay.code;
+                    option.textContent = barangay.name;
+                    barangayDropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching barangays:', error));
+    }
+
+    // Event listeners to handle dropdown changes
+    provinceDropdown.addEventListener('change', () => {
+        const selectedProvince = provinceDropdown.value;
+        populateLocations(selectedProvince);
+    });
+
+    locationDropdown.addEventListener('change', () => {
+        const selectedLocation = locationDropdown.value;
+        const selectedLocationName = locationDropdown.options[locationDropdown.selectedIndex].text;
+
+        // Set the value of the hidden input field
+        document.getElementById('SELECTED_LOCATION').value = selectedLocationName;
+
+        populateBarangays(selectedLocation);
+    });
+
+    barangayDropdown.addEventListener('change', () => {
+        const selectedBarangay = barangayDropdown.value;
+        const selectedBarangayName = barangayDropdown.options[barangayDropdown.selectedIndex].text;
+
+        // Set the value of the hidden input field
+        document.getElementById('SELECTED_BARANGAY').value = selectedBarangayName;
+    });
+
+    // Initialize the Municipality/City dropdown with the specified Province code
+    const selectedProvince = provinceDropdown.value;
+    populateLocations(selectedProvince);
+</script>

@@ -53,6 +53,12 @@ require_once("../../include/initialize.php");
     .hidden {
       display: none;
     }
+    .no-link {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: inherit;
+    }
 
   </style>
 </head>
@@ -158,12 +164,28 @@ require_once("../../include/initialize.php");
                   $mydb->setQuery($query);
                   $cur = $mydb->loadResultList();
                   foreach ($cur as $result) {
+                    if($result->PROQTY <= 0){
+                ?>
+
+                <div class="card col-lg-4" style="margin-left:15px;margin-top:10px;width:210px;">
+                <?php }else{
+
+                
                 ?>
                 <div class="card product-card col-lg-4" style="margin-left:15px;margin-top:10px;width:210px;" data-product="<?php echo $result->OWNERNAME; ?>" data-proid="<?php echo $result->PROID; ?>" data-price="<?php echo $result->PROPRICE;?>" data-qty="<?php echo $result->PROQTY;?>">
-                  <div class="card-body">
+                <?php } ?>
+                <div class="card-body">
                     <p class="card-title" style="font-size:1rem;margin-bottom:15px;"><?php echo $result->OWNERNAME; ?></p>
                     <img src="../products/<?php echo $result->IMAGES;?>" class="form-control" style="margin-bottom:15px;"/>
-                    <span class="btn-sm btn-warning text-dark form-control" style=""><strong>₱ <?php echo number_format($result->PROPRICE,2);?></strong></span>
+                    
+
+                <?php if($result->PROQTY <= 0){
+                ?>
+                <span class="btn-sm btn-warning text-dark form-control"><strong>Out of Stock</strong></span>
+                <?php }else{
+                ?>
+                  <span class="btn-sm btn-warning text-dark form-control" style=""><strong>₱ <?php echo number_format($result->PROPRICE,2);?></strong></span>
+                <?php }?>
                   </div>
                 </div>
                 <?php       }?>
@@ -227,6 +249,8 @@ require_once("../../include/initialize.php");
       const rows = orderList.querySelectorAll('tr');
       let totalPrice = 0;
       let totalWithVat = 0;
+      let dis_ammount = 0;
+      let dis_price = 0;
       let gtotal = 0;
       let vat = document.getElementById('payment-vat').value;
       let discount = document.getElementById('payment-discount').value;
@@ -235,9 +259,10 @@ require_once("../../include/initialize.php");
         const quantity = parseInt(row.querySelector('.quantity-input').value);
         const price = parseFloat(row.getAttribute('data-price'));
         totalPrice += quantity * price;
-        totalWithVat = totalPrice * vat;
-        discounted = totalPrice * discount;
-        gtotal = totalPrice + totalWithVat - discounted;
+        dis_ammount = totalPrice * discount;
+        dis_price = totalPrice - dis_ammount;
+        totalWithVat = dis_price * vat;
+        gtotal = dis_price  + totalWithVat;
       });
 
       function formatNumberWithCommas(number) {
@@ -280,7 +305,8 @@ require_once("../../include/initialize.php");
           const totalPrice = price * quantity;
           existingRow.querySelector('.total').textContent = '₱ ' + totalPrice.toFixed(2);
         }
-      } else {
+      } 
+      else {
         alert('Quantity limit reached for this product!');
       }
     } else {
@@ -576,13 +602,15 @@ function printReceipt() {
 
   var discount = document.getElementById('payment-discount').value;
   var vat = document.getElementById('payment-vat').value;
-  var taxed = totalPrice * vat;
-  var discounted = totalPrice * discount;
+  var discount_ammount = totalPrice * discount;
+  var discounted = totalPrice - discount_ammount;
+  var taxed = discounted * vat;
+
   var dis = discount * 100;
   var tax = vat * 100;
 
   receipt += "\n" + "Sub Total: " + formatNumberWithCommas(totalPrice) + "\n";
-  receipt += "DIS. " + dis + "% : " + formatNumberWithCommas(discounted) + "\n";
+  receipt += "DIS. " + dis + "% : " + formatNumberWithCommas(discount_ammount) + "\n";
   receipt += "VAT " + tax + "% : " + formatNumberWithCommas(taxed) + "\n";
 
   // Add background color to the total
@@ -659,17 +687,18 @@ printModalPrintBtn.addEventListener('click', function() {
 
     var discount = document.getElementById('payment-discount').value;
     var vat = document.getElementById('payment-vat').value;
-    var taxed = totalPrice * vat;
-    var discounted = totalPrice * discount;
+    var discount_amount = totalPrice * discount;
+    var discounted = totalPrice - discount_amount;
+    var taxed = discounted * vat;
     var dis = discount * 100;
     var tax = vat * 100;
-    var gtotal = totalPrice + taxed - discounted;
-    var gtotal2 = totalPrice + taxed - discounted;
+    var gtotal = totalPrice + taxed - discount_amount;
+    var gtotal2 = totalPrice + taxed - discount_amount;
     var change = cleanedPaidAmount - gtotal;
 
     const rates = "₱ " + formatNumberWithCommas(rate);
     const taxeds = "₱ " + formatNumberWithCommas(taxed);
-    const discounteds = "₱ " + formatNumberWithCommas(discounted);
+    const discounteds = "₱ " + formatNumberWithCommas(discount_amount);
     const gtotals = "₱ " + formatNumberWithCommas(gtotal);
     const gtotal2s = "₱ " + formatNumberWithCommas(gtotal2);
     const changes = "₱ " + formatNumberWithCommas(change);
@@ -725,8 +754,6 @@ printModalPrintBtn.addEventListener('click', function() {
 
   window.open(printUrl + '?' + printParams, '_blank');
 });
-
-
 
 
 document.addEventListener('DOMContentLoaded', function() {

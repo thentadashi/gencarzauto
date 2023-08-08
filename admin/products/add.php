@@ -84,7 +84,7 @@
                             "Original Price" type="number" value=""  step="any">
                       </div>
                        <label class="col-md-1 control-label" for=
-                      "PROPRICE"  style="font-size:15px;">mrp:</label>
+                      "PROPRICE"  style="font-size:15px;">srp:</label>
 
                       <div class="col-md-4">
                          <input class="form-control input" id="PROPRICE"  step="any" name="PROPRICE" placeholder=

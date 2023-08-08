@@ -184,6 +184,7 @@ if (isset($_SESSION['gcCart'])){
                 <li><a href="<?php web_root?>index.php?q=product">Products</a></li>
                 <li><a href="<?php web_root?>index.php?q=contact">Contact</a></li>
                 <li><a href="<?php web_root?>index.php?q=services">Services</a></li>
+                <li><a href="<?php web_root?>index.php?q=aboutUs">About Us</a></li>
               </ul>
             </div>
           </div>

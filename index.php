@@ -111,6 +111,10 @@ switch ($view) {
 			$title="services";	
 			$content ='services.php';	
 		break;
+	case 'aboutUs' :
+			$title="About Us";	
+			$content ='aboutUs.php';	
+		break;
 	case 'recoverpassword' :
         $title="Recover Password";	
 		$content='passwordrecover.php';		

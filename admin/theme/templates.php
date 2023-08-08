@@ -130,6 +130,98 @@ if ($cur === false) {
 }
 ?>
 
+<?php
+        $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Pending'";
+        $mydb->setQuery($query);
+        $cur = $mydb->executeQuery();
+        
+        if ($cur === false) {
+            // Handle query execution error
+            $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+            // Handle or display the error as needed
+            echo "Query execution error: " . $error;
+        } else {
+            $rowscount = $mydb->num_rows($cur);
+            $res1 = isset($rowscount) ? $rowscount : 0;
+        
+            if ($res1 > 0) {
+                $Pending = '<span style="color:red;">(' . $res1 . ')</span>';
+                $r1=$res1;
+            } else {
+                $Pending = '<span>(0)</span>';
+                $r1= 0 ;
+            }
+        }
+
+        $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Requested'";
+        $mydb->setQuery($query);
+        $cur = $mydb->executeQuery();
+        
+        if ($cur === false) {
+            // Handle query execution error
+            $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+            // Handle or display the error as needed
+            echo "Query execution error: " . $error;
+        } else {
+            $rowscount = $mydb->num_rows($cur);
+            $res2 = isset($rowscount) ? $rowscount : 0;
+        
+            if ($res2 > 0) {
+                $ro = '<span style="color:red;">(' . $res2 . ')</span>';
+                $r2=$res2;
+            } else {
+                $ro = '<span>(0)</span>';
+                $r2 = 0;
+            }
+        }
+
+        $query = "SELECT * FROM tblschedule WHERE remarks = 'Requested'";
+        $mydb->setQuery($query);
+        $cur = $mydb->executeQuery();
+        
+        if ($cur === false) {
+            // Handle query execution error
+            $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+            // Handle or display the error as needed
+            echo "Query execution error: " . $error;
+        } else {
+            $rowscount = $mydb->num_rows($cur);
+            $res3 = isset($rowscount) ? $rowscount : 0;
+        
+            if ($res3 > 0) {
+                $rb = '<span style="color:red;">(' . $res3 . ')</span>';
+                $r3=$res3;
+            } else {
+                $rb = '<span>(0)</span>';
+                $r3=0;
+            }
+        }
+
+        $query = "SELECT * FROM tblschedule WHERE remarks = 'Pending'";
+        $mydb->setQuery($query);
+        $cur = $mydb->executeQuery();
+        
+        if ($cur === false) {
+            // Handle query execution error
+            $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+            // Handle or display the error as needed
+            echo "Query execution error: " . $error;
+        } else {
+            $rowscount = $mydb->num_rows($cur);
+            $res4 = isset($rowscount) ? $rowscount : 0;
+        
+            if ($res4 > 0) {
+                $Pendingb = '<span style="color:red;">(' . $res4 . ')</span>';
+                $r4=$res4;
+            } else {
+                $Pendingb = '<span>(0)</span>';
+                $r4=0;
+            }
+        }
+
+        $total = $r1 + $r2 + $r3 + $r4;
+        ?>
+
       
 <body style="background-color:#191c24;">
  
@@ -156,37 +248,43 @@ if ($cur === false) {
             <ul class="nav navbar-top-links navbar-right"> 
 
                  <li class="dropdown">
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="<?php echo web_root; ?>admin/products/index.php?view=add"><i class="fa fa-barcode fa-fw"></i> Product</a>
+
+                 <a class="dropdown-toggle"   data-toggle="dropdown" href="#" style="margin-right: 30px;">
+                       Notifications <i class="fa fa-bell"></i> 
+                            
+                    </a>
+                    <span style="position: absolute;margin-top:-45px;color:gold;font-size:16px;margin-left:150px;">(<?php if($total == 0){}else{ echo $total;}?>)</span>
+
+                    <ul class="dropdown-menu dropdown-user" style="margin-right: 20px;width:250px;">
+                        <li><a href="<?php echo web_root ?>admin/orders/index.php"><i class="fa fa-bar-chart fa-fw"></i> Pending Orders <?php echo $Pending;?></a>
                         </li>
-                        <li><a href="<?php echo web_root; ?>admin/category/index.php?view=add"><i class="fa fa-list-alt  fa-fw"></i> Category</a>
+                        <li><a href="<?php echo web_root ?>admin/service_schedule/index.php"><i class="fa fa-bar-chart fa-fw"></i> Pending Booking <?php echo $Pendingb;?></a>
                         </li>
-                            <?php if ($_SESSION['U_ROLE']=='Administrator') {
-                            # code...
-                        ?>
-                         <li><a href="<?php echo web_root; ?>admin/user/index.php?view=add"><i class="fa fa-user  fa-fw"></i> User</a>
-                            </li>
-                        <?php }?>
-                        
+                        <li><a href="<?php echo web_root ?>admin/service_schedule/index.php"><i class="fa fa-list fa-fw"></i>Customer Booking Requests <?php echo $rb;?></a>
+                        </li>
+                        <li><a href="<?php echo web_root ?>admin/orders/index.php"><i class="fa fa-list fa-fw"></i>Customer Order Requests <?php echo $ro;?></a>
+                        </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
-<?php
- $user = New User();
-$singleuser = $user->single_user($_SESSION['USERID']);
+                <?php
+                $user = New User();
+                $singleuser = $user->single_user($_SESSION['USERID']);
 
-?> 
+                ?> 
                 <!-- /.dropdown -->
                 <li class="dropdown" style="color:#191c24;">
-                    <a class="dropdown-toggle"   data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle"   data-toggle="dropdown" href="#" style="margin-right: 60px;">
                        Settings <i class="fa fa-caret-down"></i>
                             
                     </a>
+
+
                     <ul class="dropdown-menu dropdown-acnt" style="color:#191c24;">
 
                           <div class="divpic" > 
                             <a href="" data-target="#usermodal"  data-toggle="modal" > 
-                                <img title="profile image" width="70" height="80" src="<?php echo web_root.'admin/user/'.$singleuser ->USERIMAGE ?>">  
+                                <img title="profile image" width="70" height="80" src="<?php echo web_root.'admin/user/'.$singleuser->USERIMAGE ?>">  
                             </a>
                           </div> 
                     
@@ -295,11 +393,15 @@ $singleuser = $user->single_user($_SESSION['USERID']);
             
                         </li>
                         <li>
+                             <a href="<?php echo web_root; ?>admin/aboutUs/index.php" ><i class="fa fa-gear fa-fw"></i>  About us Settings </a>
+            
+                        </li>
+                        <li>
                              <a href="<?php echo web_root; ?>admin/autonumber/index.php" ><i class="fa fa-sort-asc fa-fw"></i>  Autonumber </a>
             
                         </li>
                           <li>
-                            <a href="<?php echo web_root; ?>admin/user/index.php" ><i class="fa fa-user fa-fw"></i> Users </a>
+                            <a href="<?php echo web_root; ?>admin/user/index.php" ><i class="fa fa-users fa-fw"></i> Users </a>
                           
                         </li>
                         <p style="color: #ffab00;font-size:12px;margin-left:30px;"><i>Report</i></p>
@@ -367,8 +469,61 @@ $singleuser = $user->single_user($_SESSION['USERID']);
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
 
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="notification" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" data-dismiss="modal" type=
+                                    "button">×</button>
+
+                                    <h4 class="modal-title" id="myModalLabel">Profile Image.</h4>
+                                </div>
+
+                                <form action="<?php echo web_root; ?>admin/user/controller.php?action=photos" enctype="multipart/form-data" method=
+                                "post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <div class="rows">
+                                            <div class="col-md-12">
+                                                <div class="rows">
+                                                    <img title="profile image" width="500" height="360" src="<?php echo web_root.'admin/user/'.$singleuser ->USERIMAGE ?>">  
+                          
+                                                </div>
+                                            </div><br/>
+                                                <div class="col-md-12">
+                                                    <div class="rows">
+                                                        <div class="col-md-8">
+
+                                                            <input type="hidden" name="MIDNO" id="MIDNO" value="<?php echo $_SESSION['USERID']; ?>">
+                                                              <input name="MAX_FILE_SIZE" type=
+                                                            "hidden" value="1000000"> <input id=
+                                                            "photo" name="photo" type=
+                                                            "file">
+                                                        </div>
+
+                                                        <div class="col-md-4"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" data-dismiss="modal" type=
+                                        "button">Close</button> <button class="btn btn-primary"
+                                        name="savephoto" type="submit">Upload Photo</button>
+                                    </div>
+                                </form>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+
+
+
                                   <!-- Modal for entering quantity -->
-<div class="modal fade" id="quantityModal" tabindex="-1" role="dialog" aria-labelledby="quantityModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="quantityModal" tabindex="-1" role="dialog" aria-labelledby="quantityModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -386,10 +541,10 @@ $singleuser = $user->single_user($_SESSION['USERID']);
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Modal for performing addition/subtraction -->
-<div class="modal fade" id="calculationModal" tabindex="-1" role="dialog" aria-labelledby="calculationModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="calculationModal" tabindex="-1" role="dialog" aria-labelledby="calculationModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -408,7 +563,7 @@ $singleuser = $user->single_user($_SESSION['USERID']);
       </div>
     </div>
   </div>
-</div>
+</div> -->
   
 
   <div id="page-wrapper">

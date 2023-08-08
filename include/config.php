@@ -1,7 +1,7 @@
 <?php
 defined('SERVER') ? null : define("SERVER", "localhost");
-defined('USER') ? null : define ("USER", "genc3181_root") ;
-defined('PASS') ? null : define("PASS","rootroot");
+defined('USER') ? null : define ("USER", "root") ;
+defined('PASS') ? null : define("PASS","");
 defined('DATABASE_NAME') ? null : define("DATABASE_NAME", "genc3181_a") ;
 
 $this_file = str_replace('\\', '/', __File__) ;

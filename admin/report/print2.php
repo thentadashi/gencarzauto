@@ -43,6 +43,8 @@ require_once("../../include/initialize.php");
         </thead>
         <tbody>
             <?php
+
+
                         $date_pickerfrom = isset($_GET['date_pickerfrom']) ? $_GET['date_pickerfrom'] : '';
                         $date_pickerto = isset($_GET['date_pickerto']) ? $_GET['date_pickerto'] : '';
                         $status = isset($_GET['status']) ? $_GET['status'] : '';
@@ -50,15 +52,21 @@ require_once("../../include/initialize.php");
 
                         if($_GET['date_pickerto']==''){
 
+
+
+
                         $query="SELECT *
 						FROM tblproduct P
 						INNER JOIN tblpromopro PR ON P.PROID = PR.PROID
 						INNER JOIN tblorder O ON PR.PROID = O.PROID
 						INNER JOIN tblsummary S ON O.ORDEREDNUM = S.ORDEREDNUM
 						INNER JOIN tblcustomer C ON S.CUSTOMERID = C.CUSTOMERID
-						WHERE S.ORDEREDSTATS  IN ('Delivered', 'PAID')";
+						WHERE S.ORDEREDSTATS = 'Delivered' or ORDEREDSTATS = 'PAID'";
                         $totalQty = 0;
                         $totalAmount = 0;
+
+
+
                         
 
                         $mydb->setQuery($query);
@@ -76,7 +84,15 @@ require_once("../../include/initialize.php");
                             </tr>';
 
                             $totalQty += $result->ORDEREDQTY;
-                            $totalAmount += $result->ORDEREDPRICE;
+                            $subtotal = $result->ORDEREDQTY * $result->PROPRICE;
+
+                            $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered' or ORDEREDSTATS = 'PAID'";
+                            $mydb->setQuery($query);
+                            $cur2 = $mydb->loadResultList();
+                            foreach ($cur2 as $result) {
+    
+                            $totalAmount=$result->Total;
+                        }
                         }
             }else{
             // Fetch data based on the date range
@@ -91,7 +107,7 @@ require_once("../../include/initialize.php");
             INNER JOIN tblorder O ON PR.PROID = O.PROID
             INNER JOIN tblsummary S ON O.ORDEREDNUM = S.ORDEREDNUM
             INNER JOIN tblcustomer C ON S.CUSTOMERID = C.CUSTOMERID
-            WHERE S.ORDEREDSTATS  IN ('Delivered', 'PAID') AND  DATE(S.ORDEREDDATE) >= '$date_pickerfrom'
+            WHERE S.ORDEREDSTATS = 'Delivered' or ORDEREDSTATS = 'PAID' AND  DATE(S.ORDEREDDATE) >= '$date_pickerfrom'
             AND DATE(S.ORDEREDDATE) <= '$date_pickerto'";
 
             $mydb->setQuery($query);
@@ -111,8 +127,21 @@ require_once("../../include/initialize.php");
                           <td>₱ ' . number_format($result->ORDEREDPRICE, 2) . '</td>
                       </tr>';
 
-                $totalQty += $result->ORDEREDQTY;
-                $totalAmount += $result->ORDEREDPRICE;
+                      $totalQty += $result->ORDEREDQTY;
+                      $subtotal = $result->ORDEREDQTY * $result->PROPRICE;
+
+                      $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total 
+                      FROM `tblsummary` 
+                      WHERE (ORDEREDSTATS = 'Delivered' OR ORDEREDSTATS = 'PAID') 
+                          AND DATE(ORDEREDDATE) >= '$date_pickerfrom' 
+                          AND DATE(ORDEREDDATE) <= '$date_pickerto'
+                      ";
+                      $mydb->setQuery($query);
+                      $cur2 = $mydb->loadResultList();
+                      foreach ($cur2 as $result) {
+
+                      $totalAmount=$result->Total;
+                  }
             }
         }
             ?>

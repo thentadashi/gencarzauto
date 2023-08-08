@@ -121,7 +121,10 @@
   $("#payment-confirm-modal-btn").click(function() {
     // Perform the necessary actions upon payment confirmation
     $("#print-modal-print-btn").trigger("click");
+    
+      window.location.reload();
   });
+
 
   $("#payment-confirm-btn").click(function() {
     var paymentMethod = $("#payment-method").val();

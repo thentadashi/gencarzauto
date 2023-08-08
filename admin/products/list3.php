@@ -28,7 +28,7 @@
        		</div>
 			<div class="col-lg-6">
             <h4 class="page-header"><b>Indicators Guide: 
-				<a href="index.php?view=list2" class="btn btn-outline"><i class="fa fa-circle" title="Stock is normal" style="color:green"></i>  Stock is normal</a>
+                <a href="index.php?view=list2" class="btn btn-outline"><i class="fa fa-circle" title="Stock is normal" style="color:green"></i>  Stock is normal</a>
 				<a href="index.php?view=list3" class="btn btn-outline"><i class="fa fa-circle" title="Stock is low" style="color:orange"></i> Critical Stock Level</a>
 				<a href="index.php?view=list4" class="btn btn-outline"><i class="fa fa-circle" title="Out of stock" style="color:red"></i> Out of stock</a></b>
 			</h4>
@@ -62,7 +62,7 @@
 			  <tbody>
 				  	<?php 
 				  		$query = "SELECT * FROM `tblpromopro` pr , `tblproduct` p , `tblcategory` c
-           					 WHERE pr.`PROID`=p.`PROID` AND  p.`CATEGID` = c.`CATEGID` ";
+           					 WHERE pr.`PROID`=p.`PROID` AND  p.`CATEGID` = c.`CATEGID` AND p.`PROQTY` <= p.`ALERT` AND p.`PROQTY` <> 0";
 				  		$mydb->setQuery($query);
 				  		$cur = $mydb->loadResultList();
 

@@ -25,8 +25,8 @@ require_once("../../include/initialize.php");
 </head>
 <body>
     <h3>List of Ordered Products</h3>
-    <div>Inclusive Dates: From: <?php echo isset($_GET['date_pickerfrom']) ? $_GET['date_pickerfrom'] : ''; ?>
-        - To: <?php echo isset($_GET['date_pickerto']) ? $_GET['date_pickerto'] : ''; ?>
+    <div>
+        Weekly Report
     </div>
 
     <table>
@@ -43,19 +43,13 @@ require_once("../../include/initialize.php");
         </thead>
         <tbody>
             <?php
-                        $date_pickerfrom = isset($_GET['date_pickerfrom']) ? $_GET['date_pickerfrom'] : '';
-                        $date_pickerto = isset($_GET['date_pickerto']) ? $_GET['date_pickerto'] : '';
-                        $status = isset($_GET['status']) ? $_GET['status'] : '';
-
-                        if($_GET['date_pickerto']==''){
-
                         $query="SELECT *
 						FROM tblproduct P
 						INNER JOIN tblpromopro PR ON P.PROID = PR.PROID
 						INNER JOIN tblorder O ON PR.PROID = O.PROID
 						INNER JOIN tblsummary S ON O.ORDEREDNUM = S.ORDEREDNUM
 						INNER JOIN tblcustomer C ON S.CUSTOMERID = C.CUSTOMERID
-						WHERE S.ORDEREDSTATS = '$status'";
+						WHERE S.ORDEREDSTATS = 'Delivered' or S.ORDEREDSTATS = 'PAID' AND S.ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
                         $totalQty = 0;
                         $totalAmount = 0;
                         
@@ -77,66 +71,16 @@ require_once("../../include/initialize.php");
                             $totalQty += $result->ORDEREDQTY;
                             $subtotal = $result->ORDEREDQTY * $result->PROPRICE;
 
-                            $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = '$status'";
+                            $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered' or ORDEREDSTATS = 'PAID' AND ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
                             $mydb->setQuery($query);
                             $cur2 = $mydb->loadResultList();
                             foreach ($cur2 as $result) {
     
                             $totalAmount=$result->Total;
                         }
-                        }
-            }else{
-            // Fetch data based on the date range
-
-            // Convert date format from mm/dd/yyyy to yyyy-mm-dd
-            $date_pickerfrom = date('Y-m-d', strtotime($date_pickerfrom));
-            $date_pickerto = date('Y-m-d', strtotime($date_pickerto));
-
-            $query = "SELECT *
-            FROM tblproduct P
-            INNER JOIN tblpromopro PR ON P.PROID = PR.PROID
-            INNER JOIN tblorder O ON PR.PROID = O.PROID
-            INNER JOIN tblsummary S ON O.ORDEREDNUM = S.ORDEREDNUM
-            INNER JOIN tblcustomer C ON S.CUSTOMERID = C.CUSTOMERID
-            WHERE S.ORDEREDSTATS = '$status'
-            AND DATE(S.ORDEREDDATE) >= '$date_pickerfrom'
-            AND DATE(S.ORDEREDDATE) <= '$date_pickerto'";
-
-            $mydb->setQuery($query);
-            $cur = $mydb->loadResultList();
-
-            $totalQty = 0;
-            $totalAmount = 0;
-
-            foreach ($cur as $result) {
-                echo '<tr>
-                          <td>' . date_format(date_create($result->ORDEREDDATE), 'M/d/Y h:i:s') . '</td>
-                          <td>' . $result->FNAME . ' ' . $result->LNAME . '</td>
-                          <td>' . $result->OWNERNAME . '</td>
-                          <td>₱ ' . number_format($result->ORIGINALPRICE, 2) . '</td>
-                          <td>₱ ' . number_format($result->PROPRICE, 2) . '</td>
-                          <td>' . $result->ORDEREDQTY . '</td>
-                          <td>₱ ' . number_format($result->ORDEREDPRICE, 2) . '</td>
-                      </tr>';
-
-                      $totalQty += $result->ORDEREDQTY;
-                      $subtotal = $result->ORDEREDQTY * $result->PROPRICE;
-                      
-                      $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total 
-                      FROM `tblsummary` 
-                      WHERE ORDEREDSTATS = '$status'
-                          AND DATE(ORDEREDDATE) >= '$date_pickerfrom' 
-                          AND DATE(ORDEREDDATE) <= '$date_pickerto'
-                      ";
-                      $mydb->setQuery($query);
-                      $cur2 = $mydb->loadResultList();
-                      foreach ($cur2 as $result) {
-
-                      $totalAmount=$result->Total;
-                  }
-            }
-        }
+                    }
             ?>
+
 
             <tr>
                 <td colspan="6">Total Qty Ordered: <?php echo $totalQty; ?></td>

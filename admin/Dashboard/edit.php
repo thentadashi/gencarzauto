@@ -18,7 +18,7 @@
           </div>
           <!-- /.col-lg-12 -->
        </div>
-       <form class="form-horizontal span6" action="controller.php?action=edit" method="POST"  />
+       <form class="form-horizontal span6" action="controller.php?action=edit" method="POST" >
  
                 <div class="row"> 
 

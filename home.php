@@ -1,6 +1,5 @@
-
 <section id="slider"><!--slider-->
-    <div class="container">
+    <div class="container"> 
       <div class="row">
         <div class="col-sm-12">
           <div id="slider-carousel" class="carousel slide" data-ride="carousel">
@@ -104,11 +103,11 @@
                               <?php     
                             if (isset($_SESSION['CUSID'])){  
 
-                              echo ' <a href="'.web_root. 'customer/controller.php?action=addwish&proid='.$result->PROID.'" title="Add to wishlist"><i class="fa fa-plus-square"></i>Add to wishlist</a></a>
+                              echo ' <a href="'.web_root. 'customer/controller.php?action=addwish&proid='.$result->PROID.'" title="Add to wishlist"></a></a>
                             ';
 
                              }else{
-                               echo   '<a href="#" title="Add to wishlist" class="proid"  data-target="#smyModal" data-toggle="modal" data-id="'.  $result->PROID.'"><i class="fa fa-plus-square"></i>Add to wishlist</a></a>
+                               echo   '<a href="#" title="Add to wishlist" class="proid"  data-target="#smyModal" data-toggle="modal" data-id="'.  $result->PROID.'"></a></a>
                             ';
                             }  
                             ?>

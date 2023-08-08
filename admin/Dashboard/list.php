@@ -334,7 +334,7 @@ h1, h2, h3, h4, h5, h6 {
     
 <?php
 					
-          $con = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
+          // $con = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
 
 ?>				  
 <div class="row" >
@@ -342,7 +342,7 @@ h1, h2, h3, h4, h5, h6 {
   <span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Sales</i></strong></h6></span>
   </div>
   <div class="col-lg-12 mb-4 mr-2" >
-    <div class="col-lg-8">
+    <div class="col-lg-12">
         <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
             <div class="card-body">
               <div class="row no-gutters align-items-center">
@@ -358,7 +358,9 @@ h1, h2, h3, h4, h5, h6 {
                                 foreach ($cur as $result) {
                       ?>
                       <?php
-                                echo number_format($result->Total,2);}
+                                echo number_format($result->Total,2);
+                              }
+                                
                       ?>
                   </div>
                   <div class="h1 mb-0 text-gray-800" style="font-size: 2rem; margin-top:10px;margin-left:20px;">₱
@@ -380,87 +382,87 @@ h1, h2, h3, h4, h5, h6 {
           </div>
         </div>
       </div>
-      <div class="col-lg-4">
+      <!-- <div class="col-lg-4">
         <?php
-        $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Pending'";
-        $mydb->setQuery($query);
-        $cur = $mydb->executeQuery();
+        // $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Pending'";
+        // $mydb->setQuery($query);
+        // $cur = $mydb->executeQuery();
         
-        if ($cur === false) {
-            // Handle query execution error
-            $error = mysqli_error($mydb->getConnection()); // Get the specific error message
-            // Handle or display the error as needed
-            echo "Query execution error: " . $error;
-        } else {
-            $rowscount = $mydb->num_rows($cur);
-            $res = isset($rowscount) ? $rowscount : 0;
+        // if ($cur === false) {
+        //     // Handle query execution error
+        //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+        //     // Handle or display the error as needed
+        //     echo "Query execution error: " . $error;
+        // } else {
+        //     $rowscount = $mydb->num_rows($cur);
+        //     $res = isset($rowscount) ? $rowscount : 0;
         
-            if ($res > 0) {
-                $Pending = '<span style="color:red;">(' . $res . ')</span>';
-            } else {
-                $Pending = '<span>(0)</span>';
-            }
-        }
+        //     if ($res > 0) {
+        //         $Pending = '<span style="color:red;">(' . $res . ')</span>';
+        //     } else {
+        //         $Pending = '<span>(0)</span>';
+        //     }
+        // }
 
-        $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Requested'";
-        $mydb->setQuery($query);
-        $cur = $mydb->executeQuery();
+        // $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Requested'";
+        // $mydb->setQuery($query);
+        // $cur = $mydb->executeQuery();
         
-        if ($cur === false) {
-            // Handle query execution error
-            $error = mysqli_error($mydb->getConnection()); // Get the specific error message
-            // Handle or display the error as needed
-            echo "Query execution error: " . $error;
-        } else {
-            $rowscount = $mydb->num_rows($cur);
-            $res = isset($rowscount) ? $rowscount : 0;
+        // if ($cur === false) {
+        //     // Handle query execution error
+        //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+        //     // Handle or display the error as needed
+        //     echo "Query execution error: " . $error;
+        // } else {
+        //     $rowscount = $mydb->num_rows($cur);
+        //     $res = isset($rowscount) ? $rowscount : 0;
         
-            if ($res > 0) {
-                $ro = '<span style="color:red;">(' . $res . ')</span>';
-            } else {
-                $ro = '<span>(0)</span>';
-            }
-        }
+        //     if ($res > 0) {
+        //         $ro = '<span style="color:red;">(' . $res . ')</span>';
+        //     } else {
+        //         $ro = '<span>(0)</span>';
+        //     }
+        // }
 
-        $query = "SELECT * FROM tblschedule WHERE remarks = 'Requested'";
-        $mydb->setQuery($query);
-        $cur = $mydb->executeQuery();
+        // $query = "SELECT * FROM tblschedule WHERE remarks = 'Requested'";
+        // $mydb->setQuery($query);
+        // $cur = $mydb->executeQuery();
         
-        if ($cur === false) {
-            // Handle query execution error
-            $error = mysqli_error($mydb->getConnection()); // Get the specific error message
-            // Handle or display the error as needed
-            echo "Query execution error: " . $error;
-        } else {
-            $rowscount = $mydb->num_rows($cur);
-            $res = isset($rowscount) ? $rowscount : 0;
+        // if ($cur === false) {
+        //     // Handle query execution error
+        //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+        //     // Handle or display the error as needed
+        //     echo "Query execution error: " . $error;
+        // } else {
+        //     $rowscount = $mydb->num_rows($cur);
+        //     $res = isset($rowscount) ? $rowscount : 0;
         
-            if ($res > 0) {
-                $rb = '<span style="color:red;">(' . $res . ')</span>';
-            } else {
-                $rb = '<span>(0)</span>';
-            }
-        }
+        //     if ($res > 0) {
+        //         $rb = '<span style="color:red;">(' . $res . ')</span>';
+        //     } else {
+        //         $rb = '<span>(0)</span>';
+        //     }
+        // }
 
-        $query = "SELECT * FROM tblschedule WHERE remarks = 'Pending'";
-        $mydb->setQuery($query);
-        $cur = $mydb->executeQuery();
+        // $query = "SELECT * FROM tblschedule WHERE remarks = 'Pending'";
+        // $mydb->setQuery($query);
+        // $cur = $mydb->executeQuery();
         
-        if ($cur === false) {
-            // Handle query execution error
-            $error = mysqli_error($mydb->getConnection()); // Get the specific error message
-            // Handle or display the error as needed
-            echo "Query execution error: " . $error;
-        } else {
-            $rowscount = $mydb->num_rows($cur);
-            $res = isset($rowscount) ? $rowscount : 0;
+        // if ($cur === false) {
+        //     // Handle query execution error
+        //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+        //     // Handle or display the error as needed
+        //     echo "Query execution error: " . $error;
+        // } else {
+        //     $rowscount = $mydb->num_rows($cur);
+        //     $res = isset($rowscount) ? $rowscount : 0;
         
-            if ($res > 0) {
-                $Pendingb = '<span style="color:red;">(' . $res . ')</span>';
-            } else {
-                $Pendingb = '<span>(0)</span>';
-            }
-        }
+        //     if ($res > 0) {
+        //         $Pendingb = '<span style="color:red;">(' . $res . ')</span>';
+        //     } else {
+        //         $Pendingb = '<span>(0)</span>';
+        //     }
+        // }
         ?>
         <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
             <div class="card-body">
@@ -479,7 +481,7 @@ h1, h2, h3, h4, h5, h6 {
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>	
   </div>		
 
@@ -577,7 +579,7 @@ h1, h2, h3, h4, h5, h6 {
                   </div>
                   <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
                       <?php 
-                            $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 year";
+                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 year";
                                 $mydb->setQuery($query);
                                 $cur = $mydb->loadResultList();
                                 foreach ($cur as $result) {
@@ -611,12 +613,13 @@ h1, h2, h3, h4, h5, h6 {
                                                 Today
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-					                        	<?php $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE = DATE(NOW()) ";
-												if ($result = mysqli_query($con, $query)){
-												$rowcount = mysqli_num_rows( $result );
-													printf("%d\n", $rowcount);} ?>	
-
+                                            <?php 
+                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) ";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -636,12 +639,13 @@ h1, h2, h3, h4, h5, h6 {
                                                 Yesterday
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-					                        	<?php $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 DAY";
-												if ($result = mysqli_query($con, $query)){
-												$rowcount = mysqli_num_rows( $result );
-													printf("%d\n", $rowcount);} ?>	
-
+                                            <?php 
+                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -661,12 +665,13 @@ h1, h2, h3, h4, h5, h6 {
                                                Weekly
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-					                        	<?php $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 7 DAY";
-												if ($result = mysqli_query($con, $query)){
-												$rowcount = mysqli_num_rows( $result );
-													printf("%d\n", $rowcount);} ?>	
-
+                                            <?php   
+                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 7 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -686,12 +691,13 @@ h1, h2, h3, h4, h5, h6 {
                                                 Monthly
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-					                        	<?php $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
-												if ($result = mysqli_query($con, $query)){
-												$rowcount = mysqli_num_rows( $result );
-													printf("%d\n", $rowcount);} ?>	
-
+                                            <?php   
+                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -708,12 +714,15 @@ h1, h2, h3, h4, h5, h6 {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col">
                                             <div class="text-xs font-weight-bold text-primary mb-1" style="font-size: 1rem;">
-                                                All time</div>
+                                                Annually</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            	<?php $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE";
-  												                    if ($result = mysqli_query($con, $query)){
-  												                    $rowcount = mysqli_num_rows( $result );
-  													                   printf("%d\n", $rowcount);} ?>	
+                                            <?php   
+                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 365 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>	
 
                                             </div>
                                         </div>
@@ -741,11 +750,13 @@ h1, h2, h3, h4, h5, h6 {
                                                 Today
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-                                            <?php $query = "SELECT * FROM tblcustomer WHERE DATEJOIN = date(NOW())";
-                                              if ($result = mysqli_query($con, $query)){
-                                              $rowcount = mysqli_num_rows( $result );
-                                               printf("%d\n", $rowcount);} ?> 
+                                            <?php   
+                                                      $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW())";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
 
                                             </div>
                                         </div>
@@ -766,11 +777,13 @@ h1, h2, h3, h4, h5, h6 {
                                                Weekly
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-					                        	<?php $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 7 DAY";
-												if ($result = mysqli_query($con, $query)){
-												$rowcount = mysqli_num_rows( $result );
-													printf("%d\n", $rowcount);} ?>	
+                                            <?php   
+                                                      $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 7 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
 
                                             </div>
                                         </div>
@@ -792,10 +805,13 @@ h1, h2, h3, h4, h5, h6 {
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
 
-                                            <?php $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 30 DAY";
-                                              if ($result = mysqli_query($con, $query)){
-                                              $rowcount = mysqli_num_rows( $result );
-                                               printf("%d\n", $rowcount);} ?> 
+                                            <?php   
+                                                      $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 30 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
 
                                             </div>
                                         </div>
@@ -813,12 +829,15 @@ h1, h2, h3, h4, h5, h6 {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col">
                                             <div class="text-xs font-weight-bold text-primary mb-1" style="font-size: 1rem;">
-                                                All time</div>
+                                                Annually</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 100900 DAY";
-                                              if ($result = mysqli_query($con, $query)){
-                                              $rowcount = mysqli_num_rows( $result );
-                                               printf("%d\n", $rowcount);} ?> 
+                                            <?php   
+                                                      $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 365 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
 
                                             </div>
                                         </div>
@@ -847,10 +866,13 @@ h1, h2, h3, h4, h5, h6 {
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
 
-                                            <?php $query = "SELECT * FROM tblschedule WHERE date_created = date(NOW())";
-                                              if ($result = mysqli_query($con, $query)){
-                                              $rowcount = mysqli_num_rows( $result );
-                                               printf("%d\n", $rowcount);} ?> 
+                                            <?php   
+                                                      $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW())";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
 
                                             </div>
                                         </div>
@@ -872,10 +894,13 @@ h1, h2, h3, h4, h5, h6 {
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
 
-					                        	<?php $query = "SELECT * FROM tblschedule WHERE date_created  >= DATE(NOW()) - INTERVAL 7 DAY";
-												if ($result = mysqli_query($con, $query)){
-												$rowcount = mysqli_num_rows( $result );
-													printf("%d\n", $rowcount);} ?>	
+                                            <?php   
+                                                      $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW()) - INTERVAL 7 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
 
                                             </div>
                                         </div>
@@ -897,10 +922,13 @@ h1, h2, h3, h4, h5, h6 {
                                             </div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
 
-                                            <?php $query = "SELECT * FROM tblschedule WHERE date_created  >= date(NOW()) - INTERVAL 30 DAY";
-                                              if ($result = mysqli_query($con, $query)){
-                                              $rowcount = mysqli_num_rows( $result );
-                                               printf("%d\n", $rowcount);} ?> 
+                                            <?php   
+                                                      $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW()) - INTERVAL 30 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
 
                                             </div>
                                         </div>
@@ -918,12 +946,15 @@ h1, h2, h3, h4, h5, h6 {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col">
                                             <div class="text-xs font-weight-bold text-primary mb-1" style="font-size: 1rem;">
-                                                All time</div>
+                                                Annually</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php $query = "SELECT * FROM tblschedule WHERE date_created  >= date(NOW()) - INTERVAL 100900 DAY";
-                                              if ($result = mysqli_query($con, $query)){
-                                              $rowcount = mysqli_num_rows( $result );
-                                               printf("%d\n", $rowcount);} ?> 
+                                            <?php   
+                                                      $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW()) - INTERVAL 365 DAY";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
 
                                             </div>
                                         </div>
@@ -944,8 +975,84 @@ h1, h2, h3, h4, h5, h6 {
           <div class="row">
             <div class="col-lg-12">
                <div class="col-lg-12">
-               <div>
-                          <span><h4  style="padding:15px;color:#D9602B;"><strong>Top 5 Customer of all time</strong></h4></span>
+                    <div>
+                          <span><h4  style="padding:15px;color:#D9602B;"><strong>Top Employee</strong></h4></span>
+                    </div>
+                <div class="card">
+                	   <div class="card border-left-primary shadow h-100">
+                  <div class="card-body">
+                  	<div class="row no-gutters align-items-center">
+                    <div class="table-responsive" >
+                      <table width="100%"  class="table table-striped">
+                        <thead>
+                          <tr class="text-m text-primary  mb-1 h6" >
+                          	<th width="5% ">Profile</th>
+                            <th width="15%">Name </th>
+                            <th width="5%">UID</th>
+                            <th width="12%">Position</th>
+                            <th width="8%">Completed Scheduled Job</th>
+                            <th width="10%">Total Gained</th>
+                            <th width="7%">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                                  <?php $query = "SELECT so.*, sch.*, ua.*, SUM(so.price) AS Total, COUNT(sch.USERID) AS Count
+                                                  FROM tblschedorder AS so 
+                                                  JOIN tblschedule AS sch ON so.sched_id = sch.sched_id 
+                                                  JOIN tbluseraccount AS ua ON sch.USERID = ua.USERID
+                                                  WHERE sch.remarks !='Cancelled'
+                                                  GROUP BY sch.USERID
+                                                  ORDER BY Total DESC
+                                                  LIMIT 5;
+                                                  ";
+
+                                    $mydb->setQuery($query);
+                                    $cur = $mydb->loadResultList();
+                                    foreach ($cur as $result) {?>
+                          <tr class="text-s text-primary mb-1" style="font-size: 12px;">
+                            <td>
+                              <img class="img-circle"src="/gencarzauto/admin/user/<?php echo $result->USERIMAGE;?>" alt="image" /></td>
+                              <td><span class="pl-2"><?php echo $result->U_NAME;?> </span>
+                            </td>
+                            <td> <?php echo $result->USERID;?> </td>
+                            <td> <?php echo $result->U_ROLE;?></td>
+                            <td> 
+                              
+                              <?php echo $result->Count;?>
+                                            <?php   
+                                                      // $query = "SELECT * FROM `tblsummary` where CUSTOMERID = $result->CUSTOMERID";
+                                                      // $mydb->setQuery($query);
+                                                      // $cur = $mydb->loadResultList();
+                                                      // $rowcount = count($cur);
+                                                      // printf("%d\n", $rowcount);
+                                            ?>
+
+                            </td>
+                            <td>₱ <?php echo number_format($result->Total);?>   </td>
+                            <td>
+                              <div class="btn btn-primary" style="font-size:12px;"><?php echo $result->status;?></div>
+                            </td>
+                          </tr>                          <?php }?>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+              </div>
+                </div>
+
+              </div> 
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-lg-12">
+               <div class="col-lg-12">
+                    <div>
+                          <span><h4  style="padding:15px;color:#D9602B;"><strong>Top 5 Customer</strong></h4></span>
                     </div>
                 <div class="card">
                 	   <div class="card border-left-primary shadow h-100">
@@ -977,16 +1084,20 @@ h1, h2, h3, h4, h5, h6 {
                                   foreach ($cur as $result) {?>
                           <tr class="text-s text-primary mb-1" style="font-size: 12px;">
                             <td>
-                              <img class="img-circle"src="/customer/<?php echo $result->Image;?>" alt="image" /></td>
+                              <img class="img-circle"src="/gencarzauto/customer/<?php echo $result->Image;?>" alt="image" /></td>
                               <td><span class="pl-2"><?php echo $result->Email;?> </span>
                             </td>
                             <td> <?php echo $result->CUSTOMERID;?> </td>
                             <td> <?php echo $result->Name.' '.$result->lName;?></td>
                             <td> 
-                              <?php $query = "SELECT * FROM `tblsummary` where CUSTOMERID = $result->CUSTOMERID";
-                                if ($result2 = mysqli_query($con, $query)){
-                                $rowcount = mysqli_num_rows( $result2 );
-                                  printf("%d\n", $rowcount);} ?>  
+
+                                            <?php   
+                                                      $query = "SELECT * FROM `tblsummary` where CUSTOMERID = $result->CUSTOMERID";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList();
+                                                      $rowcount = count($cur);
+                                                      printf("%d\n", $rowcount);
+                                            ?>
 
                             </td>
                             <td>₱ <?php echo number_format($result->TotalSales);?>   </td>
@@ -1003,15 +1114,15 @@ h1, h2, h3, h4, h5, h6 {
               </div>
                 </div>
 
-              </div> </div>
-
-                    </div>
-                  </div>
+              </div> 
+              </div>
+            </div>
+          </div>
 
 
                   <div class="row">
     <div>
-        <span><h4 style="padding-left:40px;padding-top:15px;padding-bottom:15px;color:#D9602B;"><strong>Top Products of all time</strong></h4></span>
+        <span><h4 style="padding-left:40px;padding-top:15px;padding-bottom:15px;color:#D9602B;"><strong>Top Products</strong></h4></span>
     </div>
     <div class="col-lg-12">
         <div class="col-lg-12">
@@ -1045,7 +1156,7 @@ h1, h2, h3, h4, h5, h6 {
                                         foreach ($cur as $result) {?>
                                             <tr class="text-s text-primary mb-1" style="font-size: 12px;">
                                                 <td>
-                                                    <img class="img-circlep" src="/admin/products/<?php echo $result->IMAGES;?>" alt="image" />
+                                                    <img class="img-circlep" src="/gencarzauto/admin/products/<?php echo $result->IMAGES;?>" alt="image" />
                                                 </td>
                                                 <td>
                                                     <?php echo $result->PROID;?>
@@ -1073,7 +1184,7 @@ h1, h2, h3, h4, h5, h6 {
                                                     <?php
                                                     if ($result->Available_Quantity != 0) {
                                                         if ($result->Available_Quantity <= $result->ALERT) {
-                                                            echo '<div class="btn btn-warning">Stock is low</div>';
+                                                            echo '<div class="btn btn-warning">Critical Stock is low</div>';
                                                         } else {
                                                             echo '<div title="Available" class="btn" style="background-color:green;color:#f2f2f2;">'.$result->Status;'</div>';
                                                         }

@@ -94,6 +94,11 @@ function doInsert(){
  
         if($decodeGoogleResponse['success'] == 1){
 		          		$email = trim($_POST['EMAILADD']);
+						  $selectedLocationName = $_POST['SELECTED_LOCATION'];
+						  $selectedBarangayName = $_POST['SELECTED_BARANGAY'];
+						
+						  
+
 		          		$customer = New Customer(); 
 				    	$code = rand(999999, 111111);
 						$customer->FNAME 			= $_POST['FNAME'];
@@ -101,8 +106,8 @@ function doInsert(){
 					  	$customer->MNAME 			= $_POST['MNAME'];	
 						$customer->CUSHOMENUM 		= $_POST['CUSHOMENUM'];
 						$customer->STREETADD		= $_POST['STREETADD'];
-						$customer->BRGYADD 			= $_POST['BRGYADD'] ;
-						$customer->CITYADD  		= $_POST['CITYADD'];
+						$customer->CITYADD   = $selectedLocationName;
+						$customer->BRGYADD   = $selectedBarangayName;
 						//$customer->PROVINCE 		= $_POST['PROVINCE'];
 						//$customer->COUNTRY 		= $_POST['COUNTRY'];
 						$customer->GENDER 			= $_POST['GENDER'];
@@ -118,7 +123,7 @@ function doInsert(){
 						$customer->CUSPHOTO			= $CUSPHOTO = 'customer_image/avatar.png';
 						$customer->TERMS 			= 1;
 
-						$con = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
+						$con = mysqli_connect('localhost', 'root', '', 'genc3181_a');
 						$email_check = "SELECT * FROM tblcustomer WHERE EMAILADD = '$email'";
 						$res = mysqli_query($con, $email_check);
 						$fetch = mysqli_fetch_assoc($res);

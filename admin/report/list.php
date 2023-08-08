@@ -55,6 +55,7 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
 <button class="btn btn-primary" onclick="toggleSection('all', 'onlineOrder', 'walkin')">All</button>
 <button class="btn btn-primary" onclick="toggleSection('onlineOrder', 'walkin', 'all')">Online</button>
 <button class="btn btn-primary" onclick="toggleSection('walkin', 'onlineOrder', 'all')">Walk In</button>
+
 <div class="row">
 <div class="section">
     <div id="all">
@@ -65,7 +66,7 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                 <div>Inclusive Dates: From: <?php echo isset($_POST['date_pickerfrom']) ? $_POST['date_pickerfrom'] : ''; ?>
                     - To: <?php echo isset($_POST['date_pickerto']) ? $_POST['date_pickerto'] : ''; ?> </div>
             </div>
-
+            <!-- List of ALl -->
             <form class="" method="POST" action="<?php echo $_SERVER['PHP_SELF'] ?>">
                 <table id="alltable" class="table table-hover" align="center" cellspacing="10px" style="font-size:15px">
                     <thead>
@@ -93,14 +94,20 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
 						INNER JOIN tblorder O ON PR.PROID = O.PROID
 						INNER JOIN tblsummary S ON O.ORDEREDNUM = S.ORDEREDNUM
 						INNER JOIN tblcustomer C ON S.CUSTOMERID = C.CUSTOMERID
-						WHERE DATE(S.ORDEREDDATE) >= '" . date_format(date_create($_POST['date_pickerfrom']), 'Y-m-d') . "'
+						WHERE (ORDEREDSTATS = 'Delivered' OR ORDEREDSTATS = 'PAID') AND DATE(S.ORDEREDDATE) >= '" . date_format(date_create($_POST['date_pickerfrom']), 'Y-m-d') . "'
 						AND DATE(S.ORDEREDDATE) <= '" . date_format(date_create($_POST['date_pickerto']), 'Y-m-d') . "'";
-;
                         $mydb->setQuery($query);
                         $cur = $mydb->loadResultList();
 
                         if (!isset($cus)) {
                             foreach ($cur as $result) {
+                                $Capital += $result->ORIGINALPRICE;
+                                $markupPrice += $result->PROPRICE;
+                                $price = $result->PROPRICE + $result->DELFEE;
+                                $totQty += $result->ORDEREDQTY;
+                                $subtotal = $result->ORDEREDQTY * $price;
+                               
+                                
                                 echo '<tr style="color:#111;font-size:12px">
                                     <td>' . date_format(date_create($result->ORDEREDDATE), 'M/d/Y h:i:s') . '</td>
                                     <td>' . $result->FNAME . ' ' . $result->LNAME . '</td>
@@ -108,13 +115,24 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                                     <td>₱ ' . number_format($result->ORIGINALPRICE, 2) . '</td>
                                     <td>₱ ' . number_format($result->PROPRICE, 2) . '</td>
                                     <td>' . $result->ORDEREDQTY . '</td>
-                                    <td>₱ ' . number_format($result->ORDEREDPRICE, 2) . '</td>
+                                    <td>₱ ' . number_format($subtotal, 2) . '</td>
                                 </tr>';
 
-                                $Capital += $result->ORIGINALPRICE;
-                                $markupPrice += $result->PROPRICE;
-                                $totQty += $result->ORDEREDQTY;
-                                $totAmount += $result->ORDEREDPRICE;
+                                $date_pickerfrom = date('Y-m-d', strtotime($_POST['date_pickerfrom']));
+                                $date_pickerto = date('Y-m-d', strtotime($_POST['date_pickerto']));
+                                
+                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total 
+                                FROM `tblsummary` 
+                                WHERE (ORDEREDSTATS = 'Delivered' OR ORDEREDSTATS = 'PAID') 
+                                    AND DATE(ORDEREDDATE) >= '$date_pickerfrom' 
+                                    AND DATE(ORDEREDDATE) <= '$date_pickerto'
+                                ";
+                                $mydb->setQuery($query);
+                                $cur2 = $mydb->loadResultList();
+                                foreach ($cur2 as $result) {
+          
+                                    $totAmount=$result->Total;
+                                }
                             }
                         } else {
                             echo '<tr><td colspan="7" align="center"><h2>Please Enter the Dates</h2></td></tr>';
@@ -126,12 +144,18 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
 						INNER JOIN tblorder O ON PR.PROID = O.PROID
 						INNER JOIN tblsummary S ON O.ORDEREDNUM = S.ORDEREDNUM
 						INNER JOIN tblcustomer C ON S.CUSTOMERID = C.CUSTOMERID
-						WHERE 1";
+						where (ORDEREDSTATS = 'Delivered' OR ORDEREDSTATS = 'PAID')";
 
                         $mydb->setQuery($query);
                         $curs = $mydb->loadResultList();
-
                         foreach ($curs as $result) {
+                            $Capital += $result->ORIGINALPRICE;
+                            $markupPrice += $result->PROPRICE;
+                            $price = $result->PROPRICE + $result->DELFEE;
+                            $totQty += $result->ORDEREDQTY;
+                            $subtotal = $result->ORDEREDQTY * $price;
+                            
+                            
                             echo '<tr style="color:#111;font-size:12px">
                                 <td>' . date_format(date_create($result->ORDEREDDATE), 'M/d/Y h:i:s') . '</td>
                                 <td>' . $result->FNAME . ' ' . $result->LNAME . '</td>
@@ -139,13 +163,16 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                                 <td>₱ ' . number_format($result->ORIGINALPRICE, 2) . '</td>
                                 <td>₱ ' . number_format($result->PROPRICE, 2) . '</td>
                                 <td>' . $result->ORDEREDQTY . '</td>
-                                <td>₱ ' . number_format($result->ORDEREDPRICE, 2) . '</td>
+                                <td>₱ ' . number_format($subtotal, 2) . '</td>
                             </tr>';
 
-                            $Capital += $result->ORIGINALPRICE;
-                            $markupPrice += $result->PROPRICE;
-                            $totQty += $result->ORDEREDQTY;
-                            $totAmount += $result->ORDEREDPRICE;
+                            $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered' or ORDEREDSTATS = 'PAID'";
+                            $mydb->setQuery($query);
+                            $cur2 = $mydb->loadResultList();
+                            foreach ($cur2 as $result) {
+    
+                            $totAmount=$result->Total;
+                        }
                         }
                     }
                     ?>
@@ -170,6 +197,15 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                 <div class="col-md-2">
 					<button onclick="tablePrintall();" class="btn btn-primary"><i class="fa fa-print"></i> Print Report</button>
                 </div>
+                <div class="col-md-1" style="margin-right: 10px;">
+					<button onclick="tablePrintWeekly();" class="btn btn-primary"><i class="fa fa-print"></i> Weekly Report</button>
+                </div>
+                <div class="col-md-1" style="margin-right: 10px;">
+					<button onclick="tablePrintMonthly();" class="btn btn-primary"><i class="fa fa-print"></i> Monthly Report</button>
+                </div>
+                <div class="col-md-1" style="margin-right: 10px;">
+					<button onclick="tablePrintAnnually();" class="btn btn-primary"><i class="fa fa-print"></i> PAnnually Report</button>
+                </div>
             </div>
         </div>
         </div>
@@ -185,7 +221,7 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                 <div>Inclusive Dates: From: <?php echo isset($_POST['date_pickerfrom']) ? $_POST['date_pickerfrom'] : ''; ?>
                     - To: <?php echo isset($_POST['date_pickerto']) ? $_POST['date_pickerto'] : ''; ?> </div>
             </div>
-
+            <!-- List of Online -->
             <form class="" method="POST" action="<?php echo $_SERVER['PHP_SELF'] ?>">
                 <table id="list22" class="table table-hover" align="center" cellspacing="10px" style="font-size:15px">
                     <thead>
@@ -206,7 +242,7 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                     $totQty = 0;
                     $markupPrice = 0;
 
-                    if (isset($_POST['submit'])) {
+                    if(isset($_POST['submit'])) {
 						$query = "SELECT *
 						FROM tblproduct P
 						INNER JOIN tblpromopro PR ON P.PROID = PR.PROID
@@ -221,6 +257,12 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
 
                         if (!isset($cus)) {
                             foreach ($cur as $result) {
+                                $Capital += $result->ORIGINALPRICE;
+                                $markupPrice += $result->PROPRICE;
+                                $price = $result->PROPRICE + $result->DELFEE;
+                                $totQty += $result->ORDEREDQTY;
+                                $subtotal = $result->ORDEREDQTY * $price;
+                                
                                 echo '<tr style="color:#111;font-size:12px">
                                     <td>' . date_format(date_create($result->ORDEREDDATE), 'M/d/Y h:i:s') . '</td>
                                     <td>' . $result->FNAME . ' ' . $result->LNAME . '</td>
@@ -228,13 +270,24 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                                     <td>₱ ' . number_format($result->ORIGINALPRICE, 2) . '</td>
                                     <td>₱ ' . number_format($result->PROPRICE, 2) . '</td>
                                     <td>' . $result->ORDEREDQTY . '</td>
-                                    <td>₱ ' . number_format($result->ORDEREDPRICE, 2) . '</td>
+                                    <td>₱ ' . number_format($subtotal, 2) . '</td>
                                 </tr>';
 
-                                $Capital += $result->ORIGINALPRICE;
-                                $markupPrice += $result->PROPRICE;
-                                $totQty += $result->ORDEREDQTY;
-                                $totAmount += $result->ORDEREDPRICE;
+                                $date_pickerfrom = date('Y-m-d', strtotime($_POST['date_pickerfrom']));
+                                $date_pickerto = date('Y-m-d', strtotime($_POST['date_pickerto']));
+                                
+                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total 
+                                FROM `tblsummary` 
+                                WHERE (ORDEREDSTATS = 'Delivered') 
+                                    AND DATE(ORDEREDDATE) >= '$date_pickerfrom' 
+                                    AND DATE(ORDEREDDATE) <= '$date_pickerto'
+                                ";
+                                $mydb->setQuery($query);
+                                $cur2 = $mydb->loadResultList();
+                                foreach ($cur2 as $result) {
+          
+                                    $totAmount=$result->Total;
+                                }
                             }
                         } else {
                             echo '<tr><td colspan="7" align="center"><h2>Please Enter the Dates</h2></td></tr>';
@@ -252,20 +305,29 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                         $curs = $mydb->loadResultList();
 
                         foreach ($curs as $result) {
+                            $Capital += $result->ORIGINALPRICE;
+                            $markupPrice += $result->PROPRICE;
+                            $price = $result->PROPRICE + $result->DELFEE;
+                            $totQty += $result->ORDEREDQTY;
+                            $subtotal = $result->ORDEREDQTY * $price;
+                            
                             echo '<tr style="color:#111;font-size:12px">
                                 <td>' . date_format(date_create($result->ORDEREDDATE), 'M/d/Y h:i:s') . '</td>
                                 <td>' . $result->FNAME . ' ' . $result->LNAME . '</td>
                                 <td>' . $result->OWNERNAME . '</td>
                                 <td>₱ ' . number_format($result->ORIGINALPRICE, 2) . '</td>
-                                <td>₱ ' . number_format($result->PROPRICE, 2) . '</td>
+                                <td>₱ ' . number_format($price, 2) . '</td>
                                 <td>' . $result->ORDEREDQTY . '</td>
-                                <td>₱ ' . number_format($result->ORDEREDPRICE, 2) . '</td>
+                                <td>₱ ' . number_format($subtotal, 2) . '</td>
                             </tr>';
 
-                            $Capital += $result->ORIGINALPRICE;
-                            $markupPrice += $result->PROPRICE;
-                            $totQty += $result->ORDEREDQTY;
-                            $totAmount += $result->ORDEREDPRICE;
+                            $query = "SELECT SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered'";
+                            $mydb->setQuery($query);
+                            $cur2 = $mydb->loadResultList();
+                            foreach ($cur2 as $result) {
+    
+                            $totAmount=$result->Total;
+                        }
                         }
                     }
                     ?>
@@ -289,6 +351,15 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
             <div class="col-md-12">
                 <div class="col-md-2">
 					<button onclick="tablePrint();" class="btn btn-primary"><i class="fa fa-print"></i> Print Report</button>
+                </div>
+                <div class="col-md-1" style="margin-right: 10px;">
+					<button onclick="tablePrintWeekly();" class="btn btn-primary"><i class="fa fa-print"></i> Weekly Report</button>
+                </div>
+                <div class="col-md-1" style="margin-right: 10px;">
+					<button onclick="tablePrintMonthly();" class="btn btn-primary"><i class="fa fa-print"></i> Monthly Report</button>
+                </div>
+                <div class="col-md-1" style="margin-right: 10px;">
+					<button onclick="tablePrintAnnually();" class="btn btn-primary"><i class="fa fa-print"></i> PAnnually Report</button>
                 </div>
             </div>
         </div>
@@ -342,6 +413,11 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
 
                         if (!isset($cus)) {
                             foreach ($cur as $result) {
+                                $Capital += $result->ORIGINALPRICE;
+                                $markupPrice += $result->PROPRICE;
+                                $totQty += $result->ORDEREDQTY;
+                                $subtotal = $result->ORDEREDQTY * $result->PROPRICE;
+                                
                                 echo '<tr style="color:#111;font-size:12px">
                                     <td>' . date_format(date_create($result->ORDEREDDATE), 'M/d/Y h:i:s') . '</td>
                                     <td>' . $result->FNAME . ' ' . $result->LNAME . '</td>
@@ -349,13 +425,26 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                                     <td>₱ ' . number_format($result->ORIGINALPRICE, 2) . '</td>
                                     <td>₱ ' . number_format($result->PROPRICE, 2) . '</td>
                                     <td>' . $result->ORDEREDQTY . '</td>
-                                    <td>₱ ' . number_format($result->ORDEREDPRICE, 2) . '</td>
+                                    <td>₱ ' . number_format($subtotal, 2) . '</td>
                                 </tr>';
 
-                                $Capital += $result->ORIGINALPRICE;
-                                $markupPrice += $result->PROPRICE;
-                                $totQty += $result->ORDEREDQTY;
-                                $totAmount += $result->ORDEREDPRICE;
+                                $date_pickerfrom = date('Y-m-d', strtotime($_POST['date_pickerfrom']));
+                                $date_pickerto = date('Y-m-d', strtotime($_POST['date_pickerto']));
+                                
+                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total 
+                                FROM `tblsummary` 
+                                WHERE (ORDEREDSTATS = 'PAID') 
+                                    AND DATE(ORDEREDDATE) >= '$date_pickerfrom' 
+                                    AND DATE(ORDEREDDATE) <= '$date_pickerto'
+                                ";
+                                $mydb->setQuery($query);
+                                $cur2 = $mydb->loadResultList();
+                                foreach ($cur2 as $result) {
+          
+                                    $totAmount=$result->Total;
+                                }
+
+
                             }
                         } else {
                             echo '<tr><td colspan="7" align="center"><h2>Please Enter the Dates</h2></td></tr>';
@@ -373,6 +462,11 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                         $curs = $mydb->loadResultList();
 
                         foreach ($curs as $result) {
+                            $Capital += $result->ORIGINALPRICE;
+                            $markupPrice += $result->PROPRICE;
+                            $totQty += $result->ORDEREDQTY;
+                            $subtotal = $result->ORDEREDQTY * $result->PROPRICE;
+                            
                             echo '<tr style="color:#111;font-size:12px">
                                 <td>' . date_format(date_create($result->ORDEREDDATE), 'M/d/Y h:i:s') . '</td>
                                 <td>' . $result->FNAME . ' ' . $result->LNAME . '</td>
@@ -380,13 +474,16 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
                                 <td>₱ ' . number_format($result->ORIGINALPRICE, 2) . '</td>
                                 <td>₱ ' . number_format($result->PROPRICE, 2) . '</td>
                                 <td>' . $result->ORDEREDQTY . '</td>
-                                <td>₱ ' . number_format($result->ORDEREDPRICE, 2) . '</td>
+                                <td>₱ ' . number_format($subtotal, 2) . '</td>
                             </tr>';
 
-                            $Capital += $result->ORIGINALPRICE;
-                            $markupPrice += $result->PROPRICE;
-                            $totQty += $result->ORDEREDQTY;
-                            $totAmount += $result->ORDEREDPRICE;
+                            $query = "SELECT SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'PAID'";
+                            $mydb->setQuery($query);
+                            $cur2 = $mydb->loadResultList();
+                            foreach ($cur2 as $result) {
+    
+                            $totAmount=$result->Total;
+                        }
                         }
                     }
                     ?>
@@ -410,6 +507,15 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
             <div class="col-md-12">
                 <div class="col-md-2">
 					<button onclick="tablePrint2();" class="btn btn-primary"><i class="fa fa-print"></i> Print Report</button>
+                </div>
+                <div class="col-md-1" style="margin-right: 10px;">
+					<button onclick="tablePrintWeekly();" class="btn btn-primary"><i class="fa fa-print"></i> Weekly Report</button>
+                </div>
+                <div class="col-md-1" style="margin-right: 10px;">
+					<button onclick="tablePrintMonthly();" class="btn btn-primary"><i class="fa fa-print"></i> Monthly Report</button>
+                </div>
+                <div class="col-md-1" style="margin-right: 10px;">
+					<button onclick="tablePrintAnnually();" class="btn btn-primary"><i class="fa fa-print"></i> PAnnually Report</button>
                 </div>
             </div>
         </div>
@@ -459,12 +565,46 @@ if (!isset($_SESSION['U_ROLE']) || $_SESSION['U_ROLE'] != 'Administrator') {
     </script>
 
 <script>
-			function tablePrint2() {
+
+function tablePrint2() {
     var date_pickerfrom = $('#date_pickerfrom').val();
     var date_pickerto = $('#date_pickerto').val();
 
     // Construct the URL with the parameters
     var url = "print.php?date_pickerfrom=" + date_pickerfrom + "&date_pickerto=" + date_pickerto + "&status=PAID";
+
+    // Open the print page in a new tab
+    window.open(url, "_blank");
+}
+
+function tablePrintWeekly() {
+    var date_pickerfrom = $('#date_pickerfrom').val();
+    var date_pickerto = $('#date_pickerto').val();
+
+    // Construct the URL with the parameters
+    var url = "printWeekly.php";
+
+    // Open the print page in a new tab
+    window.open(url, "_blank");
+}
+
+function tablePrintMonthly() {
+    var date_pickerfrom = $('#date_pickerfrom').val();
+    var date_pickerto = $('#date_pickerto').val();
+
+    // Construct the URL with the parameters
+    var url = "printMonthly.php";
+
+    // Open the print page in a new tab
+    window.open(url, "_blank");
+}
+
+function tablePrintAnnually() {
+    var date_pickerfrom = $('#date_pickerfrom').val();
+    var date_pickerto = $('#date_pickerto').val();
+
+    // Construct the URL with the parameters
+    var url = "printAnnually.php";
 
     // Open the print page in a new tab
     window.open(url, "_blank");

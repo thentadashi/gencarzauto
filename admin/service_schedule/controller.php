@@ -52,15 +52,15 @@ switch ($action) {
                 $message = '';
 			} elseif ($_GET['actions'] == 'done') {
 				$status = 'Done';
-				$remarks = 'Your order has been delivered.';
+				$remarks = 'Your Service Booking is complete. If you need assistance or have questions, contact us. Thank you for choosing our services.';
                 $message = '';
 			} elseif ($_GET['actions'] == 'req') {
 				$status = 'Cancelled';
-				$remarks = 'Your order has been cancelled as you requested.';
+				$remarks = 'Your Service Booking been cancelled as you requested.';
                 $message = '';
 			} elseif ($_GET['actions'] == 'cancel') {
 				$status = 'Cancelled';
-                $remarks = 'Your order has been cancelled';
+                $remarks = 'Your Service Booking been cancelled';
 				$message = '';
 
 				switch ($_GET['reason']) {

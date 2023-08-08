@@ -7,78 +7,91 @@
  */
 
  
-$(document).on("keyup", ".QTY", function () {
-   var productid = $(this).data('id');
-  // alert(productid);
+ $(document).on("keyup", ".QTY", function () {
+  var productid = $(this).data('id');
+  var qty = document.getElementById('QTY'+productid); 
+  var originalqty =  document.getElementById('ORIGQTY'+productid);
+  var price =  document.getElementById('PROPRICE'+productid);
+  var subtot;
 
-    var qty = document.getElementById('QTY'+productid); 
-    var originalqty =  document.getElementById('ORIGQTY'+productid);
-    var price =  document.getElementById('PROPRICE'+productid);
-    var subtot;
+  if (parseInt(originalqty.value) <= parseInt(qty.value)) {
+      alert("The quantity that you put is greater than the available quantity of the product.");
+      qty.value = originalqty.value;
+      subtot = parseFloat(price.value) * parseFloat(originalqty.value);
+  } else {
+      subtot = parseFloat(price.value) * parseFloat(qty.value);
+  }
 
-    // alert(qty);
+  document.getElementById('TOT'+productid).value = subtot.toFixed(2);
+  document.getElementById('Osubtot'+productid).value  =  document.getElementById('TOT'+productid).value;
 
- if (parseInt(originalqty.value)<=parseInt(qty.value)){
+  var table = document.getElementById('table');
+  var items = table.getElementsByTagName('output');
 
-  alert("The quantity that you put is greater than the availabe quantity of the product.");
-  document.getElementById('QTY'+productid).value = originalqty.value;
+  var sum = 0;
+  for (var i = 0; i < items.length; i++)
+      sum += parseFloat(items[i].value);
 
-    subtot = parseFloat(price) * parseFloat(originalqty.value);
+  var output = document.getElementById('sum');
+  output.innerHTML = sum.toFixed(2);
 
-} else{
-   subtot = parseFloat(price.value) * parseFloat(qty.value);
+  $.ajax({
+      type: "POST",
+      url: "cart/controller.php?action=edit&QTY"+productid+"="+ qty.value + "&TOT"+productid+"=" + subtot.toFixed(2),             
+      dataType: "text",
+      data: {UPPROID: productid},
+      success: function(data) {
+          // Code to handle success response from the server (if needed)
+      }
+  });
+});
+
+
+$(document).on("keydown", ".QTY", function () {
+  var productid = $(this).data('id');
+  var qty = document.getElementById('QTY'+productid); 
+  var originalqty =  document.getElementById('ORIGQTY'+productid);
+  var price =  document.getElementById('PROPRICE'+productid);
+  var subtot;
+
+
+  if (parseInt(qty.value) <= 0) {
+    alert("Error: Quantity should be greater than zero.");
+    qty.value = 1;
 }
 
-subtot = parseFloat(price.value) * parseFloat(qty.value);
+  if (parseInt(originalqty.value) <= parseInt(qty.value)) {
+      alert("The quantity that you put is greater than the available quantity of the product.");
+      qty.value = originalqty.value;
+      subtot = parseFloat(price.value) * parseFloat(originalqty.value);
+  } else {
+      subtot = parseFloat(price.value) * parseFloat(qty.value);
+  }
 
- // alert(subtot.toFixed(2))
- 
-  // $.ajax({    //create an ajax request to load_page.php
-  //       type:"GET",
-  //       url: "cart.php?QTY"+productid+"="+ qty + "&subTOT"+productid+"=" +  subtot.toFixed(2),             
-  //       dataType: "text",   //expect html to be returned  
-  //       data:{updateid:productid},               
-  //       success: function(data){                    
-  //           $("#CART").html(data); 
-  //          // alert(data);
-            
-  //       }
+  document.getElementById('TOT'+productid).value = subtot.toFixed(2);
+  document.getElementById('Osubtot'+productid).value  =  document.getElementById('TOT'+productid).value;
 
-  //   });
+  var table = document.getElementById('table');
+  var items = table.getElementsByTagName('output');
 
- 
+  var sum = 0;
+  for (var i = 0; i < items.length; i++)
+      sum += parseFloat(items[i].value);
 
+  var output = document.getElementById('sum');
+  output.innerHTML = sum.toFixed(2);
 
-    document.getElementById('TOT'+productid).value = subtot.toFixed(2);
-    document.getElementById('Osubtot'+productid).value  =  document.getElementById('TOT'+productid).value;
+  $.ajax({
+      type: "POST",
+      url: "cart/controller.php?action=edit&QTY"+productid+"="+ qty.value + "&TOT"+productid+"=" + subtot.toFixed(2),             
+      dataType: "text",
+      data: {UPPROID: productid},
+      success: function(data) {
+          // Code to handle success response from the server (if needed)
+      }
+  });
+});
 
-    var table = document.getElementById('table');
-    var items = table.getElementsByTagName('output');
-
-    var sum = 0;
-    for(var i=0; i<items.length; i++)
-        sum +=   parseFloat(items[i].value);
-
-    var output = document.getElementById('sum');
-    output.innerHTML =  sum.toFixed(2);
-
-    // $(".modal-body #tabledata").val( p_id );
-
-    $.ajax({    //create an ajax request to load_page.php
-        type:"POST",
-        url: "cart/controller.php?action=edit&QTY"+productid+"="+ qty.value + "&TOT"+productid+"=" + subtot.toFixed(2),             
-        dataType: "text",   //expect html to be returned  
-        data:{UPPROID:productid},               
-        success: function(data){                    
-            // $("#cartLi").html(data); 
-            // alert(data)
- 
-            
-        }
-
-      });
-
-    });
 
 
  
@@ -91,11 +104,16 @@ $(document).on("change", ".QTY", function () {
     var price =  document.getElementById('PROPRICE'+productid);
     var subtot;
 
+    if (parseInt(qty.value) <= 0) {
+      alert("Error: Quantity should be greater than zero.");
+      qty.value = 1;
+  }
+
     // alert(qty);
 
  if (parseInt(originalqty.value)<=parseInt(qty.value)){
 
-  alert("The quantity that you put is greater that the availabe quantity of the product.");
+  alert("The quantity that you put is greater that the availabe quantity of the product.s");
   document.getElementById('QTY'+productid).value = originalqty.value;
 
     subtot = parseFloat(price) * parseFloat(originalqty.value);

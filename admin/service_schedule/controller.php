@@ -115,9 +115,48 @@ switch ($action) {
 										$mail->addAddress($res->EMAILADD);
 										$mail->isHTML(true);
 										$mail->Subject = "Gencarz Order Status";
-										$mail->Body = "[Gencarz Unlimited] ".$remarks." ".$message." Booking Details ".$cur->time." - ".$cur->date." the Estimated Price is ".number_format($cur->price,2).", 
-										Email: ".$res->EMAILADD." 
-										Thankyou sir/ma'am   ".$res->FNAME." ".$res->LNAME." feel free to book a service again next time!";
+										$mail->Body = '<html>
+										<head>
+											<style>
+												/* Add your CSS styles here */
+												body {
+													font-family: Arial, sans-serif;
+													background-color: #f4f4f4;
+													padding: 20px;
+												}
+												.container {
+													border: 1px solid #ccc;
+													background-color: #ffffff;
+													padding: 20px;
+												}
+												h2 {
+													color: #333;
+												}
+												.logo {
+													text-align: center;
+												}
+												.logo img {
+													max-width: 150px;
+													height: auto;
+												}
+											</style>
+										</head>
+										<body>
+											<div class="container">
+												<div class="logo">
+													<img src="https://gencarzauto.online/images/home/NC%20LOGO.png" alt="Gencarz Unlimited Logo">
+												</div>
+												<h2>Gencarz Unlimited - Service Booking Status Update</h2>
+												<p>' . $remarks . ' ' . $message . '</p>
+												<p><strong>Booking Details:</strong><br>
+												Date and Time: ' . $cur->date . ' ' . $cur->time . '<br>
+												Estimated Price: ₱' . number_format($cur->price, 2) . '<br>
+												Email: ' . $res->EMAILADD . '<br>
+												Thank you ' . $res->FNAME . ' ' . $res->LNAME . ' for choosing our services. We look forward to serving you again!</p>
+											</div>
+										</body>
+										</html>';
+										
 										$mail->send();
 
 			message("Order has been ".$schedule->remarks."!", "success");

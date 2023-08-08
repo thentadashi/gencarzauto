@@ -117,9 +117,44 @@ if ($existingSchedule) {
     $mail->addAddress($cur->EMAILADD);
     $mail->isHTML(true);
     $mail->Subject = "Booking Service";
-    $mail->Body = "We are pleased to inform you that your car service booking has been Created. Wait for the confirmation of our Mechanic.
-    We appreciate your trust in our 
-    services and look forward to providing you with exceptional car care. Date: ".$date." Time: ".$time." Thank you sir/ma'am  ".$cur->FNAME." ".$cur->LNAME."";
+    $mail->Body = '<html>
+    <head>
+        <style>
+            /* Add your CSS styles here */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                padding: 20px;
+            }
+            .container {
+                border: 1px solid #ccc;
+                background-color: #ffffff;
+                padding: 20px;
+            }
+            h2 {
+                color: #333;
+            }
+            .logo {
+                text-align: center;
+            }
+            .logo img {
+                max-width: 150px;
+                height: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="logo">
+                <img src="https://gencarzauto.online/images/home/NC%20LOGO.png" alt="Gencarz Unlimited Logo">
+            </div>
+            <h2>Gencarz Unlimited - Service Booking Status Update</h2>
+            <p><strong>Booking Details:</strong><br>
+            Date and Time: ' . $date . ' ' . $time . '<br>
+            Thank you ' . $cur->FNAME . ' ' . $cur->LNAME . ' for choosing our services. We look forward to serving you again!</p>
+        </div>
+    </body>
+    </html>';
     $mail->send();
 }
 

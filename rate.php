@@ -1,5 +1,5 @@
 <?php
-    $conn = mysqli_connect('localhost', 'root', '', 'genc3181_a');
+    $conn = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
 
     if (isset($_POST['save'])) {
         $uID = $conn->real_escape_string($_POST['uID']);

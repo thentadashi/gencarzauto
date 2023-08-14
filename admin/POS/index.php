@@ -345,10 +345,16 @@ require_once("../../include/initialize.php");
           alert('Quantity limit reached for this product!');
           quantityInput.value = qty; // Reset to remaining quantity
         }
+        
+        if (inputQuantity <= 0) {
+            alert("Error: Quantity should be greater than zero.");
+            quantityInput.value  = 1;
+        }
       });
     });
   });
 });
+
 
 
 
@@ -701,6 +707,7 @@ printModalPrintBtn.addEventListener('click', function() {
     const discounteds = "₱ " + formatNumberWithCommas(discount_amount);
     const gtotals = "₱ " + formatNumberWithCommas(gtotal);
     const gtotal2s = "₱ " + formatNumberWithCommas(gtotal2);
+    const gtotal2020 = gtotal2;
     const changes = "₱ " + formatNumberWithCommas(change);
     const subTotals = "₱ " + formatNumberWithCommas(totalPrice);
 
@@ -718,7 +725,8 @@ printModalPrintBtn.addEventListener('click', function() {
       paymentMethod: paymentMethod,
       paidAmount: cleanedPaidAmount,
       change: changes,
-      gtotal2: gtotal2s.toString()
+      gtotal2: gtotal2s,
+      main:gtotal2020
 
      });
   });

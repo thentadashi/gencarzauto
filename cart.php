@@ -19,7 +19,7 @@ check_message();
                          <thead> 
                           <tr class="cart_menu"> 
                              <td  >Product</td>
-                             <td width="15%"><span style="margin-left: 25px">Action</span></td>
+                             <!-- <td width="15%"><span style="margin-left: 25px">Action</span></td> -->
                              <td >Product name</td>
                              <td  width="15%" >Price</td>
                              <td  width="20%" >Quantity</td> 
@@ -53,20 +53,20 @@ check_message();
                                     <img src="<?php echo web_root. 'admin/products/'.$result->IMAGES; ?>"  onload="  totalprice() " width="50px" height="50px"> 
                                   <br/> 
                                  </td>
-                                 <td>
+                                 <!-- <td>
                                    
                                         <?php    
                                           
                                               
-                                            if (isset($_SESSION['CUSID'])){  
+            //                                 if (isset($_SESSION['CUSID'])){  
 
-                                              echo ' <a href="'.web_root. 'customer/controller.php?action=addwish&proid='.$result->PROID.'" class="btn btn-default check_out"  title="Add to wishlist">Add to wishlist</a>
-             ';
+            //                                   echo ' <a href="'.web_root. 'customer/controller.php?action=addwish&proid='.$result->PROID.'" class="btn btn-default check_out"  title="Add to wishlist">Add to wishlist</a>
+            //  ';
                                            
-                                             }else{
-                                               echo   '<a href="#"  class="btn btn-default check_out" title="Add to wishlist" class="proid"  data-target="#smyModal" data-toggle="modal" data-id="'.  $result->PROID.'">Add to wishlist</a>
-             ';
-                                            } 
+            //                                  }else{
+            //                                    echo   '<a href="#"  class="btn btn-default check_out" title="Add to wishlist" class="proid"  data-target="#smyModal" data-toggle="modal" data-id="'.  $result->PROID.'">Add to wishlist</a>
+            //  ';
+            //                                 } 
                                   
 
 
@@ -77,7 +77,7 @@ check_message();
 
 
 
-                                 </td>
+                                 </td> -->
                                   <td>  
                                     <?php echo  $result->OWNERNAME ; ?>
                                   </td>

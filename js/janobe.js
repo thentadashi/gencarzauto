@@ -113,7 +113,7 @@ $(document).on("change", ".QTY", function () {
 
  if (parseInt(originalqty.value)<=parseInt(qty.value)){
 
-  alert("The quantity that you put is greater that the availabe quantity of the product.s");
+  alert("The quantity that you put is greater that the availabe quantity of the product.");
   document.getElementById('QTY'+productid).value = originalqty.value;
 
     subtot = parseFloat(price) * parseFloat(originalqty.value);

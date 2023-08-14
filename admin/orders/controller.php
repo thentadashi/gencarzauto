@@ -191,6 +191,7 @@ function doInsert(){
 			$summary->ORDEREDSTATS = $status;
 			$summary->ORDEREDREMARKS = $remarks;
 			$summary->CLAIMEDADTE = $delivered;
+			$summary->USERID = $_SESSION['USERID'];
 			$summary->HVIEW = 0;
 			$summary->update($_GET['id']);
 

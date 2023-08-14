@@ -96,7 +96,82 @@ switch ($action) {
               WHERE   s.`CUSTOMERID`=c.`CUSTOMERID` and sched_id=".$_GET['id'];
               $mydb->setQuery($query);
               $cur = $mydb->loadSingleResult();
- 
+
+
+			  $sched_id = $_GET['id'];  // Replace with the desired sched_id value
+			  $query = "SELECT COUNT(*) AS service_count
+						FROM tblschedorder
+						WHERE sched_id = '$sched_id'";
+			              $mydb->setQuery($query);
+						  $cur2 = $mydb->loadSingleResult();
+						  $rowcount = count($cur2);
+			
+			  if ($rowcount > 0) {
+
+				$curDate = $cur->date;  // Replace with your actual date value
+				$interval = new DateInterval('P30D');
+				$dateTime = new DateTime($curDate);
+				$dateTime->add($interval);
+
+				$newDate = $dateTime->format('Y-m-d');
+
+
+				$mail = new PHPMailer(true);
+				$mail->isSMTP();
+				$mail->Host = 'smtp.gmail.com';
+				$mail->SMTPAuth = true;
+				$mail->Username = 'gencarzauto@gmail.com';
+				// $mail->Password = 'ifaxxwnzovfvnaoj';
+				$mail->Password = 'jxvcrupbbowpessn';
+				$mail->SMTPSecure = 'ssl';
+				$mail->Port = 465;
+				$mail->setFrom('gencarzauto@gmail.com');
+				$mail->addAddress($res->EMAILADD);
+				$mail->isHTML(true);
+				$mail->Subject = "Gencarz booking Status";
+				$mail->Body = '<html>
+				<head>
+					<style>
+						/* Add your CSS styles here */
+						body {
+							font-family: Arial, sans-serif;
+							background-color: #f4f4f4;
+							padding: 20px;
+						}
+						.container {
+							border: 1px solid #ccc;
+							background-color: #ffffff;
+							padding: 20px;
+						}
+						h2 {
+							color: #333;
+						}
+						.logo {
+							text-align: center;
+						}
+						.logo img {
+							max-width: 150px;
+							height: auto;
+						}
+					</style>
+				</head>
+				<body>
+					<div class="container">
+						<div class="logo">
+							<img src="https://gencarzauto.online/images/home/NC%20LOGO.png" alt="Gencarz Unlimited Logo">
+						</div>
+						<h2>Gencarz Unlimited - Service Booking Status Update</h2>
+						<p><strong>Booking Details:</strong><br>
+						Email: ' . $res->EMAILADD . '<br>
+						Thank you ' . $res->FNAME . ' ' . $res->LNAME . ' for choosing our services. We look forward to your next schedule!<br>
+						Date and Time: ' . $newDate . '<br>
+						</p>
+					</div>
+				</body>
+				</html>';
+				
+				$mail->send();
+			  }
 
 			$sql = "INSERT INTO `messageout` (`Id`, `MessageTo`, `MessageFrom`, `MessageText`) VALUES (Null, '".$res->PHONE."', 'Gencarz Unlimited', '".$remarks."')";
 			$mydb->setQuery($sql);
@@ -114,7 +189,7 @@ switch ($action) {
 										$mail->setFrom('gencarzauto@gmail.com');
 										$mail->addAddress($res->EMAILADD);
 										$mail->isHTML(true);
-										$mail->Subject = "Gencarz Order Status";
+										$mail->Subject = "Gencarz booking Status";
 										$mail->Body = '<html>
 										<head>
 											<style>

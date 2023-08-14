@@ -243,7 +243,7 @@
         <p id="modalMessage"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="refreshPage()">Close</button>
       </div>
     </div>
   </div>
@@ -251,8 +251,13 @@
 
 
   </section>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-KyZXEAg3QhqLMpG8r+Y9j4IkMZU2KiNyz32aLpA7x2g=" crossorigin="anonymous"></script>
 
-          
+  <script>
+  function refreshPage() {
+    location.reload(); // Reload the current page
+    }
+</script>
 
 
   <script>
@@ -319,7 +324,7 @@ function submitBooking() {
   var userid = document.getElementById('userid').value = mechID;
 
   if (!serviceName || !carType || !date || !time || !mechanic) {
-    $('#errorModal').modal('show');
+      $('#errorModal').modal('show');
     return;
   }
 
@@ -355,9 +360,7 @@ function submitBooking() {
   timeCell.textContent = time;
   mechanicCell.textContent = mechName;
   priceCell.textContent = price;
-  actionsCell.innerHTML = '<button type="button" class="btn btn-danger" onclick="removeBooking(this)">Remove</button>';
-
-
+  actionsCell.innerHTML = '<button type="button" class="btn btn-danger remove-button" onclick="removeBooking(this)">Remove</button>';
 
 
   // Clear the form inputs
@@ -372,20 +375,21 @@ function submitBooking() {
 
   var submitButton2 = document.getElementById("submitBooking2");
   var submitButton = document.getElementById("submitBooking");
-  submitButton2.style.display = "block";
-  submitButton.style.display = "none";
+  submitButton.style.display = "block";
 
 }
 
-function submitBooking2() {
-    // Close the modal
-    $('#bookingModal').modal('hide');
-    var submitButton2 = document.getElementById("submitBooking2");
-    var submitButton = document.getElementById("submitBooking");
-    submitButton2.style.display = "none";
-    submitButton.style.display = "block";
-}
+// //add more booking
+// function submitBooking2() {
+//     // Close the modal
+//     var submitButton2 = document.getElementById("submitBooking2");
+//     var submitButton = document.getElementById("submitBooking");
+//     submitButton2.style.display = "none";
+//     submitButton.style.display = "block";
+// }
 
+
+//remove button
 document.addEventListener('click', function(event) {
   var target = event.target;
   if (target.classList.contains('remove-button')) {
@@ -396,6 +400,24 @@ document.addEventListener('click', function(event) {
 function removeBooking(button) {
   var row = button.closest('tr');
   row.remove();
+  clearFormInputs(); // Clear the form inputs and reset the form
+}
+
+
+function clearFormInputs() {
+  document.getElementById('serviceName').value = '';
+  document.getElementById('carType').value = '';
+  document.getElementById('scheduleDate').value = date;
+  document.getElementById('scheduleDate').disabled = true;
+  document.getElementById('time').value = time;
+  document.getElementById('time').disabled = true;
+  document.getElementById('mechanic').value = mechanic;
+  document.getElementById('mechanic').disabled = true;e;
+
+  var submitButton2 = document.getElementById("submitBooking2");
+  var submitButton = document.getElementById("submitBooking");
+  submitButton2.style.display = "none";
+  submitButton.style.display = "block";
 }
 
 

@@ -127,6 +127,26 @@ if ($cur === false) {
         $Confirmed = '<span> (' . $res . ')</span>';
     }
 }
+
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Inactive' and USERID ='$mech'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $inc = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $inc = '<span> (' . $res . ')</span>';
+    }
+}
 ?>
 
 
@@ -143,6 +163,7 @@ if ($cur === false) {
         <button id="btnDoneSched" class="btn"><strong>Completed <?php echo $Done;?></strong></button> 
         <button id="btnCancelledSched" class="btn"><strong>Cancelled <?php echo $Cancelled;?></strong></button>
         <button id="btnreqSched" class="btn"><strong>Requested <?php echo $Requested;?></strong></button>
+        <button id="btnInactiveSched" class="btn"><strong>Inactive <?php echo $inc;?></strong></button>
       </div>
     </div>
   </div>
@@ -160,7 +181,6 @@ if ($cur === false) {
             <th width="15%">Est. Price</th>
             <th width="15%">Mechanic</th>
             <th width="15%">Status</th>
-            <th width="30%">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -236,41 +256,41 @@ if ($cur === false) {
                   '.$result->remarks.'
                 </td>';
                 }
- if ($_SESSION['U_ROLE']=='Mechanic') {
-            if ($result->remarks == 'Pending') {
-              echo '<td width="18%">
-                      <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal" data-link="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=cancel">Cancel</a>
-                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=confirm" class="btn btn-primary">Confirm</a>
-                    </td>';
-            } elseif ($result->remarks == 'Confirmed') {
-              echo '<td>
-                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=ongoing" class="btn btn-success">Ongoing</a>
-                      <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal" data-link="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=cancel">Cancel</a>
-                    </td>';
-            } elseif ($result->remarks == 'Ongoing') {
-              echo '<td>
-                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=done" class="btn btn-success">Service Completed</a>
-                    </td>';
-            } elseif ($result->remarks == 'Done') {
-              echo '<td>
-                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=confirm" class="btn btn-success" disabled>Completed</a>
-                    </td>';
-            }
-            elseif ($result->remarks == 'Requested') {
-              echo '<td>
-                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=req" class="btn btn-success">Cancel</a>
-                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=con" class="btn btn-success">Continue Sched</a>
-                    </td>';
-            } else {
-              echo '<td>
-                      <a href="#" class="btn btn-danger" disabled>Cancelled</a>
-                    </td>';
-            }
-          }else{
-            echo '<td>
-            <a href="#" class="btn btn-warning" disabled>view only</a>
-          </td>';
-          }
+//  if ($_SESSION['U_ROLE']=='Mechanic') {
+//             if ($result->remarks == 'Pending') {
+//               echo '<td width="18%">
+//                       <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal" data-link="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=cancel">Cancel</a>
+//                       <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=confirm" class="btn btn-primary">Confirm</a>
+//                     </td>';
+//             } elseif ($result->remarks == 'Confirmed') {
+//               echo '<td>
+//                       <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=ongoing" class="btn btn-success">Ongoing</a>
+//                       <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal" data-link="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=cancel">Cancel</a>
+//                     </td>';
+//             } elseif ($result->remarks == 'Ongoing') {
+//               echo '<td>
+//                       <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=done" class="btn btn-success">Service Completed</a>
+//                     </td>';
+//             } elseif ($result->remarks == 'Done') {
+//               echo '<td>
+//                       <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=confirm" class="btn btn-success" disabled>Completed</a>
+//                     </td>';
+//             }
+//             elseif ($result->remarks == 'Requested') {
+//               echo '<td>
+//                       <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=req" class="btn btn-success">Cancel</a>
+//                       <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=con" class="btn btn-success">Continue Sched</a>
+//                     </td>';
+//             } else {
+//               echo '<td>
+//                       <a href="#" class="btn btn-danger" disabled>Cancelled</a>
+//                     </td>';
+//             }
+//           }else{
+//             echo '<td>
+//             <a href="#" class="btn btn-warning" disabled>view only</a>
+//           </td>';
+//           }
             echo '</tr>';
           }
           ?>
@@ -380,6 +400,10 @@ if ($cur === false) {
       $("#btnreqSched").click(function() {
         $(".order-row").hide(); // Hide all order rows
         $(".order-row[data-status='Requested']").show(); // Show order rows with status 'Cancelled'
+      });
+      $("#btnInactiveSched").click(function() {
+        $(".order-row").hide(); // Hide all order rows
+        $(".order-row[data-status='Inactive']").show(); // Show order rows with status 'Cancelled'
       });
 
     

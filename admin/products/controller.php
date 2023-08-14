@@ -64,45 +64,52 @@ function doInsert(){
 					$messageStats = false;
 					message("All fields are required!","error");
 					redirect('index.php?view=add');
+					
 					}else{	
+						
+						if($_POST['ALERT'] >= $_POST['PROQTY']){
+							$messageStats = false;
+							message("The Quantity Must Greater than the input alert!","error");
+							redirect('index.php?view=add');
 
-			 
-						$autonumber = New Autonumber();
-						$res = $autonumber->set_autonumber('PROID');
+						}else{
+							$autonumber = New Autonumber();
+							$res = $autonumber->set_autonumber('PROID');
 
-  				 	 	
-
-
-  				 	 	$product = New Product(); 
-  				 	 	$product->PROID 		= $res->AUTO; 
-						$product->OWNERNAME 	= $_POST['OWNERNAME']; 
-						$product->brand 		= $_POST['brand'];
-						$product->IMAGES 		= $location; 
-						$product->PRODESC 		= $_POST['PRODESC'];
-						$product->CATEGID	    = $_POST['CATEGORY'];
-						$product->PROQTY		= $_POST['PROQTY'];
-						$product->ORIGINALPRICE	= $_POST['ORIGINALPRICE']; 
-						$product->PROPRICE		= $_POST['PROPRICE']; 
-						$product->PROSTATS		= 'Available';
-						$product->ALERT			= $_POST['ALERT'];
-						$product->create();
-						// }
-
- 
-
-						$promo = New Promo();  
-						$promo->PROID		= $res->AUTO;  
-						$promo->PRODISPRICE	= $_POST['PROPRICE'];     
-						$promo->create();
-  					 
-
-						$autonumber = New Autonumber();
-						$autonumber->auto_update('PROID');
+							
 
 
+							$product = New Product(); 
+							$product->PROID 		= $res->AUTO; 
+							$product->OWNERNAME 	= $_POST['OWNERNAME']; 
+							$product->brand 		= $_POST['brand'];
+							$product->IMAGES 		= $location; 
+							$product->PRODESC 		= $_POST['PRODESC'];
+							$product->CATEGID	    = $_POST['CATEGORY'];
+							$product->PROQTY		= $_POST['PROQTY'];
+							$product->ORIGINALPRICE	= $_POST['ORIGINALPRICE']; 
+							$product->PROPRICE		= $_POST['PROPRICE']; 
+							$product->PROSTATS		= 'Available';
+							$product->ALERT			= $_POST['ALERT'];
+							$product->create();
+							// }
 
-						message("New Product created successfully!", "success");
-						redirect("index.php");
+	
+
+							$promo = New Promo();  
+							$promo->PROID		= $res->AUTO;  
+							$promo->PRODISPRICE	= $_POST['PROPRICE'];     
+							$promo->create();
+						
+
+							$autonumber = New Autonumber();
+							$autonumber->auto_update('PROID');
+
+
+
+							message("New Product created successfully!", "success");
+							redirect("index.php");
+						}
 						}
 							
 					}

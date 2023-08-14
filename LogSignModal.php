@@ -362,18 +362,41 @@
     function populateBarangays(selectedLocation) {
         barangayDropdown.innerHTML = '<option value="">Select Barangay</option>'; // Reset the dropdown
 
-        // Make an AJAX request to the API to fetch barangays for the selected Municipality or City
-        fetch(`https://psgc.gitlab.io/api/municipalities/${selectedLocation}/barangays/`)
+
+        fetch(`https://psgc.gitlab.io/api/provinces/${selectedProvince}/cities-municipalities/`)
             .then(response => response.json())
             .then(data => {
-                data.forEach(barangay => {
-                    const option = document.createElement('option');
-                    option.value = barangay.code;
-                    option.textContent = barangay.name;
-                    barangayDropdown.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching barangays:', error));
+              data.forEach(location => {
+        
+        // Make an AJAX request to the API to fetch barangays for the selected Municipality or City
+        if (location.isCity == true) {
+            fetch(`https://psgc.gitlab.io/api/cities/${selectedLocation}/barangays/`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(barangay => {
+                        const option = document.createElement('option');
+                        option.value = barangay.code;
+                        option.textContent = barangay.name;
+                        barangayDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching barangays:', error));
+        }else{
+          fetch(`https://psgc.gitlab.io/api/municipalities/${selectedLocation}/barangays/`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(barangay => {
+                        const option = document.createElement('option');
+                        option.value = barangay.code;
+                        option.textContent = barangay.name;
+                        barangayDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching barangays:', error));
+
+        }
+      });
+      })
     }
 
     // Event listeners to handle dropdown changes

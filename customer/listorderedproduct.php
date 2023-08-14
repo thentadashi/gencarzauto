@@ -295,8 +295,7 @@
                 <button  onclick="tablePrint();" class="btn btn_fixnmix pull-right "><span class="glyphicon glyphicon-print" ></span> Print</button>     
              
         <?php } ?>
-			<button class="btn btn-pup" id="btnclose" data-dismiss="modal" type=
-			"button">Close</button> 
+			<button class="btn btn-pup" id="btnclose" data-dismiss="modal" type="button" onclick="refreshPage()">Close</button>
 		 </div> 
 		<!-- <button class="btn btn-primary"
 			name="savephoto" type="submit">Upload Photo</button> -->
@@ -324,4 +323,9 @@
 
     } 
  
+</script>
+<script>
+  function refreshPage() {
+    location.reload(); // Reload the current page
+    }
 </script>

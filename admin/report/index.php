@@ -16,6 +16,11 @@ switch ($view) {
 	// case 'list' :
 	// 	$content    = 'list.php';		
 	// 	break;	
+
+	case 'Logs' :
+
+		$content    = 'logs.php';		
+		break;
 			
 	default :
 		$content    = 'list.php';		

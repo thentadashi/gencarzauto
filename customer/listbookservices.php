@@ -232,10 +232,17 @@
                 <button  onclick="tablePrint2();" class="btn btn_fixnmix pull-right "><span class="glyphicon glyphicon-print" ></span> Print</button>     
              
         <?php } ?>
-			<button class="btn btn-pup" id="btnclose" data-dismiss="modal" type="button">Close</button> 
+			<button class="btn btn-pup" id="btnclose" data-dismiss="modal" type="button" onclick="refreshPage()">Close</button>
 		 </div> 
 		</div>
 	<!-- </form> -->
 </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
  </div>
+
+ <script>
+  function refreshPage() {
+    location.reload(); // Reload the current page
+    }
+</script>
+

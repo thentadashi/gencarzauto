@@ -85,13 +85,13 @@ function curlRequest($url)
 
                             if ($cusres==true){
 
-                        $conn = mysqli_connect('localhost', 'root', '', 'genc3181_a');
-                        $email = mysqli_real_escape_string($conn, $_POST['U_USERNAME']);
-                        $check_email = "SELECT * FROM tblcustomer WHERE EMAILADD = '$email'";
-                        $res = mysqli_query($conn, $check_email);
-                        $fetch = mysqli_fetch_assoc($res);
-                        $status = $fetch['status'];
-                        if($status == 'verified'){
+                            $conn = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
+                            $email = mysqli_real_escape_string($conn, $_POST['U_USERNAME']);
+                            $check_email = "SELECT * FROM tblcustomer WHERE EMAILADD = '$email'";
+                            $res = mysqli_query($conn, $check_email);
+                            $fetch = mysqli_fetch_assoc($res);
+                            $status = $fetch['status'];
+                            if($status == 'verified'){
 
 
 
@@ -109,8 +109,8 @@ function curlRequest($url)
                                  }
                                                         }else{
 
-                                $info = "Seems like look like you haven't still verify your email - $email";
-                                $_SESSION['info'] = $info;
+                                  $info = "Seems like look like you haven't still verify your email - $email";
+                                  $_SESSION['info'] = $info;
                                   echo "<script> alert('You need to Verify your Email');</script>";
                                   redirect(web_root."index.php?q=verify");
 

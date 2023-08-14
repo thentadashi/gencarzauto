@@ -219,12 +219,33 @@ if ($cur === false) {
             }
         }
 
-        $total = $r1 + $r2 + $r3 + $r4;
+        $query = "SELECT * FROM tblschedule WHERE remarks = 'Inactive' and USERID=".$_SESSION['USERID'];
+        $mydb->setQuery($query);
+        $cur = $mydb->executeQuery();
+        
+        if ($cur === false) {
+            // Handle query execution error
+            $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+            // Handle or display the error as needed
+            echo "Query execution error: " . $error;
+        } else {
+            $rowscount = $mydb->num_rows($cur);
+            $res5 = isset($rowscount) ? $rowscount : 0;
+        
+            if ($res5 > 0) {
+                $inc = '<span style="color:red;">(' . $res5 . ')</span>';
+                $r5=$res5;
+            } else {
+                $inc = '<span>(0)</span>';
+                $r5=0;
+            }
+        }
+
+        $total = $r1 + $r2 + $r3 + $r4 + $r5;
         ?>
 
       
 <body style="background-color:#191c24;">
- 
    <div id="wrapper">
 
         <!-- Navigation -->
@@ -251,8 +272,7 @@ if ($cur === false) {
 
                  <a class="dropdown-toggle"   data-toggle="dropdown" href="#" style="margin-right: 30px;">
                        Notifications <i class="fa fa-bell"></i> 
-                            
-                    </a>
+                </a>
                     <span style="position: absolute;margin-top:-45px;color:gold;font-size:16px;margin-left:150px;">(<?php if($total == 0){}else{ echo $total;}?>)</span>
 
                     <ul class="dropdown-menu dropdown-user" style="margin-right: 20px;width:250px;">
@@ -264,9 +284,13 @@ if ($cur === false) {
                         </li>
                         <li><a href="<?php echo web_root ?>admin/orders/index.php"><i class="fa fa-list fa-fw"></i>Customer Order Requests <?php echo $ro;?></a>
                         </li>
+                        <li><a href="<?php echo web_root ?>admin/service_schedule/index.php"><i class="fa fa-list fa-fw"></i>Inactive Schedules <?php echo $inc;?></a>
+                        </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
+
+                
                 <?php
                 $user = New User();
                 $singleuser = $user->single_user($_SESSION['USERID']);
@@ -376,6 +400,7 @@ if ($cur === false) {
                     <?php }else{?>
                         <p style="color: #ffab00;font-size:12px;margin-left:30px;"><i>Services and Booking</i></p>
                         <li>
+                             <a href="<?php echo web_root; ?>admin/Dashboard/index.php" ><i class="fa fa-dashboard fa-fw"></i>  Dashboard</a>
                              <a href="<?php echo web_root; ?>admin/service_schedule/index.php" ><i class="fa fa-calendar fa-fw"></i>  Booked Schedules <?php echo $order3; ?></a>
             
                         </li>
@@ -407,6 +432,10 @@ if ($cur === false) {
                         <p style="color: #ffab00;font-size:12px;margin-left:30px;"><i>Report</i></p>
                          <li>
                             <a href="<?php echo web_root; ?>admin/report/index.php" ><i class="fa  fa-file-text fa-fw"></i> Report </a>
+                          
+                        </li>
+                        <li>
+                            <a href="<?php echo web_root; ?>admin/report/index.php?view=Logs" ><i class="fa  fa-file-text fa-fw"></i> Logs </a>
                           
                         </li>
                  <?php }  ?>

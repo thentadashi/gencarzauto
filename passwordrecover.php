@@ -47,7 +47,7 @@ require 'phpmailer/src/SMTP.php';
 		# code...
 		$_SESSION['phonenumber'] = $_POST['phonenumber'];
 		$customer = New Customer();
-      	@$res = $customer->find_phone($_SESSION['phonenumber']);
+    @$res = $customer->find_phone($_SESSION['phonenumber']);
 
       	if ($res) {
       		# code...
@@ -71,7 +71,7 @@ require 'phpmailer/src/SMTP.php';
 										$mail->Body = "[Gencarz Unlimited]
 										Your Password Recovery Code is, ".$_SESSION['recovery_code']."
 										Your Account:
-										Email: ".$customer->EMAILADD."";
+										Email: ".$res->EMAILADD."";
 										$mail->send();
 
 

@@ -123,7 +123,7 @@ function doInsert(){
 						$customer->CUSPHOTO			= $CUSPHOTO = 'customer_image/avatar.png';
 						$customer->TERMS 			= 1;
 
-						$con = mysqli_connect('localhost', 'root', '', 'genc3181_a');
+						$con = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
 						$email_check = "SELECT * FROM tblcustomer WHERE EMAILADD = '$email'";
 						$res = mysqli_query($con, $email_check);
 						$fetch = mysqli_fetch_assoc($res);

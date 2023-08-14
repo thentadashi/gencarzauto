@@ -310,5 +310,9 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
       cancelLink = $(this).data('link');
     });
   });
+
+  function refreshPage() {
+    location.reload(); // Reload the current page
+    }
 </script>
 

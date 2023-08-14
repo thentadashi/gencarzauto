@@ -157,8 +157,49 @@ if (isset($_POST['sched_id'])){
 <hr />
 
 <div class="row">
-  <div class="col-md-6 pull-left">
+  <div class="col-md-9 pull-left">
 	<div>Date Created: <?php echo date_format(date_create($cur->date_created), "M/d/Y h:i:s"); ?></div>
+  </div>
+  <div class="col-md-3 pull-left">Actions :
+		<?php
+				if ($_SESSION['U_ROLE']=='Mechanic') {
+			            if ($result->remarks == 'Pending') {
+			              echo '<td width="18%">
+			                      <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal" data-link="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=cancel">Cancel</a>
+			                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=confirm" class="btn btn-primary">Confirm</a>
+			                    </td>';
+			            } elseif ($result->remarks == 'Confirmed') {
+			              echo '<td>
+			                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=ongoing" class="btn btn-success">Ongoing</a>
+			                      <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal" data-link="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=cancel">Cancel</a>
+			                    </td>';
+			            } elseif ($result->remarks == 'Ongoing') {
+			              echo '<td>
+			                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=done" class="btn btn-success">Service Completed</a>
+			                    </td>';
+			            } elseif ($result->remarks == 'Done') {
+			              echo '<td>
+			                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=confirm" class="btn btn-success" disabled>Completed</a>
+			                    </td>';
+			            }
+			            elseif ($result->remarks == 'Requested') {
+			              echo '<td>
+			                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=req" class="btn btn-success">Cancel</a>
+			                      <a href="controller.php?action=edit&id='.$result->sched_id.'&customerid='.$result->CUSTOMERID.'&actions=con" class="btn btn-success">Continue Sched</a>
+			                    </td>';
+			            } else {
+			              echo '<td>
+			                      <a href="#" class="btn btn-danger" disabled>Cancelled</a>
+			                    </td>';
+			            }
+			          }else{
+			            echo '<td>
+			            <a href="#" class="btn btn-warning" disabled>view only</a>
+			          </td>';
+			          }
+		?>
+
+
   </div>
 </div>
 </div>
@@ -209,3 +250,9 @@ function tablePrint(){
     var totprice = document.getElementById('sum');
     totprice.innerHTML =  sum.toFixed(2);
     </script>
+
+<?php
+
+
+
+?>

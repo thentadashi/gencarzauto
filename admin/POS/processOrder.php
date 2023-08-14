@@ -40,9 +40,10 @@ foreach ($products as $product) {
         $summary->ORDEREDNUM = $res->AUTO;  // Use the generated order number
         $summary->DELFEE = 0;  // Set the delivery fee
         $summary->PAYMENTMETHOD = $product['paymentMethod'];  // Replace 'paymentMethod' with the actual property name in the 'products' array
-        $summary->PAYMENT = cleanNumber($product['gtotal2']);  // Replace 'paidAmount' with the actual property name in the 'products' array
+        $summary->PAYMENT = $product['main'];  // Replace 'paidAmount' with the actual property name in the 'products' array
         $summary->ORDEREDSTATS = "PAID";  // Set the order status
         $summary->CLAIMEDDATE = "";  // Set the claimed date
+        $summary->USERID = $_SESSION['USERID'];  // Set the claimed date
         $summary->ORDEREDREMARKS = "PAID";  // Set the order remarks
         $summary->HVIEW = 0;  // Set the HVIEW value
         $summary->create();

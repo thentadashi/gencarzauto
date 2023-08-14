@@ -336,874 +336,1105 @@ h1, h2, h3, h4, h5, h6 {
 					
           // $con = mysqli_connect('localhost', 'genc3181_root', 'rootroot', 'genc3181_a');
 
-?>				  
+?>				
+
+<?php
+
+
+if($_SESSION['U_ROLE'] == 'Administrator' || $_SESSION['U_ROLE'] == 'Encoder' || $_SESSION['U_ROLE'] == 'Staff'){
+  ?>
+
+
+  
 <div class="row" >
-  <div>
-  <span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Sales</i></strong></h6></span>
-  </div>
-  <div class="col-lg-12 mb-4 mr-2" >
-    <div class="col-lg-12">
-        <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-m font-weight-bold text-primary  mb-1 align-items-center">
-                    Total net sales <i style="font-size:12px ;">(Walk-in / Online Sales)</i>
-                  </div>
-                  <div class="h1 font-weight-bold text-gray-800" style="font-size: 4rem;">₱
-                      <?php 
-                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered' or ORDEREDSTATS = 'PAID'";
-                                $mydb->setQuery($query);
-                                $cur = $mydb->loadResultList();
-                                foreach ($cur as $result) {
-                      ?>
-                      <?php
-                                echo number_format($result->Total,2);
-                              }
-                                
-                      ?>
-                  </div>
-                  <div class="h1 mb-0 text-gray-800" style="font-size: 2rem; margin-top:10px;margin-left:20px;">₱
-                      <?php 
-                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled'";
-                                $mydb->setQuery($query);
-                                $cur = $mydb->loadResultList();
-                                foreach ($cur as $result) {
-                      ?>
-                      <?php
-                                echo number_format($result->Total,2);}
-                      ?> ~ Including Pending sales
-                  </div>
+<div>
+<span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Sales</i></strong></h6></span>
+</div>
+<div class="col-lg-12 mb-4 mr-2" >
+  <div class="col-lg-12">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-m font-weight-bold text-primary  mb-1 align-items-center">
+                  Total net sales <i style="font-size:12px ;">(Walk-in / Online Sales)</i>
                 </div>
-              <div class="col-auto">
-                <i class="fas fa-money fa-2x text-gray-300"></i>
+                <div class="h1 font-weight-bold text-gray-800" style="font-size: 4rem;">₱
+                    <?php 
+                              $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS = 'Delivered' or ORDEREDSTATS = 'PAID'";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    <?php
+                              echo number_format($result->Total,2);
+                            }
+                              
+                    ?>
+                </div>
+                <div class="h1 mb-0 text-gray-800" style="font-size: 2rem; margin-top:10px;margin-left:20px;">₱
+                    <?php 
+                              $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled'";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?> ~ Including Pending sales
+                </div>
               </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
       </div>
-      <!-- <div class="col-lg-4">
-        <?php
-        // $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Pending'";
-        // $mydb->setQuery($query);
-        // $cur = $mydb->executeQuery();
-        
-        // if ($cur === false) {
-        //     // Handle query execution error
-        //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
-        //     // Handle or display the error as needed
-        //     echo "Query execution error: " . $error;
-        // } else {
-        //     $rowscount = $mydb->num_rows($cur);
-        //     $res = isset($rowscount) ? $rowscount : 0;
-        
-        //     if ($res > 0) {
-        //         $Pending = '<span style="color:red;">(' . $res . ')</span>';
-        //     } else {
-        //         $Pending = '<span>(0)</span>';
-        //     }
-        // }
+    </div>
+    <!-- <div class="col-lg-4">
+      <?php
+      // $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Pending'";
+      // $mydb->setQuery($query);
+      // $cur = $mydb->executeQuery();
+      
+      // if ($cur === false) {
+      //     // Handle query execution error
+      //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+      //     // Handle or display the error as needed
+      //     echo "Query execution error: " . $error;
+      // } else {
+      //     $rowscount = $mydb->num_rows($cur);
+      //     $res = isset($rowscount) ? $rowscount : 0;
+      
+      //     if ($res > 0) {
+      //         $Pending = '<span style="color:red;">(' . $res . ')</span>';
+      //     } else {
+      //         $Pending = '<span>(0)</span>';
+      //     }
+      // }
 
-        // $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Requested'";
-        // $mydb->setQuery($query);
-        // $cur = $mydb->executeQuery();
-        
-        // if ($cur === false) {
-        //     // Handle query execution error
-        //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
-        //     // Handle or display the error as needed
-        //     echo "Query execution error: " . $error;
-        // } else {
-        //     $rowscount = $mydb->num_rows($cur);
-        //     $res = isset($rowscount) ? $rowscount : 0;
-        
-        //     if ($res > 0) {
-        //         $ro = '<span style="color:red;">(' . $res . ')</span>';
-        //     } else {
-        //         $ro = '<span>(0)</span>';
-        //     }
-        // }
+      // $query = "SELECT * FROM tblsummary WHERE ORDEREDSTATS = 'Requested'";
+      // $mydb->setQuery($query);
+      // $cur = $mydb->executeQuery();
+      
+      // if ($cur === false) {
+      //     // Handle query execution error
+      //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+      //     // Handle or display the error as needed
+      //     echo "Query execution error: " . $error;
+      // } else {
+      //     $rowscount = $mydb->num_rows($cur);
+      //     $res = isset($rowscount) ? $rowscount : 0;
+      
+      //     if ($res > 0) {
+      //         $ro = '<span style="color:red;">(' . $res . ')</span>';
+      //     } else {
+      //         $ro = '<span>(0)</span>';
+      //     }
+      // }
 
-        // $query = "SELECT * FROM tblschedule WHERE remarks = 'Requested'";
-        // $mydb->setQuery($query);
-        // $cur = $mydb->executeQuery();
-        
-        // if ($cur === false) {
-        //     // Handle query execution error
-        //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
-        //     // Handle or display the error as needed
-        //     echo "Query execution error: " . $error;
-        // } else {
-        //     $rowscount = $mydb->num_rows($cur);
-        //     $res = isset($rowscount) ? $rowscount : 0;
-        
-        //     if ($res > 0) {
-        //         $rb = '<span style="color:red;">(' . $res . ')</span>';
-        //     } else {
-        //         $rb = '<span>(0)</span>';
-        //     }
-        // }
+      // $query = "SELECT * FROM tblschedule WHERE remarks = 'Requested'";
+      // $mydb->setQuery($query);
+      // $cur = $mydb->executeQuery();
+      
+      // if ($cur === false) {
+      //     // Handle query execution error
+      //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+      //     // Handle or display the error as needed
+      //     echo "Query execution error: " . $error;
+      // } else {
+      //     $rowscount = $mydb->num_rows($cur);
+      //     $res = isset($rowscount) ? $rowscount : 0;
+      
+      //     if ($res > 0) {
+      //         $rb = '<span style="color:red;">(' . $res . ')</span>';
+      //     } else {
+      //         $rb = '<span>(0)</span>';
+      //     }
+      // }
 
-        // $query = "SELECT * FROM tblschedule WHERE remarks = 'Pending'";
-        // $mydb->setQuery($query);
-        // $cur = $mydb->executeQuery();
-        
-        // if ($cur === false) {
-        //     // Handle query execution error
-        //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
-        //     // Handle or display the error as needed
-        //     echo "Query execution error: " . $error;
-        // } else {
-        //     $rowscount = $mydb->num_rows($cur);
-        //     $res = isset($rowscount) ? $rowscount : 0;
-        
-        //     if ($res > 0) {
-        //         $Pendingb = '<span style="color:red;">(' . $res . ')</span>';
-        //     } else {
-        //         $Pendingb = '<span>(0)</span>';
-        //     }
-        // }
-        ?>
-        <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
-            <div class="card-body">
-              <h5>Notifications</h5>
-            <div class="row no-gutters align-items-center" style="margin-left: 10px;">
-                <a href="<?php echo web_root ?>admin/orders/index.php" style="text-decoration: none;color:navy;"><p  style="font-size: 12px; margin-bottom:5px;"><i><?php echo $Pending;?> Pending Orders</i></p></a>
-            </div>
-            <div class="row no-gutters align-items-center" style="margin-left: 10px;">
-            <a href="<?php echo web_root ?>admin/orders/index.php" style="text-decoration: none;color:navy;"><p  style="font-size: 12px; margin-bottom:5px;"><i> <?php echo $ro;?> Requested Order for Cacellation </i></p></a>
-            </div>
-            <div class="row no-gutters align-items-center" style="margin-left: 10px;">
-            <a href="<?php echo web_root ?>admin/service_schedule/index.php" style="text-decoration: none;color:navy;"><p  style="font-size: 12px;margin-bottom:5px;"><i><?php echo $Pendingb;?> Pending Booking</i></p></a>
-            </div>
-            <div class="row no-gutters align-items-center" style="margin-left: 10px;">
-            <a href="<?php echo web_root ?>admin/service_schedule/index.php" style="text-decoration: none;color:navy;"><p  style="font-size: 12px; margin-bottom:5px;"><i><?php echo $rb;?> Requested Booking for Cacellation</i></p></a>
-            </div>
+      // $query = "SELECT * FROM tblschedule WHERE remarks = 'Pending'";
+      // $mydb->setQuery($query);
+      // $cur = $mydb->executeQuery();
+      
+      // if ($cur === false) {
+      //     // Handle query execution error
+      //     $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+      //     // Handle or display the error as needed
+      //     echo "Query execution error: " . $error;
+      // } else {
+      //     $rowscount = $mydb->num_rows($cur);
+      //     $res = isset($rowscount) ? $rowscount : 0;
+      
+      //     if ($res > 0) {
+      //         $Pendingb = '<span style="color:red;">(' . $res . ')</span>';
+      //     } else {
+      //         $Pendingb = '<span>(0)</span>';
+      //     }
+      // }
+      ?>
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <h5>Notifications</h5>
+          <div class="row no-gutters align-items-center" style="margin-left: 10px;">
+              <a href="<?php echo web_root ?>admin/orders/index.php" style="text-decoration: none;color:navy;"><p  style="font-size: 12px; margin-bottom:5px;"><i><?php echo $Pending;?> Pending Orders</i></p></a>
+          </div>
+          <div class="row no-gutters align-items-center" style="margin-left: 10px;">
+          <a href="<?php echo web_root ?>admin/orders/index.php" style="text-decoration: none;color:navy;"><p  style="font-size: 12px; margin-bottom:5px;"><i> <?php echo $ro;?> Requested Order for Cacellation </i></p></a>
+          </div>
+          <div class="row no-gutters align-items-center" style="margin-left: 10px;">
+          <a href="<?php echo web_root ?>admin/service_schedule/index.php" style="text-decoration: none;color:navy;"><p  style="font-size: 12px;margin-bottom:5px;"><i><?php echo $Pendingb;?> Pending Booking</i></p></a>
+          </div>
+          <div class="row no-gutters align-items-center" style="margin-left: 10px;">
+          <a href="<?php echo web_root ?>admin/service_schedule/index.php" style="text-decoration: none;color:navy;"><p  style="font-size: 12px; margin-bottom:5px;"><i><?php echo $rb;?> Requested Booking for Cacellation</i></p></a>
           </div>
         </div>
-      </div> -->
-    </div>	
-  </div>		
+      </div>
+    </div> -->
+  </div>	
+</div>		
 
 
 <div class="row" >
-  <div class="col-lg-12 mb-4 mr-2" >
-    <div class="col-lg-3">
-        <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-m font-weight-bold text-primary mb-1 align-items-center text-s" style="font-size: 1rem;">
-                    Today's total sales
-                  </div>
-                  <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
-                      <?php 
-                                $query = "SELECT SUM(DELFEE) +  SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW())";
-                                $mydb->setQuery($query);
-                                $cur = $mydb->loadResultList();
-                                foreach ($cur as $result) {
-                      ?>
-                      <?php
-                                echo number_format($result->Total,2);}
-                      ?>
-                  </div>
+<div class="col-lg-12 mb-4 mr-2" >
+  <div class="col-lg-3">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-m font-weight-bold text-primary mb-1 align-items-center text-s" style="font-size: 1rem;">
+                  Today's total sales
                 </div>
-              <div class="col-auto">
-                <i class="fas fa-money fa-2x text-gray-300"></i>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
+                    <?php 
+                              $query = "SELECT SUM(DELFEE) +  SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW())";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?>
+                </div>
               </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
       </div>
-    <div class="col-lg-3">
-        <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-m font-weight-bold text-primary mb-1 align-items-center text-s" style="font-size: 1rem;">
-                    Weekly sales
-                  </div>
-                  <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
-                      <?php 
-                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 7 DAY";
-                                $mydb->setQuery($query);
-                                $cur = $mydb->loadResultList();
-                                foreach ($cur as $result) {
-                      ?>
-                      <?php
-                                echo number_format($result->Total,2);}
-                      ?>
-                  </div>
+    </div>
+  <div class="col-lg-3">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-m font-weight-bold text-primary mb-1 align-items-center text-s" style="font-size: 1rem;">
+                  Weekly sales
                 </div>
-              <div class="col-auto">
-                <i class="fas fa-money fa-2x text-gray-300"></i>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
+                    <?php 
+                              $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 7 DAY";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?>
+                </div>
               </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
       </div>
-    <div class="col-lg-3">
-        <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-s font-weight-bold text-primary  mb-1 align-items-center" style="font-size: 1rem;">
-                    Montly Sales
-                  </div>
-                  <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
-                      <?php 
-                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
-                                $mydb->setQuery($query);
-                                $cur = $mydb->loadResultList();
-                                foreach ($cur as $result) {
-                      ?>
-                      <?php
-                                echo number_format($result->Total,2);}
-                      ?>
-                  </div>
+    </div>
+  <div class="col-lg-3">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-s font-weight-bold text-primary  mb-1 align-items-center" style="font-size: 1rem;">
+                  Montly Sales
                 </div>
-              <div class="col-auto">
-                <i class="fas fa-money fa-2x text-gray-300"></i>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
+                    <?php 
+                              $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?>
+                </div>
               </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
       </div>
-    <div class="col-lg-3">
-        <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                    Annual Sales
-                  </div>
-                  <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
-                      <?php 
-                                $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 year";
-                                $mydb->setQuery($query);
-                                $cur = $mydb->loadResultList();
-                                foreach ($cur as $result) {
-                      ?>
-                      <?php
-                                echo number_format($result->Total,2);}
-                      ?>
-                  </div>
+    </div>
+  <div class="col-lg-3">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                  Annual Sales
                 </div>
-              <div class="col-auto">
-                <i class="fas fa-money fa-2x text-gray-300"></i>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">₱
+                    <?php 
+                              $query = "SELECT SUM(DELFEE) + SUM(PAYMENT) as Total FROM `tblsummary` where ORDEREDSTATS != 'Cancelled' and ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 year";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?>
+                </div>
               </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
             </div>
           </div>
         </div>
       </div>
-  </div>
+    </div>
+</div>
 </div>
 
 <div class="row">  
-                    <div>
-                    <span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Online Orders</i></strong></h6></span>
-                    </div>
-                      <div class="col-lg-12 mb-4 mr-2">
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                                Today
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php 
-                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) ";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                                Yesterday
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php 
-                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 mb-4">
-                            <div class="card border-left-primary shadow h-100"  style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                        <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                               Weekly
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php   
-                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 7 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col">
-                                        <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                                Monthly
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php   
-                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                       
-
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col">
-                                            <div class="text-xs font-weight-bold text-primary mb-1" style="font-size: 1rem;">
-                                                Annually</div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php   
-                                                      $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 365 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>	
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-		 	  	  </div>
-             <div class="row">  
-                    <div>
-                    <span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Registered Customer</i></strong></h6></span>
-                    </div>
-                      <div class="col-lg-12 mb-4 mr-2">
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                                Today
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php   
-                                                      $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW())";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100"  style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                        <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                               Weekly
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php   
-                                                      $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 7 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col">
-                                        <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                                Monthly
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-                                            <?php   
-                                                      $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 30 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                       
-
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col">
-                                            <div class="text-xs font-weight-bold text-primary mb-1" style="font-size: 1rem;">
-                                                Annually</div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php   
-                                                      $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 365 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-		 	  	  </div>
-             <div class="row">  
-                    <div>
-                          <span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Booked Services</i></strong></h6></span>
-                    </div>
-                      <div class="col-lg-12 mb-4 mr-2">
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                                Today
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-                                            <?php   
-                                                      $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW())";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100"  style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                        <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                               Weekly
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-                                            <?php   
-                                                      $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW()) - INTERVAL 7 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col">
-                                        <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
-                                                Monthly
-                                            </div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-
-                                            <?php   
-                                                      $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW()) - INTERVAL 30 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                       
-
-                        <div class="col-lg-3 mb-4">
-                            <div class="card border-left-primary shadow h-100" style="padding:5px;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col">
-                                            <div class="text-xs font-weight-bold text-primary mb-1" style="font-size: 1rem;">
-                                                Annually</div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
-                                            <?php   
-                                                      $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW()) - INTERVAL 365 DAY";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-		 	  	  </div>
-            <div class="col-lg-12">
-              <hr style="height:1px;border-width:0;color:gray;background-color:red">
-            </div>                                     
-             
-          <div class="row">
-            <div class="col-lg-12">
-               <div class="col-lg-12">
-                    <div>
-                          <span><h4  style="padding:15px;color:#D9602B;"><strong>Top Employee</strong></h4></span>
-                    </div>
-                <div class="card">
-                	   <div class="card border-left-primary shadow h-100">
-                  <div class="card-body">
-                  	<div class="row no-gutters align-items-center">
-                    <div class="table-responsive" >
-                      <table width="100%"  class="table table-striped">
-                        <thead>
-                          <tr class="text-m text-primary  mb-1 h6" >
-                          	<th width="5% ">Profile</th>
-                            <th width="15%">Name </th>
-                            <th width="5%">UID</th>
-                            <th width="12%">Position</th>
-                            <th width="8%">Completed Scheduled Job</th>
-                            <th width="10%">Total Gained</th>
-                            <th width="7%">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                                  <?php $query = "SELECT so.*, sch.*, ua.*, SUM(so.price) AS Total, COUNT(sch.USERID) AS Count
-                                                  FROM tblschedorder AS so 
-                                                  JOIN tblschedule AS sch ON so.sched_id = sch.sched_id 
-                                                  JOIN tbluseraccount AS ua ON sch.USERID = ua.USERID
-                                                  WHERE sch.remarks !='Cancelled'
-                                                  GROUP BY sch.USERID
-                                                  ORDER BY Total DESC
-                                                  LIMIT 5;
-                                                  ";
-
-                                    $mydb->setQuery($query);
-                                    $cur = $mydb->loadResultList();
-                                    foreach ($cur as $result) {?>
-                          <tr class="text-s text-primary mb-1" style="font-size: 12px;">
-                            <td>
-                              <img class="img-circle"src="/gencarzauto/admin/user/<?php echo $result->USERIMAGE;?>" alt="image" /></td>
-                              <td><span class="pl-2"><?php echo $result->U_NAME;?> </span>
-                            </td>
-                            <td> <?php echo $result->USERID;?> </td>
-                            <td> <?php echo $result->U_ROLE;?></td>
-                            <td> 
-                              
-                              <?php echo $result->Count;?>
-                                            <?php   
-                                                      // $query = "SELECT * FROM `tblsummary` where CUSTOMERID = $result->CUSTOMERID";
-                                                      // $mydb->setQuery($query);
-                                                      // $cur = $mydb->loadResultList();
-                                                      // $rowcount = count($cur);
-                                                      // printf("%d\n", $rowcount);
-                                            ?>
-
-                            </td>
-                            <td>₱ <?php echo number_format($result->Total);?>   </td>
-                            <td>
-                              <div class="btn btn-primary" style="font-size:12px;"><?php echo $result->status;?></div>
-                            </td>
-                          </tr>                          <?php }?>
-
-                        </tbody>
-                      </table>
-                    </div>
+                  <div>
+                  <span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Online Orders</i></strong></h6></span>
                   </div>
-              </div>
-                </div>
-
-              </div> 
-              </div>
-            </div>
-          </div>
-
-
-
-          <div class="row">
-            <div class="col-lg-12">
-               <div class="col-lg-12">
-                    <div>
-                          <span><h4  style="padding:15px;color:#D9602B;"><strong>Top 5 Customer</strong></h4></span>
-                    </div>
-                <div class="card">
-                	   <div class="card border-left-primary shadow h-100">
-                  <div class="card-body">
-                  	<div class="row no-gutters align-items-center">
-                    <div class="table-responsive" >
-                      <table width="100%"  class="table table-striped">
-                        <thead>
-                          <tr class="text-m text-primary  mb-1 h6" >
-                          	<th width="5% ">Profile</th>
-                            <th width="15%">Email Address </th>
-                            <th width="5%">UID</th>
-                            <th width="12%">Name</th>
-                            <th width="8%">Ordered Qty</th>
-                            <th width="10%">Cash Spended </th>
-                            <th width="8%">Date Joined</th>
-                            <th width="7%">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                                  <?php $query = "SELECT tblsummary.CUSTOMERID, SUM(PAYMENT) AS TotalSales, EMAILADD as Email, CUSPHOTO as Image , status as Status, CITYADD AS City, DATEJOIN as djoin, LNAME as lName , FNAME as Name
-                                    FROM tblsummary JOIN tblcustomer on tblcustomer.CUSTOMERID = tblsummary.CUSTOMERID 
-                                    where tblsummary.ORDEREDSTATS != 'Cancelled' AND tblcustomer.CUSTOMERID !='1'
-                                    GROUP BY tblsummary.CUSTOMERID 
-                                    ORDER BY SUM(PAYMENT) DESC
-                                    LIMIT 5";
-                                  $mydb->setQuery($query);
-                                    $cur = $mydb->loadResultList();
-                                  foreach ($cur as $result) {?>
-                          <tr class="text-s text-primary mb-1" style="font-size: 12px;">
-                            <td>
-                              <img class="img-circle"src="/gencarzauto/customer/<?php echo $result->Image;?>" alt="image" /></td>
-                              <td><span class="pl-2"><?php echo $result->Email;?> </span>
-                            </td>
-                            <td> <?php echo $result->CUSTOMERID;?> </td>
-                            <td> <?php echo $result->Name.' '.$result->lName;?></td>
-                            <td> 
-
-                                            <?php   
-                                                      $query = "SELECT * FROM `tblsummary` where CUSTOMERID = $result->CUSTOMERID";
-                                                      $mydb->setQuery($query);
-                                                      $cur = $mydb->loadResultList();
-                                                      $rowcount = count($cur);
-                                                      printf("%d\n", $rowcount);
-                                            ?>
-
-                            </td>
-                            <td>₱ <?php echo number_format($result->TotalSales);?>   </td>
-                            <td> <?php echo $result->djoin;?>  </td>
-                            <td>
-                              <div class="btn btn-primary" style="font-size:12px;"><?php echo $result->Status;?></div>
-                            </td>
-                          </tr>                          <?php }?>
-
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-              </div>
-                </div>
-
-              </div> 
-              </div>
-            </div>
-          </div>
-
-
-                  <div class="row">
-    <div>
-        <span><h4 style="padding-left:40px;padding-top:15px;padding-bottom:15px;color:#D9602B;"><strong>Top Products</strong></h4></span>
-    </div>
-    <div class="col-lg-12">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card border-left-primary shadow h-100 py-0">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="table-responsive" style="overflow-x: auto;max-height:300px;">
-                                <table width="100%" class="table table-striped">
-                                    <thead>
-                                        <tr class="text-m text-primary mb-1 h6">
-                                            <th width="5%">Image</th>
-                                            <th width="10%">Product Code</th>
-                                            <th width="15%">Name</th>
-                                            <th width="15%">Category</th>
-                                            <th width="10%">Price</th>
-                                            <th width="10%">Total Ordered</th>
-                                            <th width="10%">Available Quantity</th>
-                                            <th width="10%">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $query = "SELECT tblorder.PROID, SUM(ORDEREDQTY) AS TotalQuantity, PRODESC AS Description, IMAGES AS IMAGES, PROQTY AS Available_Quantity, ALERT AS ALERT, OWNERNAME as Name, PROSTATS as Status, ORIGINALPRICE as Price
-                                            FROM tblorder JOIN tblproduct on tblproduct.PROID = tblorder.PROID
-                                            GROUP BY tblorder.PROID 
-                                            ORDER BY SUM(ORDEREDQTY) DESC
-                                            LIMIT 10"; // Limit the result to 10 rows
-                                        $mydb->setQuery($query);
-                                        $cur = $mydb->loadResultList();
-                                        foreach ($cur as $result) {?>
-                                            <tr class="text-s text-primary mb-1" style="font-size: 12px;">
-                                                <td>
-                                                    <img class="img-circlep" src="/gencarzauto/admin/products/<?php echo $result->IMAGES;?>" alt="image" />
-                                                </td>
-                                                <td>
-                                                    <?php echo $result->PROID;?>
-                                                </td>
-                                                <td class="text-primary2">
-                                                    <?php echo $result->Name;?>
-                                                </td>
-                                                <td>
-                                                    <?php $query = "SELECT * FROM `tblproduct` WHERE PROID =$result->PROID ;";
+                    <div class="col-lg-12 mb-4 mr-2">
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col mr-2">
+                                          <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                              Today
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                          <?php 
+                                                    $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) ";
                                                     $mydb->setQuery($query);
-                                                    $cur = $mydb->loadResultList(); 
-                                                    foreach ($cur as $result3) {?>
-                                                        <?php $query = "SELECT * FROM `tblcategory` WHERE CATEGID = $result3->CATEGID ;";
-                                                        $mydb->setQuery($query);
-                                                        $cur = $mydb->loadResultList(); 
-                                                        foreach ($cur as $result4) {
-                                                            echo $result4->CATEGORIES;
-                                                        }?>
-                                                    <?php } ?>
-                                                </td>
-                                                <td>₱ <?php echo $result->Price;?> </td>
-                                                <td><?php echo $result->TotalQuantity;?></td>
-                                                <td><?php echo $result->Available_Quantity;?></td>
-                                                <td>
-                                                    <?php
-                                                    if ($result->Available_Quantity != 0) {
-                                                        if ($result->Available_Quantity <= $result->ALERT) {
-                                                            echo '<div class="btn btn-warning">Critical Stock is low</div>';
-                                                        } else {
-                                                            echo '<div title="Available" class="btn" style="background-color:green;color:#f2f2f2;">'.$result->Status;'</div>';
-                                                        }
-                                                    } else {
-                                                        echo '<div title="Out of Stock" class="btn btn-danger">Out of stock</div>';
-                                                    }?>
-                                                </td>
-                                            </tr>
-                                        <?php }?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-2 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col mr-2">
+                                          <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                              Yesterday
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                          <?php 
+                                                    $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 1 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-2 mb-4">
+                          <div class="card border-left-primary shadow h-100"  style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col mr-2">
+                                      <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                             Weekly
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                          <?php   
+                                                    $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 7 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-2 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col">
+                                      <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                              Monthly
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                          <?php   
+                                                    $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 30 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>                       
+
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col">
+                                          <div class="text-xs font-weight-bold text-primary mb-1" style="font-size: 1rem;">
+                                              Annually</div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                          <?php   
+                                                    $query = "SELECT * FROM tblsummary WHERE ORDEREDDATE >= DATE(NOW()) - INTERVAL 365 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>	
+
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+           </div>
+           <div class="row">  
+                  <div>
+                  <span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Registered Customer</i></strong></h6></span>
+                  </div>
+                    <div class="col-lg-12 mb-4 mr-2">
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col mr-2">
+                                          <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                              Today
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                          <?php   
+                                                    $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW())";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100"  style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col mr-2">
+                                      <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                             Weekly
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                          <?php   
+                                                    $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 7 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col">
+                                      <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                              Monthly
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+
+                                          <?php   
+                                                    $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 30 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>                       
+
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col">
+                                          <div class="text-xs font-weight-bold text-primary mb-1" style="font-size: 1rem;">
+                                              Annually</div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                          <?php   
+                                                    $query = "SELECT * FROM tblcustomer WHERE DATEJOIN >= date(NOW()) - INTERVAL 365 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+           </div>
+           <div class="row">  
+                  <div>
+                        <span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Booked Services</i></strong></h6></span>
+                  </div>
+                    <div class="col-lg-12 mb-4 mr-2">
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col mr-2">
+                                          <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                              Today
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+
+                                          <?php   
+                                                    $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW())";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100"  style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col mr-2">
+                                      <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                             Weekly
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+
+                                          <?php   
+                                                    $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW()) - INTERVAL 7 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col">
+                                      <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                                              Monthly
+                                          </div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+
+                                          <?php   
+                                                    $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW()) - INTERVAL 30 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>                       
+
+                      <div class="col-lg-3 mb-4">
+                          <div class="card border-left-primary shadow h-100" style="padding:5px;">
+                              <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                      <div class="col">
+                                          <div class="text-xs font-weight-bold text-primary mb-1" style="font-size: 1rem;">
+                                              Annually</div>
+                                          <div class="h2 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                          <?php   
+                                                    $query = "SELECT * FROM tblschedule WHERE date_created >= date(NOW()) - INTERVAL 365 DAY";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+
+                                          </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+           </div>
+          <div class="col-lg-12">
+            <hr style="height:1px;border-width:0;color:gray;background-color:red">
+          </div>                                     
+           
+        <div class="row">
+          <div class="col-lg-12">
+             <div class="col-lg-12">
+                  <div>
+                        <span><h4  style="padding:15px;color:#D9602B;"><strong>Top Employee</strong></h4></span>
+                  </div>
+              <div class="card">
+                   <div class="card border-left-primary shadow h-100">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                  <div class="table-responsive" >
+                    <table width="100%"  class="table table-striped">
+                      <thead>
+                        <tr class="text-m text-primary  mb-1 h6" >
+                          <th width="5% ">Profile</th>
+                          <th width="15%">Name </th>
+                          <th width="5%">UID</th>
+                          <th width="12%">Position</th>
+                          <th width="8%">Completed Scheduled Job</th>
+                          <th width="10%">Total Gained</th>
+                          <th width="7%">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                                <?php $query = "SELECT so.*, sch.*, ua.*, SUM(so.price) AS Total, COUNT(sch.USERID) AS Count
+                                                FROM tblschedorder AS so 
+                                                JOIN tblschedule AS sch ON so.sched_id = sch.sched_id 
+                                                JOIN tbluseraccount AS ua ON sch.USERID = ua.USERID
+                                                WHERE sch.remarks !='Cancelled'
+                                                GROUP BY sch.USERID
+                                                ORDER BY Total DESC
+                                                LIMIT 5;
+                                                ";
+
+                                  $mydb->setQuery($query);
+                                  $cur = $mydb->loadResultList();
+                                  foreach ($cur as $result) {?>
+                        <tr class="text-s text-primary mb-1" style="font-size: 12px;">
+                          <td>
+                            <img class="img-circle"src="/gencarzauto/admin/user/<?php echo $result->USERIMAGE;?>" alt="image" /></td>
+                            <td><span class="pl-2"><?php echo $result->U_NAME;?> </span>
+                          </td>
+                          <td> <?php echo $result->USERID;?> </td>
+                          <td> <?php echo $result->U_ROLE;?></td>
+                          <td> 
+                            
+                            <?php echo $result->Count;?>
+                                          <?php   
+                                                    // $query = "SELECT * FROM `tblsummary` where CUSTOMERID = $result->CUSTOMERID";
+                                                    // $mydb->setQuery($query);
+                                                    // $cur = $mydb->loadResultList();
+                                                    // $rowcount = count($cur);
+                                                    // printf("%d\n", $rowcount);
+                                          ?>
+
+                          </td>
+                          <td>₱ <?php echo number_format($result->Total);?>   </td>
+                          <td>
+                            <div class="btn btn-primary" style="font-size:12px;"><?php echo $result->status;?></div>
+                          </td>
+                        </tr>                          <?php }?>
+
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
             </div>
+              </div>
+
+            </div> 
+            </div>
+          </div>
         </div>
+
+
+
+        <div class="row">
+          <div class="col-lg-12">
+             <div class="col-lg-12">
+                  <div>
+                        <span><h4  style="padding:15px;color:#D9602B;"><strong>Top 5 Customer</strong></h4></span>
+                  </div>
+              <div class="card">
+                   <div class="card border-left-primary shadow h-100">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                  <div class="table-responsive" >
+                    <table width="100%"  class="table table-striped">
+                      <thead>
+                        <tr class="text-m text-primary  mb-1 h6" >
+                          <th width="5% ">Profile</th>
+                          <th width="15%">Email Address </th>
+                          <th width="5%">UID</th>
+                          <th width="12%">Name</th>
+                          <th width="8%">Ordered Qty</th>
+                          <th width="10%">Cash Spended </th>
+                          <th width="8%">Date Joined</th>
+                          <th width="7%">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                                <?php $query = "SELECT tblsummary.CUSTOMERID, SUM(PAYMENT) AS TotalSales, EMAILADD as Email, CUSPHOTO as Image , status as Status, CITYADD AS City, DATEJOIN as djoin, LNAME as lName , FNAME as Name
+                                  FROM tblsummary JOIN tblcustomer on tblcustomer.CUSTOMERID = tblsummary.CUSTOMERID 
+                                  where tblsummary.ORDEREDSTATS != 'Cancelled' AND tblcustomer.CUSTOMERID !='1'
+                                  GROUP BY tblsummary.CUSTOMERID 
+                                  ORDER BY SUM(PAYMENT) DESC
+                                  LIMIT 5";
+                                $mydb->setQuery($query);
+                                  $cur = $mydb->loadResultList();
+                                foreach ($cur as $result) {?>
+                        <tr class="text-s text-primary mb-1" style="font-size: 12px;">
+                          <td>
+                            <img class="img-circle"src="/gencarzauto/customer/<?php echo $result->Image;?>" alt="image" /></td>
+                            <td><span class="pl-2"><?php echo $result->Email;?> </span>
+                          </td>
+                          <td> <?php echo $result->CUSTOMERID;?> </td>
+                          <td> <?php echo $result->Name.' '.$result->lName;?></td>
+                          <td> 
+
+                                          <?php   
+                                                    $query = "SELECT * FROM `tblsummary` where CUSTOMERID = $result->CUSTOMERID";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+
+                          </td>
+                          <td>₱ <?php echo number_format($result->TotalSales);?>   </td>
+                          <td> <?php echo $result->djoin;?>  </td>
+                          <td>
+                            <div class="btn btn-primary" style="font-size:12px;"><?php echo $result->Status;?></div>
+                          </td>
+                        </tr>                          <?php }?>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+              </div>
+
+            </div> 
+            </div>
+          </div>
+        </div>
+
+
+                <div class="row">
+  <div>
+      <span><h4 style="padding-left:40px;padding-top:15px;padding-bottom:15px;color:#D9602B;"><strong>Top Products</strong></h4></span>
+  </div>
+  <div class="col-lg-12">
+      <div class="col-lg-12">
+          <div class="card">
+              <div class="card border-left-primary shadow h-100 py-0">
+                  <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                          <div class="table-responsive" style="overflow-x: auto;max-height:300px;">
+                              <table width="100%" class="table table-striped">
+                                  <thead>
+                                      <tr class="text-m text-primary mb-1 h6">
+                                          <th width="5%">Image</th>
+                                          <th width="10%">Product Code</th>
+                                          <th width="15%">Name</th>
+                                          <th width="15%">Category</th>
+                                          <th width="10%">Price</th>
+                                          <th width="10%">Total Ordered</th>
+                                          <th width="10%">Available Quantity</th>
+                                          <th width="10%">Status</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <?php
+                                      $query = "SELECT tblorder.PROID, SUM(ORDEREDQTY) AS TotalQuantity, PRODESC AS Description, IMAGES AS IMAGES, PROQTY AS Available_Quantity, ALERT AS ALERT, OWNERNAME as Name, PROSTATS as Status, ORIGINALPRICE as Price
+                                          FROM tblorder JOIN tblproduct on tblproduct.PROID = tblorder.PROID
+                                          GROUP BY tblorder.PROID 
+                                          ORDER BY SUM(ORDEREDQTY) DESC
+                                          LIMIT 10"; // Limit the result to 10 rows
+                                      $mydb->setQuery($query);
+                                      $cur = $mydb->loadResultList();
+                                      foreach ($cur as $result) {?>
+                                          <tr class="text-s text-primary mb-1" style="font-size: 12px;">
+                                              <td>
+                                                  <img class="img-circlep" src="/gencarzauto/admin/products/<?php echo $result->IMAGES;?>" alt="image" />
+                                              </td>
+                                              <td>
+                                                  <?php echo $result->PROID;?>
+                                              </td>
+                                              <td class="text-primary2">
+                                                  <?php echo $result->Name;?>
+                                              </td>
+                                              <td>
+                                                  <?php $query = "SELECT * FROM `tblproduct` WHERE PROID =$result->PROID ;";
+                                                  $mydb->setQuery($query);
+                                                  $cur = $mydb->loadResultList(); 
+                                                  foreach ($cur as $result3) {?>
+                                                      <?php $query = "SELECT * FROM `tblcategory` WHERE CATEGID = $result3->CATEGID ;";
+                                                      $mydb->setQuery($query);
+                                                      $cur = $mydb->loadResultList(); 
+                                                      foreach ($cur as $result4) {
+                                                          echo $result4->CATEGORIES;
+                                                      }?>
+                                                  <?php } ?>
+                                              </td>
+                                              <td>₱ <?php echo $result->Price;?> </td>
+                                              <td><?php echo $result->TotalQuantity;?></td>
+                                              <td><?php echo $result->Available_Quantity;?></td>
+                                              <td>
+                                                  <?php
+                                                  if ($result->Available_Quantity != 0) {
+                                                      if ($result->Available_Quantity <= $result->ALERT) {
+                                                          echo '<div class="btn btn-warning">Critical Stock is low</div>';
+                                                      } else {
+                                                          echo '<div title="Available" class="btn" style="background-color:green;color:#f2f2f2;">'.$result->Status;'</div>';
+                                                      }
+                                                  } else {
+                                                      echo '<div title="Out of Stock" class="btn btn-danger">Out of stock</div>';
+                                                  }?>
+                                              </td>
+                                          </tr>
+                                      <?php }?>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<?php
+
+
+}else{
+  
+
+  ?>
+<div class="row" >
+<div>
+<span><h6  style="padding-left:40px;padding-bottom:10px;padding-top:10px;color:#D9602B;"><strong><i>Total Service Income</i></strong></h6></span>
+</div>
+<div class="col-lg-12 mb-4 mr-2" >
+  <div class="col-lg-12">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-m font-weight-bold text-primary  mb-1 align-items-center">
+                  Total Service Income <i style="font-size:12px ;">Completed Schedules</i>
+                </div>
+                <div class="h1 font-weight-bold text-gray-800" style="font-size: 4rem;">₱
+                    <?php 
+                              $query = "SELECT SUM(price) as Total FROM `tblschedule` where remarks = 'Done'  and USERID = ".$_SESSION['USERID']."";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    <?php
+                              echo number_format($result->Total,2);
+                            }
+                              
+                    ?>
+                </div>
+                <div class="h1 mb-0 text-gray-800" style="font-size: 2rem; margin-top:10px;margin-left:20px;">₱
+                    <?php 
+                              $query = "SELECT SUM(price) as Total FROM `tblschedule` where remarks != 'Cancelled' and USERID = ".$_SESSION['USERID']."";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?> ~ Including Pending Schedules
+                </div>
+              </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>	
+</div>		
+
+<!-- List of jobs -->
+<div class="row" >
+<div class="col-lg-12 mb-4 mr-2" >
+  <div class="col-lg-3">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-m font-weight-bold text-primary mb-1 align-items-center text-s" style="font-size: 1rem;">
+                  Waiting/Pending Schedules
+                </div>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                      <?php   
+                                                    $query = "SELECT * FROM `tblschedule` where USERID = ".$_SESSION['USERID']." AND remarks = 'Pending'";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+                </div>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.2rem;margin-top:10px">estimated income ~ ₱
+                    <?php 
+                              $query = "SELECT SUM(price) as Total FROM `tblschedule` where remarks = 'Pending' and USERID = ".$_SESSION['USERID']."";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?> 
+                </div>
+              </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="col-lg-3">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-m font-weight-bold text-primary mb-1 align-items-center text-s" style="font-size: 1rem;">
+                  Confirmed Schedules
+                </div>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                      <?php   
+                                                    $query = "SELECT * FROM `tblschedule` where USERID = ".$_SESSION['USERID']." AND remarks = 'Confirmed'";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+                </div>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.2rem;margin-top:10px">estimated income ~ ₱
+                    <?php 
+                              $query = "SELECT SUM(price) as Total FROM `tblschedule` where remarks = 'Confirmed' and USERID = ".$_SESSION['USERID']."";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?> 
+                </div>
+              </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="col-lg-3">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-s font-weight-bold text-primary  mb-1 align-items-center" style="font-size: 1rem;">
+                 Ongoing Schedules
+                </div>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                      <?php   
+                                                    $query = "SELECT * FROM `tblschedule` where USERID = ".$_SESSION['USERID']." AND remarks = 'Ongoing'";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+                </div>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.2rem;margin-top:10px">estimated income ~ ₱
+                    <?php 
+                              $query = "SELECT SUM(price) as Total FROM `tblschedule` where remarks = 'Ongoing' and USERID = ".$_SESSION['USERID']."";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?> 
+                </div>
+              </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="col-lg-3">
+      <div class="card border-left-primary shadow h-100 py-2"style="padding:20px;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-s font-weight-bold text-primary mb-1 align-items-center" style="font-size: 1rem;">
+                  Completed Schedules
+                </div>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.7rem;">
+                                      <?php   
+                                                    $query = "SELECT * FROM `tblschedule` where USERID = ".$_SESSION['USERID']." AND remarks = 'Done'";
+                                                    $mydb->setQuery($query);
+                                                    $cur = $mydb->loadResultList();
+                                                    $rowcount = count($cur);
+                                                    printf("%d\n", $rowcount);
+                                          ?>
+                </div>
+                <div class="h1 mb-0 font-weight-bold text-gray-800" style="font-size: 1.2rem;margin-top:10px">Income ~ ₱
+                    <?php 
+                              $query = "SELECT SUM(price) as Total FROM `tblschedule` where remarks = 'Done' and USERID = ".$_SESSION['USERID']."";
+                              $mydb->setQuery($query);
+                              $cur = $mydb->loadResultList();
+                              foreach ($cur as $result) {
+                    ?>
+                    
+                    <?php
+                              echo number_format($result->Total,2);}
+                    ?> 
+                </div>
+              </div>
+            <div class="col-auto">
+              <i class="fas fa-money fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </div>
+</div>
+
+  <?php
+
+
+}
+
+
+?>
+
+
+
+
+
+
 
 
 

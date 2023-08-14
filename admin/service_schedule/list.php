@@ -127,6 +127,26 @@ if ($cur === false) {
         $Confirmed = '<span> (' . $res . ')</span>';
     }
 }
+
+$query = "SELECT * FROM tblschedule WHERE remarks = 'Inactive'";
+$mydb->setQuery($query);
+$cur = $mydb->executeQuery();
+
+if ($cur === false) {
+    // Handle query execution error
+    $error = mysqli_error($mydb->getConnection()); // Get the specific error message
+    // Handle or display the error as needed
+    echo "Query execution error: " . $error;
+} else {
+    $rowscount = $mydb->num_rows($cur);
+    $res = isset($rowscount) ? $rowscount : 0;
+
+    if ($res > 0) {
+        $inc = '<span style="color:red;">(' . $res . ')</span>';
+    } else {
+        $inc = '<span> (' . $res . ')</span>';
+    }
+}
 ?>
 
 
@@ -143,6 +163,7 @@ if ($cur === false) {
         <button id="btnDoneSched" class="btn"><strong>Completed <?php echo $Done;?></strong></button> 
         <button id="btnCancelledSched" class="btn"><strong>Cancelled <?php echo $Cancelled;?></strong></button>
         <button id="btnreqSched" class="btn"><strong>Requested <?php echo $Requested;?></strong></button>
+        <button id="btnInactiveSched" class="btn"><strong>Inactive <?php echo $inc;?></strong></button>
       </div>
     </div>
   </div>
@@ -376,6 +397,10 @@ if ($cur === false) {
       $("#btnreqSched").click(function() {
         $(".order-row").hide(); // Hide all order rows
         $(".order-row[data-status='Requested']").show(); // Show order rows with status 'Cancelled'
+      });
+      $("#btnInactiveSched").click(function() {
+        $(".order-row").hide(); // Hide all order rows
+        $(".order-row[data-status='Inactive']").show(); // Show order rows with status 'Cancelled'
       });
 
     
